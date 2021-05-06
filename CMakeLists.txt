@@ -3,7 +3,7 @@ cmake_minimum_required( VERSION 3.16.3 )
 project( qwt5-qt5
   VERSION 5.2.3
   DESCRIPTION "Qt Widgets for Technical Applications adapted to work with Qt5"
-  HOMEPAGE_URL "https://github.com/SciDAVis/qwt5-qt5"
+  HOMEPAGE_URL "https://github.com/Makhber/qwt5-qt5"
   LANGUAGES CXX )
 
 include(GNUInstallDirs)
