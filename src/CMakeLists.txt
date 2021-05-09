@@ -2,7 +2,6 @@
 set( HEADERS
   "qwt.h"
   "qwt_abstract_scale_draw.h"
-  "qwt_array.h"
   "qwt_color_map.h"
   "qwt_clipper.h"
   "qwt_double_interval.h"

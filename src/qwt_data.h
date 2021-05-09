@@ -13,7 +13,6 @@
 #define QWT_DATA_H 1
 
 #include "qwt_global.h"
-#include "qwt_array.h"
 #include "qwt_double_rect.h"
 #include <QPolygonF>
 
@@ -21,7 +20,7 @@
 
 #if defined(QWT_TEMPLATEDLL)
 
-template class QWT_EXPORT QwtArray<double>;
+template class QWT_EXPORT QVector<double>;
 
 #endif
 
@@ -71,7 +70,7 @@ protected:
 
 
 /*!
-  \brief Data class containing a single QwtArray<QwtDoublePoint> object. 
+  \brief Data class containing a single QVector<QwtDoublePoint> object. 
  */
 class QWT_EXPORT QwtPolygonFData: public QwtData
 {
@@ -92,13 +91,13 @@ private:
 };
 
 /*!
-  \brief Data class containing two QwtArray<double> objects.
+  \brief Data class containing two QVector<double> objects.
  */
 
 class QWT_EXPORT QwtArrayData: public QwtData
 {
 public:
-    QwtArrayData(const QwtArray<double> &x, const QwtArray<double> &y);
+    QwtArrayData(const QVector<double> &x, const QVector<double> &y);
     QwtArrayData(const double *x, const double *y, size_t size);
     QwtArrayData &operator=(const QwtArrayData &);
     virtual QwtData *copy() const;
@@ -107,14 +106,14 @@ public:
     virtual double x(size_t i) const;
     virtual double y(size_t i) const;
 
-    const QwtArray<double> &xData() const;
-    const QwtArray<double> &yData() const;
+    const QVector<double> &xData() const;
+    const QVector<double> &yData() const;
 
     virtual QwtDoubleRect boundingRect() const;
 
 private:
-    QwtArray<double> d_x;
-    QwtArray<double> d_y;
+    QVector<double> d_x;
+    QVector<double> d_y;
 };
 
 /*!

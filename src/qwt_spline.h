@@ -83,9 +83,9 @@ public:
     bool isValid() const;
     double value(double x) const;
 
-    const QwtArray<double> &coefficientsA() const;
-    const QwtArray<double> &coefficientsB() const;
-    const QwtArray<double> &coefficientsC() const;
+    const QVector<double> &coefficientsA() const;
+    const QVector<double> &coefficientsB() const;
+    const QVector<double> &coefficientsC() const;
 
 protected:
 

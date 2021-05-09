@@ -12,7 +12,6 @@
 
 #include <qframe.h>
 #include "qwt_global.h"
-#include "qwt_array.h"
 #include "qwt_text.h"
 #include "qwt_plot_dict.h"
 #include "qwt_scale_map.h"

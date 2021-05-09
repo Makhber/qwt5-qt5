@@ -177,7 +177,7 @@ public:
 
     void setRawData(const double *x, const double *y, int size);
     void setData(const double *xData, const double *yData, int size);
-    void setData(const QwtArray<double> &xData, const QwtArray<double> &yData);
+    void setData(const QVector<double> &xData, const QVector<double> &yData);
     void setData(const QPolygonF &data);
     void setData(const QwtData &data);
     

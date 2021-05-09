@@ -27,8 +27,8 @@ int main(int argc, char **argv)
 
     const int numValues = 20;
 
-    QwtArray<QwtDoubleInterval> intervals(numValues);
-    QwtArray<double> values(numValues);
+    QVector<QwtDoubleInterval> intervals(numValues);
+    QVector<double> values(numValues);
 
     double pos = 0.0;
     for ( int i = 0; i < (int)intervals.size(); i++ )

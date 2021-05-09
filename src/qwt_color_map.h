@@ -13,12 +13,11 @@
 #include <qglobal.h>
 #include <qcolor.h>
 #include <qvector.h>
-#include "qwt_array.h"
 #include "qwt_double_interval.h"
 
 #if defined(QWT_TEMPLATEDLL)
 // MOC_SKIP_BEGIN
-template class QWT_EXPORT QwtArray<double>;
+template class QWT_EXPORT QVector<double>;
 // MOC_SKIP_END
 #endif
 
@@ -130,7 +129,7 @@ public:
 
     void setColorInterval(const QColor &color1, const QColor &color2);
     void addColorStop(double value, const QColor&);
-    QwtArray<double> colorStops() const;
+    QVector<double> colorStops() const;
 
     QColor color1() const;
     QColor color2() const;

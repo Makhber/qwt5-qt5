@@ -33,7 +33,7 @@ public:
     Qt::Orientations expanding;
 
     bool isDirty;
-    QwtArray<QSize> itemSizeHints;
+    QVector<QSize> itemSizeHints;
 };
 
 
@@ -286,7 +286,7 @@ int QwtDynGridLayout::maxRowWidth(int numCols) const
 {
     int col;
 
-    QwtArray<int> colWidth(numCols);
+    QVector<int> colWidth(numCols);
     for ( col = 0; col < (int)numCols; col++ )
         colWidth[col] = 0;
 
@@ -353,8 +353,8 @@ QList<QRect> QwtDynGridLayout::layoutItems(const QRect &rect,
     if ( numRows == 0 )
         return itemGeometries;
 
-    QwtArray<int> rowHeight(numRows);
-    QwtArray<int> colWidth(numCols);
+    QVector<int> rowHeight(numRows);
+    QVector<int> colWidth(numCols);
 
     layoutGrid(numCols, rowHeight, colWidth);
 
@@ -374,8 +374,8 @@ QList<QRect> QwtDynGridLayout::layoutItems(const QRect &rect,
     const int xOffset = expandH ? 0 : alignedRect.x();
     const int yOffset = expandV ? 0 : alignedRect.y();
 
-    QwtArray<int> colX(numCols);
-    QwtArray<int> rowY(numRows);
+    QVector<int> colX(numCols);
+    QVector<int> rowY(numRows);
 
     const int xySpace = spacing();
 
@@ -412,7 +412,7 @@ QList<QRect> QwtDynGridLayout::layoutItems(const QRect &rect,
 */
 
 void QwtDynGridLayout::layoutGrid(uint numCols, 
-    QwtArray<int>& rowHeight, QwtArray<int>& colWidth) const
+    QVector<int>& rowHeight, QVector<int>& colWidth) const
 {
     if ( numCols <= 0 )
         return;
@@ -458,8 +458,8 @@ int QwtDynGridLayout::heightForWidth(int width) const
     if ( itemCount() % numCols )
         numRows++;
 
-    QwtArray<int> rowHeight(numRows);
-    QwtArray<int> colWidth(numCols);
+    QVector<int> rowHeight(numRows);
+    QVector<int> colWidth(numCols);
 
     layoutGrid(numCols, rowHeight, colWidth);
 
@@ -478,7 +478,7 @@ int QwtDynGridLayout::heightForWidth(int width) const
   \sa setExpanding(), expanding()
 */
 void QwtDynGridLayout::stretchGrid(const QRect &rect, 
-    uint numCols, QwtArray<int>& rowHeight, QwtArray<int>& colWidth) const
+    uint numCols, QVector<int>& rowHeight, QVector<int>& colWidth) const
 {
     if ( numCols == 0 || isEmpty() )
         return;
@@ -543,8 +543,8 @@ QSize QwtDynGridLayout::sizeHint() const
     if ( itemCount() % numCols )
         numRows++;
 
-    QwtArray<int> rowHeight(numRows);
-    QwtArray<int> colWidth(numCols);
+    QVector<int> rowHeight(numRows);
+    QVector<int> colWidth(numCols);
 
     layoutGrid(numCols, rowHeight, colWidth);
 

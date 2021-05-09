@@ -62,7 +62,7 @@ class QwtCircleClipper: public QwtDoubleRect
 {
 public:
     QwtCircleClipper(const QwtDoubleRect &r);
-    QwtArray<QwtDoubleInterval> clipCircle(
+    QVector<QwtDoubleInterval> clipCircle(
         const QwtDoublePoint &, double radius) const;
 
 private:
@@ -333,14 +333,14 @@ QwtCircleClipper::QwtCircleClipper(const QwtDoubleRect &r):
 {
 }
 
-QwtArray<QwtDoubleInterval> QwtCircleClipper::clipCircle(
+QVector<QwtDoubleInterval> QwtCircleClipper::clipCircle(
     const QwtDoublePoint &pos, double radius) const
 {
     QList<QwtDoublePoint> points;
     for ( int edge = 0; edge < NEdges; edge++ )
         points += cuttingPoints((Edge)edge, pos, radius);
 
-    QwtArray<QwtDoubleInterval> intv;
+    QVector<QwtDoubleInterval> intv;
     if ( points.size() <= 0 )
     {
         QwtDoubleRect cRect(0, 0, 2 * radius, 2* radius);
@@ -477,7 +477,7 @@ QwtPolygonF QwtClipper::clipPolygonF(
 
    \return Arcs of the circle
 */
-QwtArray<QwtDoubleInterval> QwtClipper::clipCircle(
+QVector<QwtDoubleInterval> QwtClipper::clipCircle(
     const QwtDoubleRect &clipRect, 
     const QwtDoublePoint &center, double radius)
 {

@@ -12,7 +12,6 @@
 #define QWT_DOUBLE_RECT_H 1
 
 #include "qwt_global.h"
-#include "qwt_array.h"
 
 #if QT_VERSION >= 0x040000
 

@@ -12,9 +12,10 @@
 
 #include "qwt_global.h"
 #include "qwt_math.h"
-#include "qwt_array.h"
 #include "qwt_double_interval.h"
 #include "qwt_double_rect.h"
+
+#include <QVector>
 
 #if defined(_MSC_VER) && (_MSC_VER > 1310)
 #include <string.h>
@@ -22,8 +23,8 @@
 
 #if defined(QWT_TEMPLATEDLL)
 // MOC_SKIP_BEGIN
-template class QWT_EXPORT QwtArray<QwtDoubleInterval>;
-template class QWT_EXPORT QwtArray<double>;
+template class QWT_EXPORT QVector<QwtDoubleInterval>;
+template class QWT_EXPORT QVector<double>;
 // MOC_SKIP_END
 #endif
 
@@ -38,13 +39,13 @@ class QWT_EXPORT QwtIntervalData
 {
 public:
     QwtIntervalData();
-    QwtIntervalData(const QwtArray<QwtDoubleInterval> &, 
-        const QwtArray<double> &);
+    QwtIntervalData(const QVector<QwtDoubleInterval> &, 
+        const QVector<double> &);
 
     ~QwtIntervalData();
     
-    void setData(const QwtArray<QwtDoubleInterval> &, 
-        const QwtArray<double> &);
+    void setData(const QVector<QwtDoubleInterval> &, 
+        const QVector<double> &);
 
     size_t size() const;
     const QwtDoubleInterval &interval(size_t i) const;
@@ -53,8 +54,8 @@ public:
     QwtDoubleRect boundingRect() const;
 
 private:
-    QwtArray<QwtDoubleInterval> d_intervals;
-    QwtArray<double> d_values;
+    QVector<QwtDoubleInterval> d_intervals;
+    QVector<double> d_values;
 };
 
 //! \return Number of samples

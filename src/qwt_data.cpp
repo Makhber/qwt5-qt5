@@ -132,7 +132,7 @@ QwtData *QwtPolygonFData::copy() const
   \sa QwtPlotCurve::setData()
 */
 QwtArrayData::QwtArrayData(
-        const QwtArray<double> &x, const QwtArray<double> &y): 
+        const QVector<double> &x, const QVector<double> &y): 
     d_x(x), 
     d_y(y)
 {
@@ -195,13 +195,13 @@ double QwtArrayData::y(size_t i) const
 }
 
 //! \return Array of the x-values
-const QwtArray<double> &QwtArrayData::xData() const
+const QVector<double> &QwtArrayData::xData() const
 {
     return d_x;
 }
 
 //! \return Array of the y-values
-const QwtArray<double> &QwtArrayData::yData() const
+const QVector<double> &QwtArrayData::yData() const
 {
     return d_y;
 }
@@ -227,9 +227,9 @@ QwtDoubleRect QwtArrayData::boundingRect() const
         return QwtDoubleRect(1.0, 1.0, -2.0, -2.0); // invalid
 
     double minX, maxX, minY, maxY;
-    QwtArray<double>::ConstIterator xIt = d_x.begin();
-    QwtArray<double>::ConstIterator yIt = d_y.begin();
-    QwtArray<double>::ConstIterator end = d_x.begin() + sz;
+    QVector<double>::ConstIterator xIt = d_x.begin();
+    QVector<double>::ConstIterator yIt = d_y.begin();
+    QVector<double>::ConstIterator end = d_x.begin() + sz;
     minX = maxX = *xIt++;
     minY = maxY = *yIt++;
 

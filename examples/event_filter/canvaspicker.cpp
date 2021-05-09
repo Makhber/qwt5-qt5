@@ -212,8 +212,8 @@ void CanvasPicker::move(const QPoint &pos)
     if ( !d_selectedCurve )
         return;
 
-    QwtArray<double> xData(d_selectedCurve->dataSize());
-    QwtArray<double> yData(d_selectedCurve->dataSize());
+    QVector<double> xData(d_selectedCurve->dataSize());
+    QVector<double> yData(d_selectedCurve->dataSize());
 
     for ( int i = 0; i < d_selectedCurve->dataSize(); i++ )
     {

@@ -15,12 +15,11 @@
 #include <qframe.h>
 #include <qcursor.h>
 #include "qwt_picker.h"
-#include "qwt_array.h"
 #include "qwt_panner.h"
 
-static QwtArray<QwtPicker *> activePickers(QWidget *w)
+static QVector<QwtPicker *> activePickers(QWidget *w)
 {
-    QwtArray<QwtPicker *> pickers;
+    QVector<QwtPicker *> pickers;
 
     QObjectList children = w->children();
     for ( int i = 0; i < children.size(); i++ )
@@ -365,7 +364,7 @@ void QwtPanner::widgetMousePressEvent(QMouseEvent *me)
     setGeometry(cr);
 
     // We don't want to grab the picker !
-    QwtArray<QwtPicker *> pickers = activePickers(parentWidget());
+    QVector<QwtPicker *> pickers = activePickers(parentWidget());
     for ( int i = 0; i < (int)pickers.size(); i++ )
         pickers[i]->setEnabled(false);
 

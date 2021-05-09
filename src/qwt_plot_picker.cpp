@@ -318,7 +318,7 @@ bool QwtPlotPicker::end(bool ok)
     }
     else 
     {
-        QwtArray<QwtDoublePoint> dpa(pa.count());
+        QVector<QwtDoublePoint> dpa(pa.count());
         for ( int i = 0; i < int(pa.count()); i++ )
             dpa[i] = invTransform(pa[i]);
 

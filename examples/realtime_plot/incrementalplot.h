@@ -1,7 +1,6 @@
 #ifndef _INCREMENTALPLOT_H_
 #define _INCREMENTALPLOT_H_ 1
 
-#include <qwt_array.h>
 #include <qwt_plot.h>
 
 class QwtPlotCurve;
@@ -22,8 +21,8 @@ public:
 
 private:
     int d_count;
-    QwtArray<double> d_x;
-    QwtArray<double> d_y;
+    QVector<double> d_x;
+    QVector<double> d_y;
 };
 
 class IncrementalPlot : public QwtPlot

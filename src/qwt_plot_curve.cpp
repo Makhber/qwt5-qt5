@@ -245,7 +245,7 @@ void QwtPlotCurve::init()
     setItemAttribute(QwtPlotItem::AutoScale);
 
     d_data = new PrivateData;
-    d_xy = new QwtPolygonFData(QwtArray<QwtDoublePoint>());
+    d_xy = new QwtPolygonFData(QVector<QwtDoublePoint>());
 
     setZ(20.0);
 }
@@ -413,8 +413,8 @@ void QwtPlotCurve::setData(const double *xData, const double *yData, int size)
 
   \note Internally the data is stored in a QwtArrayData object
 */
-void QwtPlotCurve::setData(const QwtArray<double> &xData, 
-    const QwtArray<double> &yData)
+void QwtPlotCurve::setData(const QVector<double> &xData, 
+    const QVector<double> &yData)
 {
     delete d_xy;
     d_xy = new QwtArrayData(xData, yData);

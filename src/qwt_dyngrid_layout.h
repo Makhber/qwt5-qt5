@@ -14,7 +14,6 @@
 #include <qsize.h>
 #include <qlist.h>
 #include "qwt_global.h"
-#include "qwt_array.h"
 
 /*!
   \brief The QwtDynGridLayout class lays out widgets in a grid,
@@ -69,9 +68,9 @@ public:
 protected:
 
     void layoutGrid(uint numCols,
-        QwtArray<int>& rowHeight, QwtArray<int>& colWidth) const;
+        QVector<int>& rowHeight, QVector<int>& colWidth) const;
     void stretchGrid(const QRect &rect, uint numCols, 
-        QwtArray<int>& rowHeight, QwtArray<int>& colWidth) const;
+        QVector<int>& rowHeight, QVector<int>& colWidth) const;
 
 
 private:

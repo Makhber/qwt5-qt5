@@ -17,8 +17,8 @@ QwtIntervalData::QwtIntervalData()
 
 //! Constructor
 QwtIntervalData::QwtIntervalData(
-        const QwtArray<QwtDoubleInterval> &intervals, 
-        const QwtArray<double> &values):
+        const QVector<QwtDoubleInterval> &intervals, 
+        const QVector<double> &values):
     d_intervals(intervals),
     d_values(values)
 {
@@ -31,8 +31,8 @@ QwtIntervalData::~QwtIntervalData()
 
 //! Assign samples
 void QwtIntervalData::setData(
-    const QwtArray<QwtDoubleInterval> &intervals,
-    const QwtArray<double> &values)
+    const QVector<QwtDoubleInterval> &intervals,
+    const QVector<double> &values)
 {
     d_intervals = intervals;
     d_values = values;
