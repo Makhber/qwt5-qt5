@@ -17,7 +17,7 @@ endif()
 target_link_libraries( qwt5_designer_plugin qwt5-qt5 Qt5::Designer )
 
 if( WIN32 AND BUILD_SHARED_LIBS )
-  target_compile_definitions( qwt_designer_plugin PRIVATE QWT_DLL QWT_MAKEDLL )
+  target_compile_definitions( qwt5_designer_plugin PRIVATE QWT_DLL QWT_MAKEDLL )
 endif()
 
 if( NOT QWT_PLOT )
