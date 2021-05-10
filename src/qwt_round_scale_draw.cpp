@@ -271,7 +271,7 @@ int QwtRoundScaleDraw::extent(const QPen &pen, const QFont &font) const
     if ( hasComponent(QwtAbstractScaleDraw::Labels) )
     {
         const QwtScaleDiv &sd = scaleDiv();
-        const QwtValueList &ticks = sd.ticks(QwtScaleDiv::MajorTick);
+        const QList<double> &ticks = sd.ticks(QwtScaleDiv::MajorTick);
         for (uint i = 0; i < (uint)ticks.count(); i++)
         {
             const double value = ticks[i];

@@ -277,12 +277,12 @@ bool QwtScaleEngine::contains(
 
   \return Stripped tick list
 */
-QwtValueList QwtScaleEngine::strip( 
-    const QwtValueList& ticks, 
+QList<double> QwtScaleEngine::strip( 
+    const QList<double>& ticks, 
     const QwtDoubleInterval &interval) const
 {
     if ( !interval.isValid() || ticks.count() == 0 )
-        return QwtValueList();
+        return QList<double>();
 
     if ( contains(interval, ticks.first())
         && contains(interval, ticks.last()) )
@@ -290,7 +290,7 @@ QwtValueList QwtScaleEngine::strip(
         return ticks;
     }
 
-    QwtValueList strippedTicks;
+    QList<double> strippedTicks;
     for ( int i = 0; i < (int)ticks.count(); i++ )
     {
         if ( contains(interval, ticks[i]) )
@@ -465,7 +465,7 @@ QwtScaleDiv QwtLinearScaleEngine::divideScale(double x1, double x2,
 
     if ( stepSize != 0.0 )
     {
-        QwtValueList ticks[QwtScaleDiv::NTickTypes];
+        QList<double> ticks[QwtScaleDiv::NTickTypes];
         buildTicks(interval, stepSize, maxMinSteps, ticks);
 
         scaleDiv = QwtScaleDiv(interval, ticks);
@@ -489,7 +489,7 @@ QwtScaleDiv QwtLinearScaleEngine::divideScale(double x1, double x2,
 */
 void QwtLinearScaleEngine::buildTicks(
     const QwtDoubleInterval& interval, double stepSize, int maxMinSteps,
-    QwtValueList ticks[QwtScaleDiv::NTickTypes]) const
+    QList<double> ticks[QwtScaleDiv::NTickTypes]) const
 {
     const QwtDoubleInterval boundingInterval = align(interval, stepSize);
     
@@ -525,14 +525,14 @@ void QwtLinearScaleEngine::buildTicks(
 
    \return Calculated ticks
 */
-QwtValueList QwtLinearScaleEngine::buildMajorTicks(
+QList<double> QwtLinearScaleEngine::buildMajorTicks(
     const QwtDoubleInterval &interval, double stepSize) const
 {
     int numTicks = qRound(interval.width() / stepSize) + 1;
     if ( numTicks > 10000 )
         numTicks = 10000;
 
-    QwtValueList ticks;
+    QList<double> ticks;
 
     ticks += interval.minValue();
     for (int i = 1; i < numTicks - 1; i++)
@@ -553,10 +553,10 @@ QwtValueList QwtLinearScaleEngine::buildMajorTicks(
 
 */
 void QwtLinearScaleEngine::buildMinorTicks(
-    const QwtValueList& majorTicks,
+    const QList<double>& majorTicks,
     int maxMinSteps, double stepSize,
-    QwtValueList &minorTicks, 
-    QwtValueList &mediumTicks) const
+    QList<double> &minorTicks, 
+    QList<double> &mediumTicks) const
 {   
     double minStep = divideInterval(stepSize, maxMinSteps);
     if (minStep == 0.0)  
@@ -769,7 +769,7 @@ QwtScaleDiv QwtLog10ScaleEngine::divideScale(double x1, double x2,
     QwtScaleDiv scaleDiv;
     if ( stepSize != 0.0 )
     {
-        QwtValueList ticks[QwtScaleDiv::NTickTypes];
+        QList<double> ticks[QwtScaleDiv::NTickTypes];
         buildTicks(interval, stepSize, maxMinSteps, ticks);
 
         scaleDiv = QwtScaleDiv(interval, ticks);
@@ -793,7 +793,7 @@ QwtScaleDiv QwtLog10ScaleEngine::divideScale(double x1, double x2,
 */
 void QwtLog10ScaleEngine::buildTicks(
     const QwtDoubleInterval& interval, double stepSize, int maxMinSteps,
-    QwtValueList ticks[QwtScaleDiv::NTickTypes]) const
+    QList<double> ticks[QwtScaleDiv::NTickTypes]) const
 {
     const QwtDoubleInterval boundingInterval = align(interval, stepSize);
     
@@ -810,7 +810,7 @@ void QwtLog10ScaleEngine::buildTicks(
         ticks[i] = strip(ticks[i], interval);
 }
 
-QwtValueList QwtLog10ScaleEngine::buildMajorTicks(
+QList<double> QwtLog10ScaleEngine::buildMajorTicks(
     const QwtDoubleInterval &interval, double stepSize) const
 {
     double width = log10(interval).width();
@@ -823,7 +823,7 @@ QwtValueList QwtLog10ScaleEngine::buildMajorTicks(
     const double lxmax = log(interval.maxValue());
     const double lstep = (lxmax - lxmin) / double(numTicks - 1);
 
-    QwtValueList ticks;
+    QList<double> ticks;
 
     ticks += interval.minValue();
 
@@ -835,14 +835,14 @@ QwtValueList QwtLog10ScaleEngine::buildMajorTicks(
     return ticks;
 }
 
-QwtValueList QwtLog10ScaleEngine::buildMinorTicks(
-    const QwtValueList &majorTicks, 
+QList<double> QwtLog10ScaleEngine::buildMinorTicks(
+    const QList<double> &majorTicks, 
     int maxMinSteps, double stepSize) const
 {   
     if (stepSize < 1.1)            // major step width is one decade
     {
         if ( maxMinSteps < 1 )
-            return QwtValueList();
+            return QList<double>();
             
         int k0, kstep, kmax;
         
@@ -871,7 +871,7 @@ QwtValueList QwtLog10ScaleEngine::buildMinorTicks(
             kstep = 1;
         }
 
-        QwtValueList minorTicks;
+        QList<double> minorTicks;
 
         for (int i = 0; i < (int)majorTicks.count(); i++)
         {
@@ -886,7 +886,7 @@ QwtValueList QwtLog10ScaleEngine::buildMinorTicks(
     {
         double minStep = divideInterval(stepSize, maxMinSteps);
         if ( minStep == 0.0 )
-            return QwtValueList();
+            return QList<double>();
 
         if ( minStep < 1.0 )
             minStep = 1.0;
@@ -903,12 +903,12 @@ QwtValueList QwtLog10ScaleEngine::buildMinorTicks(
         }
 
         if (nMin < 1)
-            return QwtValueList();      // no subticks
+            return QList<double>();      // no subticks
 
         // substep factor = 10^substeps
         const double minFactor = qwtMax(pow(10.0, minStep), 10.0);
 
-        QwtValueList minorTicks;
+        QList<double> minorTicks;
         for (int i = 0; i < (int)majorTicks.count(); i++)
         {
             double val = majorTicks[i];

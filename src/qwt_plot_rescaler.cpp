@@ -596,7 +596,7 @@ void QwtPlotRescaler::updateScales(
 
             if ( d_data->inReplot >= 2 )
             {
-                QwtValueList ticks[QwtScaleDiv::NTickTypes];
+                QList<double> ticks[QwtScaleDiv::NTickTypes];
                 for ( int i = 0; i < QwtScaleDiv::NTickTypes; i++ )
                     ticks[i] = d_data->axisData[axis].scaleDiv.ticks(i);
 

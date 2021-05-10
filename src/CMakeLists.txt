@@ -26,7 +26,6 @@ set( HEADERS
   "qwt_text_engine.h"
   "qwt_text_label.h"
   "qwt_text.h"
-  "qwt_valuelist.h"
   )
 
 set( SRCS

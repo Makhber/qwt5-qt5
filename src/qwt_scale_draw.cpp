@@ -136,7 +136,7 @@ void QwtScaleDraw::getBorderDistHint(const QFont &font,
     if ( !hasComponent(QwtAbstractScaleDraw::Labels) )
         return;
 
-    const QwtValueList &ticks = scaleDiv().ticks(QwtScaleDiv::MajorTick);
+    const QList<double> &ticks = scaleDiv().ticks(QwtScaleDiv::MajorTick);
     if ( ticks.count() == 0 ) 
         return;
 
@@ -202,7 +202,7 @@ int QwtScaleDraw::minLabelDist(const QFont &font) const
     if ( !hasComponent(QwtAbstractScaleDraw::Labels) )
         return 0;
 
-    const QwtValueList &ticks = scaleDiv().ticks(QwtScaleDiv::MajorTick);
+    const QList<double> &ticks = scaleDiv().ticks(QwtScaleDiv::MajorTick);
     if (ticks.count() == 0)
         return 0;
 
@@ -856,7 +856,7 @@ int QwtScaleDraw::maxLabelWidth(const QFont &font) const
 {
     int maxWidth = 0;
 
-    const QwtValueList &ticks = scaleDiv().ticks(QwtScaleDiv::MajorTick);
+    const QList<double> &ticks = scaleDiv().ticks(QwtScaleDiv::MajorTick);
     for (uint i = 0; i < (uint)ticks.count(); i++)
     {
         const double v = ticks[i];
@@ -879,7 +879,7 @@ int QwtScaleDraw::maxLabelHeight(const QFont &font) const
 {
     int maxHeight = 0;
     
-    const QwtValueList &ticks = scaleDiv().ticks(QwtScaleDiv::MajorTick);
+    const QList<double> &ticks = scaleDiv().ticks(QwtScaleDiv::MajorTick);
     for (uint i = 0; i < (uint)ticks.count(); i++)
     {
         const double v = ticks[i];

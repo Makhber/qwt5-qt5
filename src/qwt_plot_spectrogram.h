@@ -12,7 +12,6 @@
 
 #include <qglobal.h>
 
-#include "qwt_valuelist.h" 
 #include "qwt_raster_data.h" 
 #include "qwt_plot_rasteritem.h" 
 
@@ -77,8 +76,8 @@ public:
     void setConrecAttribute(QwtRasterData::ConrecAttribute, bool on);
     bool testConrecAttribute(QwtRasterData::ConrecAttribute) const;
 
-    void setContourLevels(const QwtValueList &);
-    QwtValueList contourLevels() const;
+    void setContourLevels(const QList<double> &);
+    QList<double> contourLevels() const;
 
     virtual int rtti() const;
 

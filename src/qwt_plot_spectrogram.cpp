@@ -81,7 +81,7 @@ public:
     QwtColorMap *colorMap;
     int displayMode;
 
-    QwtValueList contourLevels;
+    QList<double> contourLevels;
     QPen defaultContourPen;
     int conrecAttributes;
 };
@@ -279,7 +279,7 @@ bool QwtPlotSpectrogram::testConrecAttribute(
 
    \note contourLevels returns the same levels but sorted.
 */
-void QwtPlotSpectrogram::setContourLevels(const QwtValueList &levels)
+void QwtPlotSpectrogram::setContourLevels(const QList<double> &levels)
 {
     d_data->contourLevels = levels;
     std::sort(d_data->contourLevels.begin(),d_data->contourLevels.end());
@@ -294,7 +294,7 @@ void QwtPlotSpectrogram::setContourLevels(const QwtValueList &levels)
    \sa contourLevels(), renderContourLines(), 
        QwtRasterData::contourLines()
 */
-QwtValueList QwtPlotSpectrogram::contourLevels() const
+QList<double> QwtPlotSpectrogram::contourLevels() const
 {
     return d_data->contourLevels;
 }

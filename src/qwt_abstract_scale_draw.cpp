@@ -157,7 +157,7 @@ void QwtAbstractScaleDraw::draw(QPainter *painter,
 
         painter->setPen(palette.color(QPalette::Text)); // ignore pen style
 
-        const QwtValueList &majorTicks = 
+        const QList<double> &majorTicks = 
             d_data->scldiv.ticks(QwtScaleDiv::MajorTick);
 
         for (int i = 0; i < (int)majorTicks.count(); i++)
@@ -181,7 +181,7 @@ void QwtAbstractScaleDraw::draw(QPainter *painter,
         for ( int tickType = QwtScaleDiv::MinorTick; 
             tickType < QwtScaleDiv::NTickTypes; tickType++ )
         {
-            const QwtValueList &ticks = d_data->scldiv.ticks(tickType);
+            const QList<double> &ticks = d_data->scldiv.ticks(tickType);
             for (int i = 0; i < (int)ticks.count(); i++)
             {
                 const double v = ticks[i];

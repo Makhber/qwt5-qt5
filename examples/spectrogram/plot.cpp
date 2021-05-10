@@ -73,7 +73,7 @@ Plot::Plot(QWidget *parent):
     d_spectrogram->setData(SpectrogramData());
     d_spectrogram->attach(this);
 
-    QwtValueList contourLevels;
+    QList<double> contourLevels;
     for ( double level = 0.5; level < 10.0; level += 1.0 )
         contourLevels += level;
     d_spectrogram->setContourLevels(contourLevels);

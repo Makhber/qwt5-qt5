@@ -252,7 +252,7 @@ void QwtPlotGrid::draw(QPainter *painter,
 
 void QwtPlotGrid::drawLines(QPainter *painter, const QRect &canvasRect,
     Qt::Orientation orientation, const QwtScaleMap &scaleMap, 
-    const QwtValueList &values) const
+    const QList<double> &values) const
 {
     const int x1 = canvasRect.left();
     const int x2 = canvasRect.right();
