@@ -95,7 +95,7 @@ signals:
 protected:
     virtual void rescale();
 
-    virtual QwtDoubleSize minZoomSize() const;
+    virtual QSizeF minZoomSize() const;
 
     virtual void widgetMouseReleaseEvent(QMouseEvent *);
     virtual void widgetKeyPressEvent(QKeyEvent *);

@@ -562,9 +562,9 @@ bool QwtPlotZoomer::accept(QwtPolygon &pa) const
 
   \return zoomBase().width() / 10e4, zoomBase().height() / 10e4
 */
-QwtDoubleSize QwtPlotZoomer::minZoomSize() const
+QSizeF QwtPlotZoomer::minZoomSize() const
 {
-    return QwtDoubleSize(
+    return QSizeF(
         d_data->zoomStack[0].width() / 10e4,
         d_data->zoomStack[0].height() / 10e4
     );
@@ -584,10 +584,10 @@ void QwtPlotZoomer::begin()
             return;
     }
 
-    const QwtDoubleSize minSize = minZoomSize();
+    const QSizeF minSize = minZoomSize();
     if ( minSize.isValid() )
     {
-        const QwtDoubleSize sz = 
+        const QSizeF sz = 
             d_data->zoomStack[d_data->zoomRectIndex].size() * 0.9999;
 
         if ( minSize.width() >= sz.width() &&

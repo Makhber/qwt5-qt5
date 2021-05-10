@@ -13,16 +13,7 @@
 
 #include "qwt_global.h"
 
-#include <QSizeF>
 #include <QRectF>
-
-/*! 
-   \typedef QSizeF QwtDoubleSize
-   \brief This is a typedef, see Trolltech Documentation for QSizeF
-          in QT assistant 4.x. As soon as Qt3 compatibility is dropped
-         this typedef will disappear.
-*/
-typedef QSizeF QwtDoubleSize;
 
 /*! 
    \typedef QRectF QwtDoubleRect
