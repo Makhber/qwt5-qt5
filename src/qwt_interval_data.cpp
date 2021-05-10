@@ -46,7 +46,7 @@ void QwtIntervalData::setData(
    
    \return Bounding rectangle
 */
-QwtDoubleRect QwtIntervalData::boundingRect() const
+QRectF QwtIntervalData::boundingRect() const
 {
     double minX, maxX, minY, maxY;
     minX = maxX = minY = maxY = 0.0;
@@ -84,7 +84,7 @@ QwtDoubleRect QwtIntervalData::boundingRect() const
         }
     }
     if ( !isValid )
-        return QwtDoubleRect(1.0, 1.0, -2.0, -2.0); // invalid
+        return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
-    return QwtDoubleRect(minX, minY, maxX - minX, maxY - minY);
+    return QRectF(minX, minY, maxX - minX, maxY - minY);
 }

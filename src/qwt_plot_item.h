@@ -13,7 +13,6 @@
 #include "qwt_global.h"
 #include "qwt_legend_itemmanager.h"
 #include "qwt_text.h"
-#include "qwt_double_rect.h"
 
 class QString;
 class QRect;
@@ -167,7 +166,7 @@ public:
         const QwtScaleMap &xMap, const QwtScaleMap &yMap,
         const QRect &canvasRect) const = 0;
 
-    virtual QwtDoubleRect boundingRect() const;
+    virtual QRectF boundingRect() const;
 
     virtual void updateLegend(QwtLegend *) const;
     virtual void updateScaleDiv(const QwtScaleDiv&,
@@ -175,12 +174,12 @@ public:
 
     virtual QWidget *legendItem() const;
 
-    QwtDoubleRect scaleRect(const QwtScaleMap &, const QwtScaleMap &) const;
+    QRectF scaleRect(const QwtScaleMap &, const QwtScaleMap &) const;
     QRect paintRect(const QwtScaleMap &, const QwtScaleMap &) const;
     
     QRect transform(const QwtScaleMap &, const QwtScaleMap &, 
-        const QwtDoubleRect&) const; 
-    QwtDoubleRect invTransform(const QwtScaleMap &, const QwtScaleMap &,
+        const QRectF&) const; 
+    QRectF invTransform(const QwtScaleMap &, const QwtScaleMap &,
         const QRect&) const; 
 
 private:

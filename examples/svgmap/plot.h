@@ -1,5 +1,4 @@
 #include <qwt_plot.h>
-#include <qwt_double_rect.h>
 
 class QwtPlotSvgItem;
 
@@ -17,5 +16,5 @@ private:
     void rescale();
 
     QwtPlotSvgItem *d_mapItem;
-    const QwtDoubleRect d_mapRect;
+    const QRectF d_mapRect;
 };

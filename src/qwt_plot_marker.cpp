@@ -488,7 +488,7 @@ const QPen &QwtPlotMarker::linePen() const
     return d_data->pen; 
 }
 
-QwtDoubleRect QwtPlotMarker::boundingRect() const
+QRectF QwtPlotMarker::boundingRect() const
 {
-    return QwtDoubleRect(d_data->xValue, d_data->yValue, 0.0, 0.0);
+    return QRectF(d_data->xValue, d_data->yValue, 0.0, 0.0);
 }

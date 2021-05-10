@@ -76,7 +76,7 @@ public:
         const QwtScaleMap &xMap, const QwtScaleMap &yMap,
         const QRect &rect) const;
 
-    virtual QSize rasterHint(const QwtDoubleRect &) const;
+    virtual QSize rasterHint(const QRectF &) const;
 
 protected:
 
@@ -91,7 +91,7 @@ protected:
       \param area Requested area for the image in scale coordinates
      */
     virtual QImage renderImage(const QwtScaleMap &xMap, 
-        const QwtScaleMap &yMap, const QwtDoubleRect &area
+        const QwtScaleMap &yMap, const QRectF &area
         ) const = 0;
 
 private:

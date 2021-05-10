@@ -97,7 +97,7 @@ public:
         const QwtScaleMap &xMap, const QwtScaleMap &yMap,
         const QRect &) const;
     
-    virtual QwtDoubleRect boundingRect() const;
+    virtual QRectF boundingRect() const;
 
 protected:
     void drawAt(QPainter *,const QRect &, const QPoint &) const;

@@ -13,9 +13,9 @@
 #include "qwt_global.h"
 #include "qwt_math.h"
 #include "qwt_double_interval.h"
-#include "qwt_double_rect.h"
 
 #include <QVector>
+#include <QRectF>
 
 #if defined(_MSC_VER) && (_MSC_VER > 1310)
 #include <string.h>
@@ -51,7 +51,7 @@ public:
     const QwtDoubleInterval &interval(size_t i) const;
     double value(size_t i) const;
 
-    QwtDoubleRect boundingRect() const;
+    QRectF boundingRect() const;
 
 private:
     QVector<QwtDoubleInterval> d_intervals;

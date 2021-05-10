@@ -83,15 +83,15 @@ QColor HistogramItem::color() const
     return d_data->color;
 }
 
-QwtDoubleRect HistogramItem::boundingRect() const
+QRectF HistogramItem::boundingRect() const
 {
-    QwtDoubleRect rect = d_data->data.boundingRect();
+    QRectF rect = d_data->data.boundingRect();
     if ( !rect.isValid() ) 
         return rect;
 
     if ( d_data->attributes & Xfy ) 
     {
-        rect = QwtDoubleRect( rect.y(), rect.x(), 
+        rect = QRectF( rect.y(), rect.x(), 
             rect.height(), rect.width() );
 
         if ( rect.left() > d_data->reference ) 

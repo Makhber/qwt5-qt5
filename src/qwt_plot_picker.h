@@ -12,7 +12,6 @@
 #ifndef QWT_PLOT_PICKER_H
 #define QWT_PLOT_PICKER_H
 
-#include "qwt_double_rect.h"
 #include "qwt_plot_canvas.h"
 #include "qwt_picker.h"
 
@@ -64,7 +63,7 @@ signals:
       A signal emitted in case of selectionFlags() & RectSelection.
       \param rect Selected rectangle
     */
-    void selected(const QwtDoubleRect &rect);
+    void selected(const QRectF &rect);
 
     /*!
       A signal emitting the selected points,
@@ -92,10 +91,10 @@ signals:
     void moved(const QPointF &pos);
 
 protected:
-    QwtDoubleRect scaleRect() const;
+    QRectF scaleRect() const;
 
-    QwtDoubleRect invTransform(const QRect &) const;
-    QRect transform(const QwtDoubleRect &) const;
+    QRectF invTransform(const QRect &) const;
+    QRect transform(const QRectF &) const;
 
     QPointF invTransform(const QPoint &) const;
     QPoint transform(const QPointF &) const;

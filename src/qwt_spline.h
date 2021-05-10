@@ -11,7 +11,6 @@
 #define QWT_SPLINE_H
 
 #include "qwt_global.h"
-#include "qwt_double_rect.h"
 
 #include <QPolygonF>
 

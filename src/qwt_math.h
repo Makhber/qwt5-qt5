@@ -13,7 +13,6 @@
 #include <math.h>
 #include <qpoint.h>
 #include "qwt_global.h"
-#include "qwt_double_rect.h"
 
 #define qwtMax qMax
 #define qwtMin qMin

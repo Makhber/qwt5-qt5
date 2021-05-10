@@ -5,7 +5,6 @@ set( HEADERS
   "qwt_color_map.h"
   "qwt_clipper.h"
   "qwt_double_interval.h"
-  "qwt_double_rect.h"
   "qwt_dyngrid_layout.h"
   "qwt_global.h"
   "qwt_layout_metrics.h"

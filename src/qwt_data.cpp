@@ -23,7 +23,7 @@ QwtData::~QwtData()
 /*!
   Returns the bounding rectangle of the data. If there is
   no bounding rect, like for empty data the rectangle is invalid:
-  QwtDoubleRect::isValid() == false
+  QRectF::isValid() == false
 
   \warning This is an slow implementation iterating over all points. 
            It is intended to be overloaded by derived classes. In case of
@@ -31,12 +31,12 @@ QwtData::~QwtData()
            might be worth to implement a cache, or use x(0), x(size() - 1)
            for ordered data ...
 */
-QwtDoubleRect QwtData::boundingRect() const
+QRectF QwtData::boundingRect() const
 {
     const size_t sz = size();
 
     if ( sz <= 0 )
-        return QwtDoubleRect(1.0, 1.0, -2.0, -2.0); // invalid
+        return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
     double minX, maxX, minY, maxY;
     minX = maxX = x(0);
@@ -56,7 +56,7 @@ QwtDoubleRect QwtData::boundingRect() const
         if ( yv > maxY )
             maxY = yv;
     }
-    return QwtDoubleRect(minX, minY, maxX - minX, maxY - minY);
+    return QRectF(minX, minY, maxX - minX, maxY - minY);
 }
 
 /*!
@@ -217,14 +217,14 @@ QwtData *QwtArrayData::copy() const
 /*!
   Returns the bounding rectangle of the data. If there is
   no bounding rect, like for empty data the rectangle is invalid:
-  QwtDoubleRect::isValid() == false
+  QRectF::isValid() == false
 */
-QwtDoubleRect QwtArrayData::boundingRect() const
+QRectF QwtArrayData::boundingRect() const
 {
     const size_t sz = size();
 
     if ( sz <= 0 )
-        return QwtDoubleRect(1.0, 1.0, -2.0, -2.0); // invalid
+        return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
     double minX, maxX, minY, maxY;
     QVector<double>::ConstIterator xIt = d_x.begin();
@@ -247,7 +247,7 @@ QwtDoubleRect QwtArrayData::boundingRect() const
         if ( yv > maxY )
             maxY = yv;
     }
-    return QwtDoubleRect(minX, minY, maxX - minX, maxY - minY);
+    return QRectF(minX, minY, maxX - minX, maxY - minY);
 }
 
 /*!
@@ -334,14 +334,14 @@ QwtData *QwtCPointerData::copy() const
 /*!
   Returns the bounding rectangle of the data. If there is
   no bounding rect, like for empty data the rectangle is invalid:
-  QwtDoubleRect::isValid() == false
+  QRectF::isValid() == false
 */
-QwtDoubleRect QwtCPointerData::boundingRect() const
+QRectF QwtCPointerData::boundingRect() const
 {
     const size_t sz = size();
 
     if ( sz <= 0 )
-        return QwtDoubleRect(1.0, 1.0, -2.0, -2.0); // invalid
+        return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
     double minX, maxX, minY, maxY;
     const double *xIt = d_x;
@@ -364,5 +364,5 @@ QwtDoubleRect QwtCPointerData::boundingRect() const
         if ( yv > maxY )
             maxY = yv;
     }
-    return QwtDoubleRect(minX, minY, maxX - minX, maxY - minY);
+    return QRectF(minX, minY, maxX - minX, maxY - minY);
 }

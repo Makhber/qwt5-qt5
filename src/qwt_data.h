@@ -13,7 +13,7 @@
 #define QWT_DATA_H 1
 
 #include "qwt_global.h"
-#include "qwt_double_rect.h"
+
 #include <QPolygonF>
 
 // MOC_SKIP_BEGIN
@@ -59,7 +59,7 @@ public:
      */
     virtual double y(size_t i) const = 0;
 
-    virtual QwtDoubleRect boundingRect() const;
+    virtual QRectF boundingRect() const;
 
 protected:
     /*!
@@ -109,7 +109,7 @@ public:
     const QVector<double> &xData() const;
     const QVector<double> &yData() const;
 
-    virtual QwtDoubleRect boundingRect() const;
+    virtual QRectF boundingRect() const;
 
 private:
     QVector<double> d_x;
@@ -133,7 +133,7 @@ public:
     const double *xData() const;
     const double *yData() const;
 
-    virtual QwtDoubleRect boundingRect() const;
+    virtual QRectF boundingRect() const;
 
 private:
     const double *d_x;

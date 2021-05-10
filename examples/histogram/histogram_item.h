@@ -31,7 +31,7 @@ public:
     void setColor(const QColor &);
     QColor color() const;
 
-    virtual QwtDoubleRect boundingRect() const;
+    virtual QRectF boundingRect() const;
 
     virtual int rtti() const;
 

@@ -327,7 +327,7 @@ const QwtRasterData &QwtPlotSpectrogram::data() const
    \return Bounding rect of the data
    \sa QwtRasterData::boundingRect()
 */
-QwtDoubleRect QwtPlotSpectrogram::boundingRect() const
+QRectF QwtPlotSpectrogram::boundingRect() const
 {
     return d_data->data->boundingRect();
 }
@@ -341,7 +341,7 @@ QwtDoubleRect QwtPlotSpectrogram::boundingRect() const
    \param rect Rect for the raster hint
    \return data().rasterHint(rect)
 */
-QSize QwtPlotSpectrogram::rasterHint(const QwtDoubleRect &rect) const
+QSize QwtPlotSpectrogram::rasterHint(const QRectF &rect) const
 {
     return d_data->data->rasterHint(rect);
 }
@@ -365,7 +365,7 @@ QSize QwtPlotSpectrogram::rasterHint(const QwtDoubleRect &rect) const
 */
 QImage QwtPlotSpectrogram::renderImage(
     const QwtScaleMap &xMap, const QwtScaleMap &yMap, 
-    const QwtDoubleRect &area) const
+    const QRectF &area) const
 {
     if ( area.isEmpty() )
         return QImage();
@@ -486,7 +486,7 @@ QImage QwtPlotSpectrogram::renderImage(
    
    \sa drawContourLines(), QwtRasterData::contourLines()
 */
-QSize QwtPlotSpectrogram::contourRasterSize(const QwtDoubleRect &area,
+QSize QwtPlotSpectrogram::contourRasterSize(const QRectF &area,
     const QRect &rect) const
 {
     QSize raster = rect.size() / 2;
@@ -508,7 +508,7 @@ QSize QwtPlotSpectrogram::contourRasterSize(const QwtDoubleRect &area,
        QwtRasterData::contourLines()
 */
 QwtRasterData::ContourLines QwtPlotSpectrogram::renderContourLines(
-    const QwtDoubleRect &rect, const QSize &raster) const
+    const QRectF &rect, const QSize &raster) const
 {
     return d_data->data->contourLines(rect, raster,
         d_data->contourLevels, d_data->conrecAttributes );
@@ -581,9 +581,9 @@ void QwtPlotSpectrogram::draw(QPainter *painter,
         QRect rasterRect(canvasRect.x() - margin, canvasRect.y() - margin,
             canvasRect.width() + 2 * margin, canvasRect.height() + 2 * margin);
 
-        QwtDoubleRect area = invTransform(xMap, yMap, rasterRect);
+        QRectF area = invTransform(xMap, yMap, rasterRect);
 
-        const QwtDoubleRect br = boundingRect();
+        const QRectF br = boundingRect();
         if ( br.isValid() ) 
         {
             area &= br;

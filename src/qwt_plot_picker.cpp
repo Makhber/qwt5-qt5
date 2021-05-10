@@ -10,7 +10,6 @@
 // vim: expandtab
 
 #include "qwt_plot.h"
-#include "qwt_double_rect.h"
 #include "qwt_scale_div.h"
 #include "qwt_painter.h"
 #include "qwt_scale_map.h"
@@ -145,9 +144,9 @@ const QwtPlot *QwtPlotPicker::plot() const
 
   \sa QwtPlot::autoReplot(), QwtPlot::replot().
 */
-QwtDoubleRect QwtPlotPicker::scaleRect() const
+QRectF QwtPlotPicker::scaleRect() const
 {
-    QwtDoubleRect rect;
+    QRectF rect;
 
     if ( plot() )
     {
@@ -156,7 +155,7 @@ QwtDoubleRect QwtPlotPicker::scaleRect() const
 
         if ( xs && ys )
         {
-            rect = QwtDoubleRect( xs->lowerBound(), ys->lowerBound(), 
+            rect = QRectF( xs->lowerBound(), ys->lowerBound(), 
                 xs->range(), ys->range() );
             rect = rect.normalized();
         }
@@ -334,7 +333,7 @@ bool QwtPlotPicker::end(bool ok)
     \return Rectangle in plot coordinates
     \sa QwtPlotPicker::transform()
 */
-QwtDoubleRect QwtPlotPicker::invTransform(const QRect &rect) const
+QRectF QwtPlotPicker::invTransform(const QRect &rect) const
 {
     QwtScaleMap xMap = plot()->canvasMap(d_xAxis);
     QwtScaleMap yMap = plot()->canvasMap(d_yAxis);
@@ -344,7 +343,7 @@ QwtDoubleRect QwtPlotPicker::invTransform(const QRect &rect) const
     const double top = yMap.invTransform(rect.top());
     const double bottom = yMap.invTransform(rect.bottom());
 
-    return QwtDoubleRect(left, top,
+    return QRectF(left, top,
         right - left, bottom - top);
 }
 
@@ -353,7 +352,7 @@ QwtDoubleRect QwtPlotPicker::invTransform(const QRect &rect) const
     \return Rectangle in pixel coordinates
     \sa QwtPlotPicker::invTransform()
 */
-QRect QwtPlotPicker::transform(const QwtDoubleRect &rect) const
+QRect QwtPlotPicker::transform(const QRectF &rect) const
 {
     QwtScaleMap xMap = plot()->canvasMap(d_xAxis);
     QwtScaleMap yMap = plot()->canvasMap(d_yAxis);

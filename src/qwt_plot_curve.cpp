@@ -15,7 +15,6 @@
 #include "qwt_legend_item.h"
 #include "qwt_data.h"
 #include "qwt_scale_map.h"
-#include "qwt_double_rect.h"
 #include "qwt_math.h"
 #include "qwt_clipper.h"
 #include "qwt_painter.h"
@@ -470,13 +469,13 @@ void QwtPlotCurve::setRawData(const double *xData, const double *yData, int size
 /*!
   Returns the bounding rectangle of the curve data. If there is
   no bounding rect, like for empty data the rectangle is invalid.
-  \sa QwtData::boundingRect(), QwtDoubleRect::isValid()
+  \sa QwtData::boundingRect(), QRectF::isValid()
 */
 
-QwtDoubleRect QwtPlotCurve::boundingRect() const
+QRectF QwtPlotCurve::boundingRect() const
 {
     if ( d_xy == NULL )
-        return QwtDoubleRect(1.0, 1.0, -2.0, -2.0); // invalid
+        return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
     return d_xy->boundingRect();
 }

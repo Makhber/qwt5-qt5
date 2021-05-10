@@ -14,7 +14,6 @@
 
 #include <qmap.h>
 #include "qwt_global.h"
-#include "qwt_double_rect.h"
 #include "qwt_double_interval.h"
 
 #include <qlist.h>
@@ -52,18 +51,18 @@ public:
     };
 
     QwtRasterData();
-    QwtRasterData(const QwtDoubleRect &);
+    QwtRasterData(const QRectF &);
     virtual ~QwtRasterData();
 
     //! Clone the data
     virtual QwtRasterData *copy() const = 0;
 
-    virtual void setBoundingRect(const QwtDoubleRect &);
-    QwtDoubleRect boundingRect() const;
+    virtual void setBoundingRect(const QRectF &);
+    QRectF boundingRect() const;
 
-    virtual QSize rasterHint(const QwtDoubleRect &) const;
+    virtual QSize rasterHint(const QRectF &) const;
 
-    virtual void initRaster(const QwtDoubleRect &, const QSize& raster);
+    virtual void initRaster(const QRectF &, const QSize& raster);
     virtual void discardRaster();
 
     /*! 
@@ -76,7 +75,7 @@ public:
     //! \return the range of the values
     virtual QwtDoubleInterval range() const = 0;
 
-    virtual ContourLines contourLines(const QwtDoubleRect &rect,
+    virtual ContourLines contourLines(const QRectF &rect,
         const QSize &raster, const QList<double> &levels, 
         int flags) const;
 
@@ -84,7 +83,7 @@ public:
     class ContourPlane;
 
 private:
-    QwtDoubleRect d_boundingRect;
+    QRectF d_boundingRect;
 };
 
 #endif

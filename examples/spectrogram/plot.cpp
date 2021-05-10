@@ -33,7 +33,7 @@ class SpectrogramData: public QwtRasterData
 {
 public:
     SpectrogramData():
-        QwtRasterData(QwtDoubleRect(-1.5, -1.5, 3.0, 3.0))
+        QwtRasterData(QRectF(-1.5, -1.5, 3.0, 3.0))
     {
     }
 

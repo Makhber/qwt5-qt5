@@ -192,7 +192,7 @@ QwtRasterData::QwtRasterData()
    \param boundingRect Bounding rectangle
    \sa setBoundingRect()
 */
-QwtRasterData::QwtRasterData(const QwtDoubleRect &boundingRect):
+QwtRasterData::QwtRasterData(const QRectF &boundingRect):
     d_boundingRect(boundingRect)
 {
 }
@@ -208,7 +208,7 @@ QwtRasterData::~QwtRasterData()
    \param boundingRect Bounding rectangle
    \sa boundingRect()
 */
-void QwtRasterData::setBoundingRect(const QwtDoubleRect &boundingRect)
+void QwtRasterData::setBoundingRect(const QRectF &boundingRect)
 {
     d_boundingRect = boundingRect;
 }
@@ -217,7 +217,7 @@ void QwtRasterData::setBoundingRect(const QwtDoubleRect &boundingRect)
    \return Bounding rectangle
    \sa boundingRect()
 */
-QwtDoubleRect QwtRasterData::boundingRect() const
+QRectF QwtRasterData::boundingRect() const
 {
     return d_boundingRect;
 }
@@ -237,7 +237,7 @@ QwtDoubleRect QwtRasterData::boundingRect() const
 
   \sa initRaster(), value()
 */
-void QwtRasterData::initRaster(const QwtDoubleRect &, const QSize&)
+void QwtRasterData::initRaster(const QRectF &, const QSize&)
 {
 }
 
@@ -273,7 +273,7 @@ void QwtRasterData::discardRaster()
 
    \return Resolution, as number of horizontal and vertical pixels
 */
-QSize QwtRasterData::rasterHint(const QwtDoubleRect &) const
+QSize QwtRasterData::rasterHint(const QRectF &) const
 {
     return QSize(); // use screen resolution
 }
@@ -285,7 +285,7 @@ QSize QwtRasterData::rasterHint(const QwtDoubleRect &) const
    http://local.wasp.uwa.edu.au/~pbourke/papers/conrec/
 */
 QwtRasterData::ContourLines QwtRasterData::contourLines(
-    const QwtDoubleRect &rect, const QSize &raster, 
+    const QRectF &rect, const QSize &raster, 
     const QList<double> &levels, int flags) const
 {   
     ContourLines contourLines;

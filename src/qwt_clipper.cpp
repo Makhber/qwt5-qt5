@@ -13,7 +13,7 @@
 #include "qwt_clipper.h"
 #include <algorithm>
 
-static inline QwtDoubleRect boundingRect(const QwtPolygonF &polygon)
+static inline QRectF boundingRect(const QwtPolygonF &polygon)
 {
     return polygon.boundingRect();
 }
@@ -43,10 +43,10 @@ private:
     void addPoint(QwtPolygon &, uint pos, const QPoint &point) const;
 };
 
-class QwtPolygonClipperF: public QwtDoubleRect
+class QwtPolygonClipperF: public QRectF
 {
 public:
-    QwtPolygonClipperF(const QwtDoubleRect &r);
+    QwtPolygonClipperF(const QRectF &r);
     QwtPolygonF clipPolygon(const QwtPolygonF &) const;
 
 private:
@@ -58,10 +58,10 @@ private:
     void addPoint(QwtPolygonF &, uint pos, const QPointF &point) const;
 };
 
-class QwtCircleClipper: public QwtDoubleRect
+class QwtCircleClipper: public QRectF
 {
 public:
-    QwtCircleClipper(const QwtDoubleRect &r);
+    QwtCircleClipper(const QRectF &r);
     QVector<QwtDoubleInterval> clipCircle(
         const QPointF &, double radius) const;
 
@@ -200,8 +200,8 @@ void QwtPolygonClipper::clipEdge(Edge edge,
     cpa.resize(count);
 }
 
-QwtPolygonClipperF::QwtPolygonClipperF(const QwtDoubleRect &r): 
-    QwtDoubleRect(r) 
+QwtPolygonClipperF::QwtPolygonClipperF(const QRectF &r): 
+    QRectF(r) 
 {
 }
 
@@ -328,8 +328,8 @@ void QwtPolygonClipperF::clipEdge(Edge edge,
     cpa.resize(count);
 }
 
-QwtCircleClipper::QwtCircleClipper(const QwtDoubleRect &r):
-    QwtDoubleRect(r)
+QwtCircleClipper::QwtCircleClipper(const QRectF &r):
+    QRectF(r)
 {
 }
 
@@ -343,7 +343,7 @@ QVector<QwtDoubleInterval> QwtCircleClipper::clipCircle(
     QVector<QwtDoubleInterval> intv;
     if ( points.size() <= 0 )
     {
-        QwtDoubleRect cRect(0, 0, 2 * radius, 2* radius);
+        QRectF cRect(0, 0, 2 * radius, 2* radius);
         cRect.moveCenter(pos);
         if ( contains(cRect) )
             intv += QwtDoubleInterval(0.0, 2 * M_PI);
@@ -458,7 +458,7 @@ QwtPolygon QwtClipper::clipPolygon(
    \return Clipped polygon
 */
 QwtPolygonF QwtClipper::clipPolygonF(
-    const QwtDoubleRect &clipRect, const QwtPolygonF &polygon)
+    const QRectF &clipRect, const QwtPolygonF &polygon)
 {
     QwtPolygonClipperF clipper(clipRect);
     return clipper.clipPolygon(polygon);
@@ -478,7 +478,7 @@ QwtPolygonF QwtClipper::clipPolygonF(
    \return Arcs of the circle
 */
 QVector<QwtDoubleInterval> QwtClipper::clipCircle(
-    const QwtDoubleRect &clipRect, 
+    const QRectF &clipRect, 
     const QPointF &center, double radius)
 {
     QwtCircleClipper clipper(clipRect);

@@ -380,11 +380,11 @@ int QwtPlotItem::yAxis() const
 }
 
 /*!
-   \return An invalid bounding rect: QwtDoubleRect(1.0, 1.0, -2.0, -2.0)
+   \return An invalid bounding rect: QRectF(1.0, 1.0, -2.0, -2.0)
 */
-QwtDoubleRect QwtPlotItem::boundingRect() const
+QRectF QwtPlotItem::boundingRect() const
 {
-    return QwtDoubleRect(1.0, 1.0, -2.0, -2.0); // invalid
+    return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 }
 
 /*!
@@ -484,10 +484,10 @@ void QwtPlotItem::updateScaleDiv(const QwtScaleDiv &,
 
    \return Bounding rect of the scale maps
 */
-QwtDoubleRect QwtPlotItem::scaleRect(const QwtScaleMap &xMap, 
+QRectF QwtPlotItem::scaleRect(const QwtScaleMap &xMap, 
     const QwtScaleMap &yMap) const
 {
-    return QwtDoubleRect(xMap.s1(), yMap.s1(), 
+    return QRectF(xMap.s1(), yMap.s1(), 
         xMap.sDist(), yMap.sDist() );
 }
 
@@ -519,7 +519,7 @@ QRect QwtPlotItem::paintRect(const QwtScaleMap &xMap,
    \sa invTransform()
 */
 QRect QwtPlotItem::transform(const QwtScaleMap &xMap, 
-    const QwtScaleMap &yMap, const QwtDoubleRect& rect) const
+    const QwtScaleMap &yMap, const QRectF& rect) const
 {
     int x1 = xMap.transform(rect.left());
     int x2 = xMap.transform(rect.right());
@@ -543,7 +543,7 @@ QRect QwtPlotItem::transform(const QwtScaleMap &xMap,
    \return Rectangle in scale coordinates
    \sa transform()
 */
-QwtDoubleRect QwtPlotItem::invTransform(const QwtScaleMap &xMap, 
+QRectF QwtPlotItem::invTransform(const QwtScaleMap &xMap, 
     const QwtScaleMap &yMap, const QRect& rect) const
 {
     const double x1 = xMap.invTransform(rect.left());
@@ -551,7 +551,7 @@ QwtDoubleRect QwtPlotItem::invTransform(const QwtScaleMap &xMap,
     const double y1 = yMap.invTransform(rect.top());
     const double y2 = yMap.invTransform(rect.bottom());
         
-    const QwtDoubleRect r(x1, y1, x2 - x1, y2 - y1);
+    const QRectF r(x1, y1, x2 - x1, y2 - y1);
 
     return r.normalized();
 }

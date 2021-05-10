@@ -190,7 +190,7 @@ public:
     double x(int i) const;
     double y(int i) const;
 
-    virtual QwtDoubleRect boundingRect() const;
+    virtual QRectF boundingRect() const;
 
     double minXValue() const;
     double maxXValue() const;
