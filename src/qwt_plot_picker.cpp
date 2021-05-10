@@ -219,7 +219,7 @@ QwtText QwtPlotPicker::trackerText(const QPoint &pos) const
   \param pos Position
   \return Position string
 */
-QwtText QwtPlotPicker::trackerText(const QwtDoublePoint &pos) const
+QwtText QwtPlotPicker::trackerText(const QPointF &pos) const
 {
     QString text;
 
@@ -291,7 +291,7 @@ bool QwtPlotPicker::end(bool ok)
 
     if ( selectionFlags() & PointSelection )
     {
-        const QwtDoublePoint pos = invTransform(pa[0]);
+        const QPointF pos = invTransform(pa[0]);
         emit selected(pos);
     }
     else if ( (selectionFlags() & RectSelection) && pa.count() >= 2 )
@@ -318,7 +318,7 @@ bool QwtPlotPicker::end(bool ok)
     }
     else 
     {
-        QVector<QwtDoublePoint> dpa(pa.count());
+        QVector<QPointF> dpa(pa.count());
         for ( int i = 0; i < int(pa.count()); i++ )
             dpa[i] = invTransform(pa[i]);
 
@@ -371,12 +371,12 @@ QRect QwtPlotPicker::transform(const QwtDoubleRect &rect) const
     \return Point in plot coordinates
     \sa QwtPlotPicker::transform()
 */
-QwtDoublePoint QwtPlotPicker::invTransform(const QPoint &pos) const
+QPointF QwtPlotPicker::invTransform(const QPoint &pos) const
 {
     QwtScaleMap xMap = plot()->canvasMap(d_xAxis);
     QwtScaleMap yMap = plot()->canvasMap(d_yAxis);
 
-    return QwtDoublePoint(
+    return QPointF(
         xMap.invTransform(pos.x()),
         yMap.invTransform(pos.y())
     );
@@ -387,7 +387,7 @@ QwtDoublePoint QwtPlotPicker::invTransform(const QPoint &pos) const
     \return Point in pixel coordinates
     \sa QwtPlotPicker::invTransform()
 */
-QPoint QwtPlotPicker::transform(const QwtDoublePoint &pos) const
+QPoint QwtPlotPicker::transform(const QPointF &pos) const
 {
     QwtScaleMap xMap = plot()->canvasMap(d_xAxis);
     QwtScaleMap yMap = plot()->canvasMap(d_yAxis);

@@ -65,12 +65,12 @@ public:
 
     double xValue() const;
     double yValue() const;
-    QwtDoublePoint value() const;
+    QPointF value() const;
 
     void setXValue(double);
     void setYValue(double);
     void setValue(double, double);
-    void setValue(const QwtDoublePoint &);
+    void setValue(const QPointF &);
 
     void setLineStyle(LineStyle st);
     LineStyle lineStyle() const;

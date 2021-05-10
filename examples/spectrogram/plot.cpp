@@ -18,7 +18,7 @@ public:
         setTrackerMode(AlwaysOn);
     }
 
-    virtual QwtText trackerText(const QwtDoublePoint &pos) const
+    virtual QwtText trackerText(const QPointF &pos) const
     {
         QColor bg(Qt::white);
         bg.setAlpha(200);

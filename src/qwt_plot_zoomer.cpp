@@ -625,7 +625,7 @@ bool QwtPlotZoomer::end(bool ok)
 
     QwtDoubleRect zoomRect = invTransform(rect).normalized();
 
-    const QwtDoublePoint center = zoomRect.center();
+    const QPointF center = zoomRect.center();
     zoomRect.setSize(zoomRect.size().expandedTo(minZoomSize()));
     zoomRect.moveCenter(center);
 

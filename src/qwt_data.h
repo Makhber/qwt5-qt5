@@ -70,7 +70,7 @@ protected:
 
 
 /*!
-  \brief Data class containing a single QVector<QwtDoublePoint> object. 
+  \brief Data class containing a single QVector<QPointF> object. 
  */
 class QWT_EXPORT QwtPolygonFData: public QwtData
 {

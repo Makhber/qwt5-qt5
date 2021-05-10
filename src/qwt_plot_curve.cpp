@@ -245,7 +245,7 @@ void QwtPlotCurve::init()
     setItemAttribute(QwtPlotItem::AutoScale);
 
     d_data = new PrivateData;
-    d_xy = new QwtPolygonFData(QVector<QwtDoublePoint>());
+    d_xy = new QwtPolygonFData(QVector<QPointF>());
 
     setZ(20.0);
 }
@@ -694,7 +694,7 @@ void QwtPlotCurve::drawLines(QPainter *painter,
         QPolygonF points(size);
         for (int i = from; i <= to; i++)
         {
-            QwtDoublePoint &p = points[i];
+            QPointF &p = points[i];
             p.setX( xMap.xTransform(x(i)) );
             p.setY( yMap.xTransform(y(i)) );
         }
@@ -705,14 +705,14 @@ void QwtPlotCurve::drawLines(QPainter *painter,
         if ( size == 0 )
             return;
 
-        // Round QwtDoublePoints to QPoints
+        // Round QPointFs to QPoints
         // When Qwt support for Qt3 has been dropped (Qwt 6.x)
         // we will use a doubles for painting and the following
         // step will be obsolete.
 
         polyline.resize(size);
 
-        const QwtDoublePoint *p = points.data();
+        const QPointF *p = points.data();
         QPoint *pl = polyline.data();
         if ( d_data->paintAttributes & PaintFiltered )
         {

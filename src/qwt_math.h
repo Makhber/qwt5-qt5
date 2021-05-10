@@ -158,7 +158,7 @@ inline QPoint qwtDegree2Pos(const QPoint &pole,
     return qwtPolar2Pos(pole, radius, angle / 180.0 * M_PI);
 }
 
-inline QwtDoublePoint qwtPolar2Pos(const QwtDoublePoint &pole,
+inline QPointF qwtPolar2Pos(const QPointF &pole,
     double radius, double angle)
 {
     const double x = pole.x() + radius * ::cos(angle);
@@ -167,7 +167,7 @@ inline QwtDoublePoint qwtPolar2Pos(const QwtDoublePoint &pole,
     return QPoint(qRound(x), qRound(y));
 }
 
-inline QwtDoublePoint qwtDegree2Pos(const QwtDoublePoint &pole,
+inline QPointF qwtDegree2Pos(const QPointF &pole,
     double radius, double angle)
 {
     return qwtPolar2Pos(pole, radius, angle / 180.0 * M_PI);

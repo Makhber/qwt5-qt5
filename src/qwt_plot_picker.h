@@ -58,7 +58,7 @@ signals:
       A signal emitted in case of selectionFlags() & PointSelection.
       \param pos Selected point
     */
-    void selected(const QwtDoublePoint &pos);
+    void selected(const QPointF &pos);
 
     /*!
       A signal emitted in case of selectionFlags() & RectSelection.
@@ -72,7 +72,7 @@ signals:
 
       \param pa Selected points
     */
-    void selected(const QVector<QwtDoublePoint> &pa);
+    void selected(const QVector<QPointF> &pa);
 
     /*!
       A signal emitted when a point has been appended to the selection
@@ -80,7 +80,7 @@ signals:
       \param pos Position of the appended point.
       \sa append(). moved()
     */
-    void appended(const QwtDoublePoint &pos);
+    void appended(const QPointF &pos);
 
     /*!
       A signal emitted whenever the last appended point of the
@@ -89,7 +89,7 @@ signals:
       \param pos Position of the moved last point of the selection.
       \sa move(), appended() 
     */
-    void moved(const QwtDoublePoint &pos);
+    void moved(const QPointF &pos);
 
 protected:
     QwtDoubleRect scaleRect() const;
@@ -97,11 +97,11 @@ protected:
     QwtDoubleRect invTransform(const QRect &) const;
     QRect transform(const QwtDoubleRect &) const;
 
-    QwtDoublePoint invTransform(const QPoint &) const;
-    QPoint transform(const QwtDoublePoint &) const;
+    QPointF invTransform(const QPoint &) const;
+    QPoint transform(const QPointF &) const;
 
     virtual QwtText trackerText(const QPoint &) const;
-    virtual QwtText trackerText(const QwtDoublePoint &) const;
+    virtual QwtText trackerText(const QPointF &) const;
 
     virtual void move(const QPoint &);
     virtual void append(const QPoint &);

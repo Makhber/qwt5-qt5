@@ -51,11 +51,11 @@ public:
 
 private:
     void clipEdge(Edge, const QwtPolygonF &, QwtPolygonF &) const;
-    bool insideEdge(const QwtDoublePoint &, Edge edge) const;
-    QwtDoublePoint intersectEdge(const QwtDoublePoint &p1,
-        const QwtDoublePoint &p2, Edge edge) const;
+    bool insideEdge(const QPointF &, Edge edge) const;
+    QPointF intersectEdge(const QPointF &p1,
+        const QPointF &p2, Edge edge) const;
 
-    void addPoint(QwtPolygonF &, uint pos, const QwtDoublePoint &point) const;
+    void addPoint(QwtPolygonF &, uint pos, const QPointF &point) const;
 };
 
 class QwtCircleClipper: public QwtDoubleRect
@@ -63,12 +63,12 @@ class QwtCircleClipper: public QwtDoubleRect
 public:
     QwtCircleClipper(const QwtDoubleRect &r);
     QVector<QwtDoubleInterval> clipCircle(
-        const QwtDoublePoint &, double radius) const;
+        const QPointF &, double radius) const;
 
 private:
-    QList<QwtDoublePoint> cuttingPoints(
-        Edge, const QwtDoublePoint &pos, double radius) const;
-    double toAngle(const QwtDoublePoint &, const QwtDoublePoint &) const;
+    QList<QPointF> cuttingPoints(
+        Edge, const QPointF &pos, double radius) const;
+    double toAngle(const QPointF &, const QPointF &) const;
 };
 
 QwtPolygonClipper::QwtPolygonClipper(const QRect &r): 
@@ -205,7 +205,7 @@ QwtPolygonClipperF::QwtPolygonClipperF(const QwtDoubleRect &r):
 {
 }
 
-inline void QwtPolygonClipperF::addPoint(QwtPolygonF &pa, uint pos, const QwtDoublePoint &point) const
+inline void QwtPolygonClipperF::addPoint(QwtPolygonF &pa, uint pos, const QPointF &point) const
 {
     if ( uint(pa.size()) <= pos ) 
         pa.resize(pos + 5);
@@ -232,7 +232,7 @@ QwtPolygonF QwtPolygonClipperF::clipPolygon(const QwtPolygonF &pa) const
     return cpa;
 }
 
-bool QwtPolygonClipperF::insideEdge(const QwtDoublePoint &p, Edge edge) const
+bool QwtPolygonClipperF::insideEdge(const QPointF &p, Edge edge) const
 {
     switch(edge) 
     {
@@ -251,8 +251,8 @@ bool QwtPolygonClipperF::insideEdge(const QwtDoublePoint &p, Edge edge) const
     return false;
 }
 
-QwtDoublePoint QwtPolygonClipperF::intersectEdge(const QwtDoublePoint &p1, 
-    const QwtDoublePoint &p2, Edge edge ) const
+QPointF QwtPolygonClipperF::intersectEdge(const QPointF &p1, 
+    const QPointF &p2, Edge edge ) const
 {
     double x=0.0, y=0.0;
     double m = 0;
@@ -286,7 +286,7 @@ QwtDoublePoint QwtPolygonClipperF::intersectEdge(const QwtDoublePoint &p1,
             break;
     }
 
-    return QwtDoublePoint(x,y);
+    return QPointF(x,y);
 }
 
 void QwtPolygonClipperF::clipEdge(Edge edge, 
@@ -300,14 +300,14 @@ void QwtPolygonClipperF::clipEdge(Edge edge,
 
     unsigned int count = 0;
 
-    QwtDoublePoint p1 = pa[0];
+    QPointF p1 = pa[0];
     if ( insideEdge(p1, edge) )
         addPoint(cpa, count++, p1);
 
     const uint nPoints = pa.size();
     for ( uint i = 1; i < nPoints; i++ )
     {
-        const QwtDoublePoint p2 = pa[(int)i];
+        const QPointF p2 = pa[(int)i];
         if ( insideEdge(p2, edge) )
         {
             if ( insideEdge(p1, edge) )
@@ -334,9 +334,9 @@ QwtCircleClipper::QwtCircleClipper(const QwtDoubleRect &r):
 }
 
 QVector<QwtDoubleInterval> QwtCircleClipper::clipCircle(
-    const QwtDoublePoint &pos, double radius) const
+    const QPointF &pos, double radius) const
 {
-    QList<QwtDoublePoint> points;
+    QList<QPointF> points;
     for ( int edge = 0; edge < NEdges; edge++ )
         points += cuttingPoints((Edge)edge, pos, radius);
 
@@ -374,7 +374,7 @@ QVector<QwtDoubleInterval> QwtCircleClipper::clipCircle(
 }
 
 double QwtCircleClipper::toAngle(
-    const QwtDoublePoint &from, const QwtDoublePoint &to) const
+    const QPointF &from, const QPointF &to) const
 {
     if ( from.x() == to.x() )
         return from.y() <= to.y() ? M_PI / 2.0 : 3 * M_PI / 2.0;
@@ -398,10 +398,10 @@ double QwtCircleClipper::toAngle(
     return angle;
 }
 
-QList<QwtDoublePoint> QwtCircleClipper::cuttingPoints(
-    Edge edge, const QwtDoublePoint &pos, double radius) const
+QList<QPointF> QwtCircleClipper::cuttingPoints(
+    Edge edge, const QPointF &pos, double radius) const
 {
-    QList<QwtDoublePoint> points;
+    QList<QPointF> points;
 
     if ( edge == Left || edge == Right )
     {
@@ -411,10 +411,10 @@ QList<QwtDoublePoint> QwtCircleClipper::cuttingPoints(
             const double off = ::sqrt(qwtSqr(radius) - qwtSqr(pos.x() - x));
             const double y1 = pos.y() + off;
             if ( y1 >= top() && y1 <= bottom() )
-                points += QwtDoublePoint(x, y1);
+                points += QPointF(x, y1);
             const double y2 = pos.y() - off;
             if ( y2 >= top() && y2 <= bottom() )
-                points += QwtDoublePoint(x, y2);
+                points += QPointF(x, y2);
         }
     }
     else
@@ -425,10 +425,10 @@ QList<QwtDoublePoint> QwtCircleClipper::cuttingPoints(
             const double off = ::sqrt(qwtSqr(radius) - qwtSqr(pos.y() - y));
             const double x1 = pos.x() + off;
             if ( x1 >= left() && x1 <= right() )
-                points += QwtDoublePoint(x1, y);
+                points += QPointF(x1, y);
             const double x2 = pos.x() - off;
             if ( x2 >= left() && x2 <= right() )
-                points += QwtDoublePoint(x2, y);
+                points += QPointF(x2, y);
         }
     }
     return points;
@@ -479,7 +479,7 @@ QwtPolygonF QwtClipper::clipPolygonF(
 */
 QVector<QwtDoubleInterval> QwtClipper::clipCircle(
     const QwtDoubleRect &clipRect, 
-    const QwtDoublePoint &center, double radius)
+    const QPointF &center, double radius)
 {
     QwtCircleClipper clipper(clipRect);
     return clipper.clipCircle(center, radius);

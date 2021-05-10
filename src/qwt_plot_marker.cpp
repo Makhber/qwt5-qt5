@@ -70,9 +70,9 @@ int QwtPlotMarker::rtti() const
 }
 
 //! Return Value
-QwtDoublePoint QwtPlotMarker::value() const
+QPointF QwtPlotMarker::value() const
 {
-    return QwtDoublePoint(d_data->xValue, d_data->yValue);
+    return QPointF(d_data->xValue, d_data->yValue);
 }
 
 //! Return x Value
@@ -88,7 +88,7 @@ double QwtPlotMarker::yValue() const
 }
 
 //! Set Value
-void QwtPlotMarker::setValue(const QwtDoublePoint& pos)
+void QwtPlotMarker::setValue(const QPointF& pos)
 {
     setValue(pos.x(), pos.y());
 }

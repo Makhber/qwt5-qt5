@@ -18,9 +18,9 @@ public:
         d_y = y;
     }
 
-    inline QwtDoublePoint pos() const
+    inline QPointF pos() const
     {
-        return QwtDoublePoint(d_x, d_y);
+        return QPointF(d_x, d_y);
     }
 
     inline void setX(double x) { d_x = x; }
@@ -46,20 +46,20 @@ public:
     }
 
     inline bool intersect(const Contour3DPoint vertex[3],
-        QwtDoublePoint line[2], bool ignoreOnPlane) const;
+        QPointF line[2], bool ignoreOnPlane) const;
 
     inline double z() const { return d_z; }
 
 private:
     inline int compare(double z) const;
-    inline QwtDoublePoint intersection(
+    inline QPointF intersection(
         const Contour3DPoint& p1, const Contour3DPoint &p2) const;
 
     double d_z;
 };
 
 inline bool QwtRasterData::ContourPlane::intersect(
-    const Contour3DPoint vertex[3], QwtDoublePoint line[2],
+    const Contour3DPoint vertex[3], QPointF line[2],
     bool ignoreOnPlane) const
 {
     bool found = true;
@@ -169,7 +169,7 @@ inline int QwtRasterData::ContourPlane::compare(double z) const
     return 0;
 }
 
-inline QwtDoublePoint QwtRasterData::ContourPlane::intersection(
+inline QPointF QwtRasterData::ContourPlane::intersection(
     const Contour3DPoint& p1, const Contour3DPoint &p2) const
 {
     const double h1 = p1.z() - d_z;
@@ -178,7 +178,7 @@ inline QwtDoublePoint QwtRasterData::ContourPlane::intersection(
     const double x = (h2 * p1.x() - h1 * p2.x()) / (h2 - h1);
     const double y = (h2 * p1.y() - h1 * p2.y()) / (h2 - h1);
 
-    return QwtDoublePoint(x, y);
+    return QPointF(x, y);
 }
 
 //! Constructor
@@ -324,7 +324,7 @@ QwtRasterData::ContourLines QwtRasterData::contourLines(
 
         for ( int x = 0; x < raster.width() - 1; x++ )
         {
-            const QwtDoublePoint pos(rect.x() + x * dx, rect.y() + y * dy);
+            const QPointF pos(rect.x() + x * dx, rect.y() + y * dy);
 
             if ( x == 0 )
             {
@@ -390,7 +390,7 @@ QwtRasterData::ContourLines QwtRasterData::contourLines(
                 QPolygonF &lines = contourLines[level];
                 const ContourPlane plane(level);
 
-                QwtDoublePoint line[2];
+                QPointF line[2];
                 Contour3DPoint vertex[3];
 
                 for (int m = TopLeft; m < NumPositions; m++)

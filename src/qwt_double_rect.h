@@ -13,17 +13,8 @@
 
 #include "qwt_global.h"
 
-#include <QPointF>
 #include <QSizeF>
 #include <QRectF>
-
-/*! 
-  \typedef QPointF QwtDoublePoint
-  \brief This is a typedef, see Trolltech Documentation for QPointF
-         in QT assistant 4.x. As soon as Qt3 compatibility is dropped
-         this typedef will disappear.
-*/
-typedef QPointF QwtDoublePoint;
 
 /*! 
    \typedef QSizeF QwtDoubleSize

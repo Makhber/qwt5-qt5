@@ -28,7 +28,7 @@ public:
     static QwtPolygonF clipPolygonF(const QwtDoubleRect &, const QwtPolygonF &);
 
     static QVector<QwtDoubleInterval> clipCircle(
-        const QwtDoubleRect &, const QwtDoublePoint &, double radius);
+        const QwtDoubleRect &, const QPointF &, double radius);
 };
 
 #endif

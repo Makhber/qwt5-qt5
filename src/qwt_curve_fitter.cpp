@@ -120,7 +120,7 @@ QPolygonF QwtSplineCurveFitter::fitCurve(const QPolygonF &points) const
     {
         fitMode = Spline;
 
-        const QwtDoublePoint *p = points.data();
+        const QPointF *p = points.data();
         for ( int i = 1; i < size; i++ )
         {
             if ( p[i].x() <= p[i-1].x() )
@@ -153,7 +153,7 @@ QPolygonF QwtSplineCurveFitter::fitSpline(
 
     for (int i = 0; i < d_data->splineSize; i++)
     {
-        QwtDoublePoint &p = fittedPoints[i];
+        QPointF &p = fittedPoints[i];
 
         const double v = x1 + i * delta;
         const double sv = d_data->spline.value(v);
@@ -176,9 +176,9 @@ QPolygonF QwtSplineCurveFitter::fitParametric(
     QPolygonF splinePointsX(size);
     QPolygonF splinePointsY(size);
 
-    const QwtDoublePoint *p = points.data();
-    QwtDoublePoint *spX = splinePointsX.data();
-    QwtDoublePoint *spY = splinePointsY.data();
+    const QPointF *p = points.data();
+    QPointF *spX = splinePointsX.data();
+    QPointF *spY = splinePointsY.data();
 
     double param = 0.0;
     for (i = 0; i < size; i++)
