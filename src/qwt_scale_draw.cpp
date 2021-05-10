@@ -18,13 +18,8 @@
 #include "qwt_scale_map.h"
 #include "qwt_scale_draw.h"
 
-#if QT_VERSION < 0x040000
-#include <qwmatrix.h>
-#define QwtMatrix QWMatrix
-#else
 #include <qmatrix.h>
 #define QwtMatrix QTransform
-#endif
 
 class QwtScaleDraw::PrivateData
 {
@@ -42,11 +37,7 @@ public:
 
     Alignment alignment;
 
-#if QT_VERSION < 0x040000
-    int labelAlignment;
-#else
     Qt::Alignment labelAlignment;
-#endif
     double labelRotation;
 };
 
@@ -466,49 +457,29 @@ void QwtScaleDraw::drawTick(QPainter *painter, double value, int len) const
     {
         case LeftScale:
         {
-#if QT_VERSION < 0x040000
-            QwtPainter::drawLine(painter, pos.x() + pw2, tval,
-                pos.x() - len - 2 * pw2, tval);
-#else
             QwtPainter::drawLine(painter, pos.x() - pw2, tval,
                 pos.x() - len, tval);
-#endif
             break;
         }
 
         case RightScale:
         {
-#if QT_VERSION < 0x040000
-            QwtPainter::drawLine(painter, pos.x(), tval,
-                pos.x() + len + pw2, tval);
-#else
             QwtPainter::drawLine(painter, pos.x() + pw2, tval,
                 pos.x() + len, tval);
-#endif
             break;
         }
     
         case BottomScale:
         {
-#if QT_VERSION < 0x040000
-            QwtPainter::drawLine(painter, tval, pos.y(),
-                tval, pos.y() + len + 2 * pw2);
-#else
             QwtPainter::drawLine(painter, tval, pos.y() + pw2,
                 tval, pos.y() + len);
-#endif
             break;
         }
 
         case TopScale:
         {
-#if QT_VERSION < 0x040000
-            QwtPainter::drawLine(painter, tval, pos.y() + pw2,
-                tval, pos.y() - len - 2 * pw2);
-#else
             QwtPainter::drawLine(painter, tval, pos.y() - pw2,
                 tval, pos.y() - len);
-#endif
             break;
         }
     }
@@ -652,11 +623,7 @@ void QwtScaleDraw::drawLabel(QPainter *painter, double value) const
     const QwtMatrix m = labelMatrix( pos, labelSize);
 
     painter->save();
-#if QT_VERSION < 0x040000
-    painter->setWorldMatrix(m, true);
-#else
     painter->setTransform(m, true);
-#endif
 
     lbl.draw (painter, QRect(QPoint(0, 0), labelSize) );
 
@@ -799,11 +766,7 @@ QRect QwtScaleDraw::labelRect(const QFont &font, double value) const
     QRect br = pol.boundingRect();
 #endif
 
-#if QT_VERSION < 0x040000
-    br.moveBy(-pos.x(), -pos.y());
-#else
     br.translate(-pos.x(), -pos.y());
-#endif
 
     return br;
 }
@@ -870,12 +833,8 @@ double QwtScaleDraw::labelRotation() const
            of the scale and is not the alignment of the flags
            (QwtText::flags()) returned from QwtAbstractScaleDraw::label().
 */    
-      
-#if QT_VERSION < 0x040000
-void QwtScaleDraw::setLabelAlignment(int alignment)
-#else
+
 void QwtScaleDraw::setLabelAlignment(Qt::Alignment alignment)
-#endif
 {
     d_data->labelAlignment = alignment;
 }   
@@ -884,11 +843,7 @@ void QwtScaleDraw::setLabelAlignment(Qt::Alignment alignment)
   \return the label flags
   \sa setLabelAlignment(), labelRotation()
 */
-#if QT_VERSION < 0x040000
-int QwtScaleDraw::labelAlignment() const
-#else
 Qt::Alignment QwtScaleDraw::labelAlignment() const
-#endif
 {
     return d_data->labelAlignment;
 }

@@ -18,18 +18,8 @@
   \def QwtValueList
  */
 
-#if QT_VERSION < 0x040000
-
-#include <qvaluelist.h>
-
-typedef QValueList<double> QwtValueList;
-
-#else // QT_VERSION >= 0x040000
-
 #include <qlist.h>
 
 typedef QList<double> QwtValueList;
-
-#endif
 
 #endif

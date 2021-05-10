@@ -53,29 +53,11 @@ QwtCounter::QwtCounter(QWidget *parent):
     initCounter();
 }
 
-#if QT_VERSION < 0x040000
-/*!
-  The default number of buttons is set to 2. The default increments are:
-  \li Button 1: 1 step
-  \li Button 2: 10 steps
-  \li Button 3: 100 steps
-
-  \param parent
- */
-QwtCounter::QwtCounter(QWidget *parent, const char *name):
-    QWidget(parent, name) 
-{
-    initCounter();
-}
-#endif
-
 void QwtCounter::initCounter()
 {
     d_data = new PrivateData;
 
-#if QT_VERSION >= 0x040000
     using namespace Qt;
-#endif
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setSpacing(0);
@@ -101,21 +83,15 @@ void QwtCounter::initCounter()
     d_data->valueEdit->setValidator(new QDoubleValidator(d_data->valueEdit));
     layout->addWidget(d_data->valueEdit);
 
-#if QT_VERSION >= 0x040000
     connect( d_data->valueEdit, SIGNAL(editingFinished()), 
         SLOT(textChanged()) );
-#else
-    connect( d_data->valueEdit, SIGNAL(returnPressed()), SLOT(textChanged()) );
-    connect( d_data->valueEdit, SIGNAL(lostFocus()), SLOT(textChanged()) );
-#endif
 
     layout->setStretchFactor(d_data->valueEdit, 10);
 
     for(i = 0; i < ButtonCnt; i++)
     {
-#if QT_VERSION >= 0x040000
         using namespace Qt;
-#endif
+
         QwtArrowButton *btn =
             new QwtArrowButton(i+1, Qt::UpArrow, this);
         btn->setFocusPolicy(NoFocus);
@@ -161,10 +137,6 @@ void QwtCounter::polish()
         d_data->buttonDown[i]->setMinimumWidth(w);
         d_data->buttonUp[i]->setMinimumWidth(w);
     }
-
-#if QT_VERSION < 0x040000
-    QWidget::polish();
-#endif
 }
 
 //! Set from lineedit
@@ -188,9 +160,8 @@ void QwtCounter::textChanged()
 */
 void QwtCounter::setEditable(bool editable)
 {
-#if QT_VERSION >= 0x040000
     using namespace Qt;
-#endif
+
     if ( editable == d_data->editable ) 
         return;
 
@@ -209,10 +180,8 @@ bool QwtCounter::editable() const
 */
 bool QwtCounter::event ( QEvent * e ) 
 {
-#if QT_VERSION >= 0x040000
     if ( e->type() == QEvent::PolishRequest )
         polish();
-#endif
     return QWidget::event(e);
 }
 
@@ -243,21 +212,13 @@ void QwtCounter::keyPressEvent (QKeyEvent *e)
     switch ( e->key() )
     {
         case Qt::Key_Home:
-#if QT_VERSION >= 0x040000
             if ( e->modifiers() & Qt::ControlModifier )
-#else
-            if ( e->state() & Qt::ControlButton )
-#endif
                 setValue(minValue());
             else
                 accepted = false;
             break;
         case Qt::Key_End:
-#if QT_VERSION >= 0x040000
             if ( e->modifiers() & Qt::ControlModifier )
-#else
-            if ( e->state() & Qt::ControlButton )
-#endif
                 setValue(maxValue());
             else
                 accepted = false;
@@ -276,11 +237,7 @@ void QwtCounter::keyPressEvent (QKeyEvent *e)
                 increment = d_data->increment[1];
             if ( d_data->nButtons >= 3 )
             {
-#if QT_VERSION >= 0x040000
                 if ( e->modifiers() & Qt::ShiftModifier )
-#else
-                if ( e->state() & Qt::ShiftButton )
-#endif
                     increment = d_data->increment[2];
             }
             if ( e->key() == Qt::Key_PageDown )
@@ -315,20 +272,12 @@ void QwtCounter::wheelEvent(QWheelEvent *e)
     int increment = d_data->increment[0];
     if ( d_data->nButtons >= 2 )
     {
-#if QT_VERSION >= 0x040000
         if ( e->modifiers() & Qt::ControlModifier )
-#else
-        if ( e->state() & Qt::ControlButton )
-#endif
             increment = d_data->increment[1];
     }
     if ( d_data->nButtons >= 3 )
     {
-#if QT_VERSION >= 0x040000
         if ( e->modifiers() & Qt::ShiftModifier )
-#else
-        if ( e->state() & Qt::ShiftButton )
-#endif
             increment = d_data->increment[2];
     }
         
@@ -549,12 +498,8 @@ QSize QwtCounter::sizeHint() const
 #else
     w = fm.width(tmp) + 2;
 #endif
-#if QT_VERSION >= 0x040000
     if ( d_data->valueEdit->hasFrame() )
         w += 2 * style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-#else
-    w += 2 * d_data->valueEdit->frameWidth(); 
-#endif
 
     // Now we replace default sizeHint contribution of d_data->valueEdit by
     // what we really need.

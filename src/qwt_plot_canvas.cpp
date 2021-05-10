@@ -11,12 +11,10 @@
 
 #include <qpainter.h>
 #include <qstyle.h>
-#if QT_VERSION >= 0x040000
 #include <qstyleoption.h>
 #include <qpaintengine.h>
 #ifdef QT_X11EXTRAS_LIB
 #include <qx11info_x11.h>
-#endif
 #endif
 #include <qevent.h>
 #include "qwt_painter.h"
@@ -52,20 +50,11 @@ QwtPlotCanvas::QwtPlotCanvas(QwtPlot *plot):
 {
     d_data = new PrivateData;
 
-#if QT_VERSION >= 0x040100
     setAutoFillBackground(true);
-#endif
 
-#if QT_VERSION < 0x040000
-    setWFlags(Qt::WNoAutoErase);
-#ifndef QT_NO_CURSOR
-    setCursor(Qt::crossCursor);
-#endif
-#else
 #ifndef QT_NO_CURSOR
     setCursor(Qt::CrossCursor);
 #endif
-#endif // >= 0x040000
 
     setPaintAttribute(PaintCached, true);
     setPaintAttribute(PaintPacked, true);
@@ -229,7 +218,6 @@ void QwtPlotCanvas::hideEvent(QHideEvent *event)
 */
 void QwtPlotCanvas::paintEvent(QPaintEvent *event)
 {
-#if QT_VERSION >= 0x040000
     QPainter painter(this);
     
     if ( !contentsRect().contains( event->rect() ) ) 
@@ -243,9 +231,6 @@ void QwtPlotCanvas::paintEvent(QPaintEvent *event)
     painter.setClipRegion(event->region() & contentsRect());
 
     drawContents( &painter );
-#else // QT_VERSION < 0x040000
-    QFrame::paintEvent(event);
-#endif
 
     if ( d_data->paintAttributes & PaintPacked )
         setSystemBackground(false);
@@ -293,26 +278,15 @@ void QwtPlotCanvas::drawCanvas(QPainter *painter)
         return;
 
     QBrush bgBrush;
-#if QT_VERSION >= 0x040000
         bgBrush = palette().brush(backgroundRole());
-#else
-    QColorGroup::ColorRole role = 
-        QPalette::backgroundRoleFromMode( backgroundMode() );
-    bgBrush = colorGroup().brush( role );
-#endif
 
     if ( d_data->paintAttributes & PaintCached && d_data->cache )
     {
         *d_data->cache = QPixmap(contentsRect().size());
 
 #ifdef QT_X11EXTRAS_LIB
-#if QT_VERSION >= 0x040000
         if ( d_data->cache->x11Info().screen() != x11Info().screen() )
             d_data->cache->x11SetScreen(x11Info().screen());
-#else
-        if ( d_data->cache->x11Screen() != x11Screen() )
-            d_data->cache->x11SetScreen(x11Screen());
-#endif
 #endif
 
         if ( d_data->paintAttributes & PaintPacked )
@@ -338,9 +312,7 @@ void QwtPlotCanvas::drawCanvas(QPainter *painter)
     }
     else
     {
-#if QT_VERSION >= 0x040000
         if ( d_data->paintAttributes & PaintPacked )
-#endif
         {
             painter->save();
 
@@ -372,21 +344,8 @@ void QwtPlotCanvas::drawFocusIndicator(QPainter *painter)
 
 void QwtPlotCanvas::setSystemBackground(bool on)
 {
-#if QT_VERSION < 0x040000
-    if ( backgroundMode() == Qt::NoBackground )
-    {
-        if ( on )
-            setBackgroundMode(Qt::PaletteBackground);
-    }
-    else
-    {
-        if ( !on )
-            setBackgroundMode(Qt::NoBackground);
-    }
-#else
     if ( testAttribute(Qt::WA_NoSystemBackground) == on )
         setAttribute(Qt::WA_NoSystemBackground, !on);
-#endif
 }
 
 /*!
@@ -405,7 +364,6 @@ void QwtPlotCanvas::replot()
         !testPaintAttribute(QwtPlotCanvas::PaintPacked)
         && !testPaintAttribute(QwtPlotCanvas::PaintCached);
 
-#if QT_VERSION >= 0x040000
     const bool noBackgroundMode = testAttribute(Qt::WA_OpaquePaintEvent);
     if ( !erase && !noBackgroundMode )
         setAttribute(Qt::WA_OpaquePaintEvent, true);
@@ -414,7 +372,4 @@ void QwtPlotCanvas::replot()
 
     if ( !erase && !noBackgroundMode )
         setAttribute(Qt::WA_OpaquePaintEvent, false);
-#else
-    repaint(contentsRect(), erase);
-#endif
 }

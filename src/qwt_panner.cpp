@@ -14,9 +14,6 @@
 #include <qevent.h>
 #include <qframe.h>
 #include <qcursor.h>
-#if QT_VERSION < 0x040000
-#include <qobjectlist.h>
-#endif
 #include "qwt_picker.h"
 #include "qwt_array.h"
 #include "qwt_panner.h"
@@ -25,7 +22,6 @@ static QwtArray<QwtPicker *> activePickers(QWidget *w)
 {
     QwtArray<QwtPicker *> pickers;
 
-#if QT_VERSION >= 0x040000
     QObjectList children = w->children();
     for ( int i = 0; i < children.size(); i++ )
     {
@@ -37,25 +33,6 @@ static QwtArray<QwtPicker *> activePickers(QWidget *w)
                 pickers += picker;
         }
     }
-#else
-    QObjectList *children = (QObjectList *)w->children();
-    if ( children )
-    {
-        for ( QObjectListIterator it(*children); it.current(); ++it )
-        {
-            QObject *obj = (QObject *)it.current();
-            if ( obj->inherits("QwtPicker") )
-            {
-                QwtPicker *picker = (QwtPicker *)obj;
-                if ( picker->isEnabled() )
-                {
-                    pickers.resize(pickers.size() + 1);
-                    pickers[int(pickers.size()) - 1] = picker;
-                }
-            }
-        }
-    }
-#endif
 
     return pickers;
 }
@@ -75,12 +52,7 @@ public:
 #endif
         isEnabled(false)
     {
-#if QT_VERSION >= 0x040000
         orientations = Qt::Vertical | Qt::Horizontal;
-#else
-        orientations[Qt::Vertical] = true;
-        orientations[Qt::Horizontal] = true;
-#endif
     }
 
     ~PrivateData()
@@ -106,11 +78,7 @@ public:
     bool hasCursor;
 #endif
     bool isEnabled;
-#if QT_VERSION >= 0x040000
     Qt::Orientations orientations;
-#else
-    bool orientations[2];
-#endif
 };
 
 /*!
@@ -123,14 +91,9 @@ QwtPanner::QwtPanner(QWidget *parent):
 {
     d_data = new PrivateData();
 
-#if QT_VERSION >= 0x040000
     setAttribute(Qt::WA_TransparentForMouseEvents);
     setAttribute(Qt::WA_NoSystemBackground);
     setFocusPolicy(Qt::NoFocus);
-#else
-    setBackgroundMode(Qt::NoBackground);
-    setFocusPolicy(QWidget::NoFocus);
-#endif
     hide();
 
     setEnabled(true);
@@ -242,7 +205,6 @@ void QwtPanner::setEnabled(bool on)
     }
 }
 
-#if QT_VERSION >= 0x040000
 /*!
    Set the orientations, where panning is enabled
    The default value is in both directions: Qt::Horizontal | Qt::Vertical
@@ -260,27 +222,13 @@ Qt::Orientations QwtPanner::orientations() const
     return d_data->orientations;
 }
 
-#else
-void QwtPanner::enableOrientation(Qt::Orientation o, bool enable)
-{
-    if ( o == Qt::Vertical || o == Qt::Horizontal )
-        d_data->orientations[o] = enable;
-}
-#endif
-
 /*! 
    Return true if a orientatio is enabled
    \sa orientations(), setOrientations()
 */
 bool QwtPanner::isOrientationEnabled(Qt::Orientation o) const
 {
-#if QT_VERSION >= 0x040000
     return d_data->orientations & o;
-#else
-    if ( o == Qt::Vertical || o == Qt::Horizontal )
-        return d_data->orientations[o];
-    return false;
-#endif
 }
 
 /*!
@@ -307,13 +255,8 @@ void QwtPanner::paintEvent(QPaintEvent *pe)
     QPainter painter(&pm);
 
     const QColor bg =
-#if QT_VERSION < 0x040000
-        parentWidget()->palette().color(
-            QPalette::Normal, QColorGroup::Background);
-#else
         parentWidget()->palette().color(
             QPalette::Normal, QPalette::Window);
-#endif
 
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(bg));
@@ -401,13 +344,8 @@ void QwtPanner::widgetMousePressEvent(QMouseEvent *me)
     if ( w == NULL )
         return;
 
-#if QT_VERSION < 0x040000
-    if ( (me->state() & Qt::KeyButtonMask) !=
-        (d_data->buttonState & Qt::KeyButtonMask) )
-#else
     if ( (me->modifiers() & Qt::KeyboardModifierMask) !=
         (d_data->buttonState & Qt::KeyboardModifierMask) )
-#endif
     {
         return;
     }
@@ -510,13 +448,8 @@ void QwtPanner::widgetKeyPressEvent(QKeyEvent *ke)
     if ( ke->key() == d_data->abortKey )
     {
         const bool matched =
-#if QT_VERSION < 0x040000
-            (ke->state() & Qt::KeyButtonMask) ==
-                (d_data->abortKeyState & Qt::KeyButtonMask);
-#else
             (ke->modifiers() & Qt::KeyboardModifierMask) ==
                 (d_data->abortKeyState & Qt::KeyboardModifierMask);
-#endif
         if ( matched )
         {
             hide();
@@ -550,11 +483,7 @@ void QwtPanner::showCursor(bool on)
 
     if ( on )
     {
-#if QT_VERSION < 0x040000
-        if ( w->testWState(WState_OwnCursor) )
-#else
         if ( w->testAttribute(Qt::WA_SetCursor) )
-#endif
         {
             delete d_data->restoreCursor;
             d_data->restoreCursor = new QCursor(w->cursor());

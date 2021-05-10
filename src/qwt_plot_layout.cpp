@@ -1187,11 +1187,7 @@ void QwtPlotLayout::activate(const QwtPlot *plot,
                     scaleRect.setHeight(dim);
                     break;
             }
-#if QT_VERSION < 0x040000
-            scaleRect = scaleRect.normalize();
-#else
             scaleRect = scaleRect.normalized();
-#endif
         }
     }
 

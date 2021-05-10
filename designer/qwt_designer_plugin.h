@@ -12,15 +12,7 @@
 
 #include <qglobal.h>
 
-#if QT_VERSION < 0x040000
-
-#ifdef __GNUC__
-#error This code is Qt4 only
-#endif
-
-#endif
-
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #else
 #include <QDesignerCustomWidgetInterface>
@@ -71,7 +63,7 @@ class CustomWidgetCollectionInterface: public QObject,
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetCollectionInterface)
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface" )
 #endif
 

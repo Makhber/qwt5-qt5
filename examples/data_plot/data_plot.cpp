@@ -24,14 +24,12 @@ DataPlot::DataPlot(QWidget *parent):
     canvas()->setPaintAttribute(QwtPlotCanvas::PaintCached, false);
     canvas()->setPaintAttribute(QwtPlotCanvas::PaintPacked, false);
 
-#if QT_VERSION >= 0x040000
 #ifdef QT_X11EXTRAS_LIB
     /*
        Qt::WA_PaintOnScreen is only supported for X11, but leads
        to substantial bugs with Qt 4.2.x/Windows
      */
     canvas()->setAttribute(Qt::WA_PaintOnScreen, true);
-#endif
 #endif
 
     alignScales();

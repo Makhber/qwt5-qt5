@@ -84,13 +84,8 @@ public:
     void setLabel(const QwtText&);
     QwtText label() const;
 
-#if QT_VERSION < 0x040000
-    void setLabelAlignment(int align);
-    int labelAlignment() const;
-#else
     void setLabelAlignment(Qt::Alignment);
     Qt::Alignment labelAlignment() const;
-#endif
 
     void setLabelOrientation(Qt::Orientation);
     Qt::Orientation labelOrientation() const;

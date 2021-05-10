@@ -60,17 +60,13 @@ BodePlot::BodePlot(QWidget *parent):
   
     // curves
     d_crv1 = new QwtPlotCurve("Amplitude");
-#if QT_VERSION >= 0x040000
     d_crv1->setRenderHint(QwtPlotItem::RenderAntialiased);
-#endif
     d_crv1->setPen(QPen(Qt::yellow));
     d_crv1->setYAxis(QwtPlot::yLeft);
     d_crv1->attach(this);
 
     d_crv2 = new QwtPlotCurve("Phase");
-#if QT_VERSION >= 0x040000
     d_crv2->setRenderHint(QwtPlotItem::RenderAntialiased);
-#endif
     d_crv2->setPen(QPen(Qt::cyan));
     d_crv2->setYAxis(QwtPlot::yRight);
     d_crv2->attach(this);

@@ -40,11 +40,7 @@ void SpeedoMeter::drawScaleContents(QPainter *painter,
     rect.moveCenter(center);
 
     const QColor color =
-#if QT_VERSION < 0x040000
-        colorGroup().text();
-#else
         palette().color(QPalette::Text);
-#endif
     painter->setPen(color);
 
     const int flags = Qt::AlignBottom | Qt::AlignHCenter;

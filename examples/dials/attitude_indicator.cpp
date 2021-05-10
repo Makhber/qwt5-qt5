@@ -9,13 +9,8 @@ AttitudeIndicatorNeedle::AttitudeIndicatorNeedle(const QColor &c)
     QPalette palette;
     for ( int i = 0; i < QPalette::NColorGroups; i++ )
     {
-#if QT_VERSION < 0x040000
-        palette.setColor((QPalette::ColorGroup)i,
-            QColorGroup::Text, c);
-#else
         palette.setColor((QPalette::ColorGroup)i,
             QPalette::Text, c);
-#endif
     }
     setPalette(palette);
 }
@@ -39,11 +34,7 @@ void AttitudeIndicatorNeedle::draw(QPainter *painter, const QPoint &center,
     pa.setPoint(2, qwtPolar2Pos(p1, triangleSize, direction - M_PI_2));
 
     const QColor color =
-#if QT_VERSION < 0x040000
-        palette().color(cg, QColorGroup::Text);
-#else
         palette().color(cg, QPalette::Text);
-#endif
     painter->setBrush(color);
     painter->drawPolygon(pa);
 
@@ -67,11 +58,7 @@ AttitudeIndicator::AttitudeIndicator(
     setScale(0, 0, 30.0);
 
     const QColor color =
-#if QT_VERSION < 0x040000
-        colorGroup().text();
-#else
         palette().color(QPalette::Text);
-#endif
 
     setNeedle(new AttitudeIndicatorNeedle(color));
 }

@@ -61,13 +61,8 @@ public:
     QPoint pos() const;
     int length() const;
 
-#if QT_VERSION < 0x040000
-    void setLabelAlignment(int);
-    int labelAlignment() const;
-#else
     void setLabelAlignment(Qt::Alignment);
     Qt::Alignment labelAlignment() const;
-#endif
 
     void setLabelRotation(double rotation);
     double labelRotation() const;
@@ -83,12 +78,8 @@ public:
     QRect boundingLabelRect(const QFont &, double val) const;
 
 protected:
-
-#if QT_VERSION < 0x040000
-    QWMatrix labelMatrix(const QPoint &, const QSize &) const;
-#else   
+  
     QTransform labelMatrix(const QPoint &, const QSize &) const;
-#endif  
 
     virtual void drawTick(QPainter *p, double val, int len) const;
     virtual void drawBackbone(QPainter *p) const;

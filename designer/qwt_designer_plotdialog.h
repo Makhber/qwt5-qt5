@@ -12,12 +12,6 @@
 
 #include <qglobal.h>
 
-#if QT_VERSION < 0x040000
-#ifdef __GNUC__
-#error This code is Qt4 only
-#endif
-#endif
-
 #include <QDialog>
 
 namespace QwtDesignerPlugin

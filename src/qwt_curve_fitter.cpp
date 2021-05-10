@@ -109,12 +109,7 @@ int QwtSplineCurveFitter::splineSize() const
   \param points Series of data points
   \return Curve points
 */
-#if QT_VERSION < 0x040000
-QwtArray<QwtDoublePoint> QwtSplineCurveFitter::fitCurve(
-    const QwtArray<QwtDoublePoint> & points) const
-#else
 QPolygonF QwtSplineCurveFitter::fitCurve(const QPolygonF &points) const
-#endif
 {
     const int size = (int)points.size();
     if ( size <= 2 )
@@ -142,23 +137,14 @@ QPolygonF QwtSplineCurveFitter::fitCurve(const QPolygonF &points) const
         return fitSpline(points);
 }
 
-#if QT_VERSION < 0x040000
-QwtArray<QwtDoublePoint> QwtSplineCurveFitter::fitSpline(
-    const QwtArray<QwtDoublePoint> &points) const
-#else
 QPolygonF QwtSplineCurveFitter::fitSpline(
     const QPolygonF &points) const
-#endif
 {
     d_data->spline.setPoints(points);
     if ( !d_data->spline.isValid() )
         return points;
 
-#if QT_VERSION < 0x040000
-    QwtArray<QwtDoublePoint> fittedPoints(d_data->splineSize);
-#else
     QPolygonF fittedPoints(d_data->splineSize);
-#endif
 
     const double x1 = points[0].x();
     const double x2 = points[int(points.size() - 1)].x();
@@ -180,26 +166,15 @@ QPolygonF QwtSplineCurveFitter::fitSpline(
     return fittedPoints;
 }
 
-#if QT_VERSION < 0x040000
-QwtArray<QwtDoublePoint> QwtSplineCurveFitter::fitParametric(
-    const QwtArray<QwtDoublePoint> &points) const
-#else
 QPolygonF QwtSplineCurveFitter::fitParametric(
     const QPolygonF &points) const
-#endif
 {
     int i;
     const int size = points.size();
 
-#if QT_VERSION < 0x040000
-    QwtArray<QwtDoublePoint> fittedPoints(d_data->splineSize);
-    QwtArray<QwtDoublePoint> splinePointsX(size);
-    QwtArray<QwtDoublePoint> splinePointsY(size);
-#else
     QPolygonF fittedPoints(d_data->splineSize);
     QPolygonF splinePointsX(size);
     QPolygonF splinePointsY(size);
-#endif
 
     const QwtDoublePoint *p = points.data();
     QwtDoublePoint *spX = splinePointsX.data();

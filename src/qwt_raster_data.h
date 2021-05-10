@@ -17,7 +17,6 @@
 #include "qwt_double_rect.h"
 #include "qwt_double_interval.h"
 
-#if QT_VERSION >= 0x040000
 #include <qlist.h>
 #include <QPolygonF>
 
@@ -25,24 +24,6 @@
 // MOC_SKIP_BEGIN
 template class QWT_EXPORT QMap<double, QPolygonF>;
 // MOC_SKIP_END
-#endif
-
-#else
-#include <qvaluelist.h>
-#include "qwt_array.h"
-#include "qwt_double_rect.h"
-#if defined(QWT_TEMPLATEDLL)
-// MOC_SKIP_BEGIN
-#ifndef QWTARRAY_TEMPLATE_QWTDOUBLEPOINT // by mjo3
-#define QWTARRAY_TEMPLATE_QWTDOUBLEPOINT
-template class QWT_EXPORT QwtArray<QwtDoublePoint>;
-#endif //end of QWTARRAY_TEMPLATE_QWTDOUBLEPOINT
-#ifndef QMAP_TEMPLATE_DOUBLE_QWTDOUBLEPOINT // by mjo3
-#define QMAP_TEMPLATE_DOUBLE_QWTDOUBLEPOINT
-template class QWT_EXPORT QMap<double, QwtArray<QwtDoublePoint> >;
-#endif //end of QMAP_TEMPLATE_QWTDOUBLEPOINT
-// MOC_SKIP_END
-#endif
 #endif
 
 class QwtScaleMap;
@@ -61,11 +42,7 @@ class QwtScaleMap;
 class QWT_EXPORT QwtRasterData
 {
 public:
-#if QT_VERSION >= 0x040000
     typedef QMap<double, QPolygonF> ContourLines;
-#else
-    typedef QMap<double, QwtArray<QwtDoublePoint> > ContourLines;
-#endif
 
     //! Attribute to modify the contour algorithm 
     enum ConrecAttribute
@@ -99,15 +76,9 @@ public:
     //! \return the range of the values
     virtual QwtDoubleInterval range() const = 0;
 
-#if QT_VERSION >= 0x040000
     virtual ContourLines contourLines(const QwtDoubleRect &rect,
         const QSize &raster, const QList<double> &levels, 
         int flags) const;
-#else
-    virtual ContourLines contourLines(const QwtDoubleRect &rect,
-        const QSize &raster, const QValueList<double> &levels, 
-        int flags) const;
-#endif
 
     class Contour3DPoint;
     class ContourPlane;

@@ -103,13 +103,11 @@ public:
         AutoScale = 2
     };
 
-#if QT_VERSION >= 0x040000
     //! Render hints
     enum RenderHint
     {
         RenderAntialiased = 1
     };
-#endif
 
     explicit QwtPlotItem(const QwtText &title = QwtText());
     virtual ~QwtPlotItem();
@@ -136,10 +134,8 @@ public:
     void setItemAttribute(ItemAttribute, bool on = true);
     bool testItemAttribute(ItemAttribute) const;
 
-#if QT_VERSION >= 0x040000
     void setRenderHint(RenderHint, bool on = true);
     bool testRenderHint(RenderHint) const;
-#endif
 
     double z() const; 
     void setZ(double z);

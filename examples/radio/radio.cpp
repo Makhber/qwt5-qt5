@@ -31,9 +31,6 @@ int main (int argc, char **argv)
 
     MainWin w;
 
-#if QT_VERSION < 0x040000
-    a.setMainWidget(&w);
-#endif
     w.show();
 
     return a.exec();

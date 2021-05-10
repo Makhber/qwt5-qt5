@@ -85,9 +85,6 @@ public:
     };
 
     explicit QwtCounter(QWidget *parent = NULL);
-#if QT_VERSION < 0x040000
-    explicit QwtCounter(QWidget *parent, const char *name);
-#endif
     virtual ~QwtCounter();
 
     bool editable() const;

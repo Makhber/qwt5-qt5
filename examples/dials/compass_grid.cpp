@@ -4,26 +4,16 @@
 #include <qwt_dial_needle.h>
 #include "compass_grid.h"
 
-#if QT_VERSION < 0x040000
-typedef QColorGroup Palette;
-#else
 typedef QPalette Palette;
-#endif
 
 CompassGrid::CompassGrid(QWidget *parent):
     QFrame(parent)
 {
-#if QT_VERSION < 0x040000
-    setBackgroundColor(Qt::gray);
-#else
     QPalette p = palette();
     p.setColor(backgroundRole(), Qt::gray);
     setPalette(p);
-#endif
 
-#if QT_VERSION >= 0x040100
     setAutoFillBackground(true);
-#endif
 
     QGridLayout *layout = new QGridLayout(this);
     layout->setSpacing(5);
@@ -36,13 +26,8 @@ CompassGrid::CompassGrid(QWidget *parent):
         layout->addWidget(compass, i / 3, i % 3);
     }
 
-#if QT_VERSION < 0x040000
-    for ( i = 0; i < layout->numCols(); i++ )
-        layout->setColStretch(i, 1);
-#else
     for ( i = 0; i < layout->columnCount(); i++ )
         layout->setColumnStretch(i, 1);
-#endif
 }
 
 QwtCompass *CompassGrid::createCompass(int pos)
@@ -53,12 +38,8 @@ QwtCompass *CompassGrid::createCompass(int pos)
     for ( c = 0; c < Palette::NColorRoles; c++ )
         colorGroup.setColor((Palette::ColorRole)c, QColor());
 
-#if QT_VERSION < 0x040000
-    colorGroup.setColor(Palette::Base, backgroundColor().light(120));
-#else
     colorGroup.setColor(Palette::Base,
         palette().color(backgroundRole()).lighter(120));
-#endif
     colorGroup.setColor(Palette::WindowText,
         colorGroup.color(Palette::Base));
 
@@ -132,12 +113,8 @@ QwtCompass *CompassGrid::createCompass(int pos)
               A compass without a frame, showing numbers as tick labels.
               The origin is at 220.0
              */
-#if QT_VERSION < 0x040000
-            colorGroup.setColor(Palette::Base, backgroundColor());
-#else
             colorGroup.setColor(Palette::Base, 
                 palette().color(backgroundRole()));
-#endif
             colorGroup.setColor(Palette::WindowText, Qt::blue);
                 
             compass->setLineWidth(0);

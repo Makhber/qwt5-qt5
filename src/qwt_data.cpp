@@ -65,11 +65,7 @@ QwtDoubleRect QwtData::boundingRect() const
   \param polygon Polygon data
   \sa QwtPlotCurve::setData()
 */
-#if QT_VERSION >= 0x040000
 QwtPolygonFData::QwtPolygonFData(const QPolygonF &polygon):
-#else
-QwtPolygonFData::QwtPolygonFData(const QwtArray<QwtDoublePoint> &polygon):
-#endif
     d_data(polygon)
 {
 }
@@ -114,11 +110,7 @@ double QwtPolygonFData::y(size_t i) const
 }
 
 //! \return Point array
-#if QT_VERSION >= 0x040000
 const QPolygonF &QwtPolygonFData::data() const
-#else
-const QwtArray<QwtDoublePoint> &QwtPolygonFData::data() const
-#endif
 {
     return d_data;
 }
@@ -156,19 +148,11 @@ QwtArrayData::QwtArrayData(
 */
 QwtArrayData::QwtArrayData(const double *x, const double *y, size_t size)
 {
-#if QT_VERSION >= 0x040000
     d_x.resize(static_cast<int>(size));
     memcpy(d_x.data(), x, size * sizeof(double));
 
     d_y.resize(static_cast<int>(size));
     memcpy(d_y.data(), y, size * sizeof(double));
-#else
-    d_x.detach();
-    d_x.duplicate(x, size);
-
-    d_y.detach();
-    d_y.duplicate(y, size);
-#endif
 }
 
 //! Assignment 

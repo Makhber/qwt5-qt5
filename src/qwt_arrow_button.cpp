@@ -25,8 +25,6 @@ public:
     Qt::ArrowType arrowType;
 };
 
-
-#if QT_VERSION >= 0x040000
 #include <qstyleoption.h>
 static QStyleOptionButton styleOpt(const QwtArrowButton* btn)
 {
@@ -48,7 +46,6 @@ static QStyleOptionButton styleOpt(const QwtArrowButton* btn)
 
     return option;
 }
-#endif
 
 /*!
   \param num Number of arrows
@@ -116,26 +113,17 @@ QRect QwtArrowButton::labelRect() const
     if ( isDown() )
     {
         int ph, pv;
-#if QT_VERSION < 0x040000
-        ph = style().pixelMetric(
-            QStyle::PM_ButtonShiftHorizontal, this);
-        pv = style().pixelMetric(
-            QStyle::PM_ButtonShiftVertical, this);
-        r.moveBy(ph, pv);
-#else
         QStyleOptionButton option = styleOpt(this);
         ph = style()->pixelMetric(
             QStyle::PM_ButtonShiftHorizontal, &option, this);
         pv = style()->pixelMetric(
             QStyle::PM_ButtonShiftVertical, &option, this);
         r.translate(ph, pv);
-#endif
     }
 
     return r;
 }
 
-#if QT_VERSION >= 0x040000
 /*!
    Paint event handler
    \param event Paint event
@@ -146,7 +134,6 @@ void QwtArrowButton::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     drawButtonLabel(&painter);
 }
-#endif
 
 /*!
   \brief Draw the button label
@@ -204,29 +191,18 @@ void QwtArrowButton::drawButtonLabel(QPainter *painter)
         else
             dx = arrow.width() + Spacing;
 
-#if QT_VERSION >= 0x040000
         arrowRect.translate(dx, dy);
-#else
-        arrowRect.moveBy(dx, dy);
-#endif
     }
     painter->restore();
 
     if ( hasFocus() )
     {
-#if QT_VERSION >= 0x040000
         QStyleOptionFocusRect option;
         option.init(this);
         option.backgroundColor = palette().color(QPalette::Window);
 
         style()->drawPrimitive(QStyle::PE_FrameFocusRect, 
             &option, painter, this);
-#else
-        const QRect focusRect =  
-            style().subRect(QStyle::SR_PushButtonFocusRect, this);
-        style().drawPrimitive(QStyle::PE_FocusRect, painter,
-            focusRect, colorGroup());
-#endif
     }
 }
 
@@ -269,13 +245,8 @@ void QwtArrowButton::drawArrow(QPainter *painter,
     }
 
     painter->save();
-#if QT_VERSION < 0x040000
-    painter->setPen(colorGroup().buttonText());
-    painter->setBrush(colorGroup().brush(QColorGroup::ButtonText));
-#else
     painter->setPen(palette().color(QPalette::ButtonText));
     painter->setBrush(palette().brush(QPalette::ButtonText));
-#endif
     painter->drawPolygon(pa);
     painter->restore();
 }
@@ -303,20 +274,12 @@ QSize QwtArrowButton::minimumSizeHint() const
     if ( d_data->arrowType == Qt::UpArrow || d_data->arrowType == Qt::DownArrow )
         sz.transpose();
 
-#if QT_VERSION >= 0x040000
     QStyleOption styleOption;
     styleOption.init(this);
 
     const QSize hsz = style()->sizeFromContents(QStyle::CT_PushButton, 
         &styleOption, sz, this);
-#if QT_VERSION < 0x040300
-    if ( hsz.width() != 80 ) // avoid a bug in the Cleanlooks style
-#endif
         sz = hsz;
-
-#else
-    sz = style().sizeFromContents(QStyle::CT_PushButton, this, sz);
-#endif
 
     return sz;
 }

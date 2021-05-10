@@ -49,10 +49,6 @@ int main(int argc, char **argv)
     plot.setAxisScale(QwtPlot::xBottom, 0.0, pos);
     plot.replot();
 
-#if QT_VERSION < 0x040000
-    a.setMainWidget(&plot);
-#endif
-
     plot.resize(600,400);
     plot.show();
 

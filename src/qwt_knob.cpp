@@ -59,26 +59,8 @@ QwtKnob::QwtKnob(QWidget* parent):
     initKnob();
 }
 
-#if QT_VERSION < 0x040000
-/*!
-  Constructor
-  \param parent Parent widget
-  \param name Object name
-*/
-QwtKnob::QwtKnob(QWidget* parent, const char *name): 
-    QwtAbstractSlider(Qt::Horizontal, parent)
-{
-    setName(name);
-    initKnob();
-}
-#endif
-
 void QwtKnob::initKnob()
 {
-#if QT_VERSION < 0x040000
-    setWFlags(Qt::WNoAutoErase);
-#endif
-
     d_data = new PrivateData;
 
     setScaleDraw(new QwtRoundScaleDraw());
@@ -186,17 +168,10 @@ QwtRoundScaleDraw *QwtKnob::scaleDraw()
 */
 void QwtKnob::drawKnob(QPainter *painter, const QRect &r)
 {
-#if QT_VERSION < 0x040000
-    const QBrush buttonBrush = colorGroup().brush(QColorGroup::Button);
-    const QColor buttonTextColor = colorGroup().buttonText();
-    const QColor lightColor = colorGroup().light();
-    const QColor darkColor = colorGroup().dark();
-#else
     const QBrush buttonBrush = palette().brush(QPalette::Button);
     const QColor buttonTextColor = palette().color(QPalette::ButtonText);
     const QColor lightColor = palette().color(QPalette::Light);
     const QColor darkColor = palette().color(QPalette::Dark);
-#endif
 
     const int bw2 = d_data->borderWidth / 2;
 
@@ -367,14 +342,9 @@ void QwtKnob::paintEvent(QPaintEvent *e)
     const QRect &ur = e->rect();
     if ( ur.isValid() ) 
     {
-#if QT_VERSION < 0x040000
-        QwtPaintBuffer paintBuffer(this, ur);
-        draw(paintBuffer.painter(), ur);
-#else
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing);
         draw(&painter, ur);
-#endif
     }
 }
 
@@ -388,11 +358,7 @@ void QwtKnob::draw(QPainter *painter, const QRect& rect)
 {
     if ( !d_data->knobRect.contains( rect ) ) // event from valueChange()
     {
-#if QT_VERSION < 0x040000
-        scaleDraw()->draw( painter, colorGroup() );
-#else
         scaleDraw()->draw( painter, palette() );
-#endif
     }
 
     drawKnob( painter, d_data->knobRect );

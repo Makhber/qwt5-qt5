@@ -10,11 +10,7 @@
 // vim: expandtab
 
 #include <qpainter.h>
-#if QT_VERSION < 0x040000
-#include <qpaintdevicemetrics.h>
-#else
 #include <qpaintengine.h>
-#endif
 #include "qwt_painter.h"
 #include "qwt_legend_item.h"
 #include "qwt_plot.h"
@@ -43,14 +39,8 @@
 void QwtPlot::print(QPaintDevice &paintDev,
    const QwtPlotPrintFilter &pfilter) const
 {
-#if QT_VERSION < 0x040000
-    QPaintDeviceMetrics mpr(&paintDev);
-    int w = mpr.width();
-    int h = mpr.height();
-#else
     int w = paintDev.width();
     int h = paintDev.height();
-#endif
 
     QRect rect(0, 0, w, h);
     double aspect = double(rect.width())/double(rect.height());
@@ -262,13 +252,8 @@ void QwtPlot::printTitle(QPainter *painter, const QRect &rect) const
     painter->setFont(titleLabel()->font());
 
     const QColor color = 
-#if QT_VERSION < 0x040000
-        titleLabel()->palette().color(
-            QPalette::Active, QColorGroup::Text);
-#else
         titleLabel()->palette().color(
             QPalette::Active, QPalette::Text);
-#endif
 
     painter->setPen(color);
     titleLabel()->text().draw(painter, rect);
@@ -293,26 +278,14 @@ void QwtPlot::printLegend(QPainter *painter, const QRect &rect) const
     QwtDynGridLayout *legendLayout = (QwtDynGridLayout *)l;
 
     uint numCols = legendLayout->columnsForWidth(rect.width());
-#if QT_VERSION < 0x040000
-    QValueList<QRect> itemRects = 
-        legendLayout->layoutItems(rect, numCols);
-#else
     QList<QRect> itemRects = 
         legendLayout->layoutItems(rect, numCols);
-#endif
 
     int index = 0;
 
-#if QT_VERSION < 0x040000
-    QLayoutIterator layoutIterator = legendLayout->iterator();
-    for ( QLayoutItem *item = layoutIterator.current(); 
-        item != 0; item = ++layoutIterator)
-    {
-#else
     for ( int i = 0; i < legendLayout->count(); i++ )
     {
         QLayoutItem *item = legendLayout->itemAt(i);
-#endif
         QWidget *w = item->widget();
         if ( w )
         {
@@ -443,13 +416,9 @@ void QwtPlot::printScale(QPainter *painter,
     sd->move(x, y);
     sd->setLength(w);
 
-#if QT_VERSION < 0x040000
-    sd->draw(painter, scaleWidget->palette().active());
-#else
     QPalette palette = scaleWidget->palette();
     palette.setCurrentColorGroup(QPalette::Active);
     sd->draw(painter, palette);
-#endif
     // reset previous values
     sd->move(sdPos); 
     sd->setLength(sdLength); 
@@ -475,18 +444,11 @@ void QwtPlot::printCanvas(QPainter *painter,
     if ( pfilter.options() & QwtPlotPrintFilter::PrintBackground )
     {
         QBrush bgBrush;
-#if QT_VERSION >= 0x040000
             bgBrush = canvas()->palette().brush(backgroundRole());
-#else
-        QColorGroup::ColorRole role =
-            QPalette::backgroundRoleFromMode( backgroundMode() );
-        bgBrush = canvas()->colorGroup().brush( role );
-#endif
         QRect r = boundingRect;
         if ( !(pfilter.options() & QwtPlotPrintFilter::PrintFrameWithScales) )
         {
             r = canvasRect;
-#if QT_VERSION >= 0x040000
             // Unfortunately the paint engines do no always the same
             const QPaintEngine *pe = painter->paintEngine();
             if ( pe )
@@ -502,13 +464,6 @@ void QwtPlot::printCanvas(QPainter *painter,
                         break;
                 }
             }
-#else
-            if ( painter->device()->isExtDev() )
-            {
-                r.setWidth(r.width() - 1);
-                r.setHeight(r.height() - 1);    
-            }
-#endif
         }
 
         QwtPainter::fillRect(painter, r, bgBrush);

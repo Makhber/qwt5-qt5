@@ -178,11 +178,7 @@ public:
     void setRawData(const double *x, const double *y, int size);
     void setData(const double *xData, const double *yData, int size);
     void setData(const QwtArray<double> &xData, const QwtArray<double> &yData);
-#if QT_VERSION < 0x040000
-    void setData(const QwtArray<QwtDoublePoint> &data);
-#else
     void setData(const QPolygonF &data);
-#endif
     void setData(const QwtData &data);
     
     int closestPoint(const QPoint &pos, double *dist = NULL) const;

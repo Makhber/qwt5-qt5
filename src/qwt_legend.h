@@ -14,11 +14,7 @@
 
 #include <qframe.h>
 #include "qwt_global.h"
-#if QT_VERSION < 0x040000
-#include <qvaluelist.h>
-#else
 #include <qlist.h>
-#endif
 
 class QScrollBar;
 class QwtLegendItemManager;
@@ -111,11 +107,7 @@ public:
     QWidget *find(const QwtLegendItemManager *) const;
     QwtLegendItemManager *find(const QWidget *) const;
 
-#if QT_VERSION < 0x040000
-    virtual QValueList<QWidget *> legendItems() const;
-#else
     virtual QList<QWidget *> legendItems() const;
-#endif
 
     void clear();
     

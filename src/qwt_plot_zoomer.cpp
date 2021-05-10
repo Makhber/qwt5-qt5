@@ -14,11 +14,7 @@
 #include "qwt_plot_canvas.h"
 #include "qwt_plot_zoomer.h"
 #include "qwt_scale_div.h"
-#if QT_VERSION < 0x040000
-typedef QValueStack<QwtDoubleRect> QwtZoomStack;
-#else
 typedef QStack<QwtDoubleRect> QwtZoomStack;
-#endif
 
 class QwtPlotZoomer::PrivateData
 {
@@ -542,11 +538,7 @@ bool QwtPlotZoomer::accept(QwtPolygon &pa) const
         return false;
 
     QRect rect = QRect(pa[0], pa[int(pa.count()) - 1]);
-#if QT_VERSION < 0x040000
-    rect = rect.normalize();
-#else
     rect = rect.normalized();
-#endif
 
     const int minSize = 2;
     if (rect.width() < minSize && rect.height() < minSize )
@@ -629,12 +621,7 @@ bool QwtPlotZoomer::end(bool ok)
         return false;
 
     QRect rect = QRect(pa[0], pa[int(pa.count() - 1)]);
-#if QT_VERSION < 0x040000
-    rect = rect.normalize();
-#else
     rect = rect.normalized();
-#endif
-
 
     QwtDoubleRect zoomRect = invTransform(rect).normalized();
 

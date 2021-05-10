@@ -37,11 +37,7 @@ public:
     }
 
     QwtText label;
-#if QT_VERSION < 0x040000
-    int labelAlignment;
-#else
     Qt::Alignment labelAlignment;
-#endif
     Qt::Orientation labelOrientation;
     int spacing;
 
@@ -389,11 +385,7 @@ QwtText QwtPlotMarker::label() const
     AlignVCenter.  
   \sa labelAlignment(), labelOrientation()
 */
-#if QT_VERSION < 0x040000
-void QwtPlotMarker::setLabelAlignment(int align)
-#else
 void QwtPlotMarker::setLabelAlignment(Qt::Alignment align)
-#endif
 {
     if ( align != d_data->labelAlignment )
     {
@@ -406,11 +398,7 @@ void QwtPlotMarker::setLabelAlignment(Qt::Alignment align)
   \return the label alignment
   \sa setLabelAlignment(), setLabelOrientation()
 */
-#if QT_VERSION < 0x040000
-int QwtPlotMarker::labelAlignment() const 
-#else
-Qt::Alignment QwtPlotMarker::labelAlignment() const 
-#endif
+Qt::Alignment QwtPlotMarker::labelAlignment() const
 { 
     return d_data->labelAlignment; 
 }

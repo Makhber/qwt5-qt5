@@ -15,22 +15,13 @@
 #include "qwt_global.h"
 #include "qwt_array.h"
 #include "qwt_double_rect.h"
-#if QT_VERSION >= 0x040000
 #include <QPolygonF>
-#endif
 
 // MOC_SKIP_BEGIN
 
 #if defined(QWT_TEMPLATEDLL)
 
 template class QWT_EXPORT QwtArray<double>;
-
-#if QT_VERSION < 0x040000
-#ifndef QWTARRAY_TEMPLATE_QWTDOUBLEPOINT // by mjo3
-#define QWTARRAY_TEMPLATE_QWTDOUBLEPOINT
-template class QWT_EXPORT QwtArray<QwtDoublePoint>;
-#endif //end of QWTARRAY_TEMPLATE_QWTDOUBLEPOINT
-#endif
 
 #endif
 
@@ -85,11 +76,7 @@ protected:
 class QWT_EXPORT QwtPolygonFData: public QwtData
 {
 public:
-#if QT_VERSION < 0x040000
-    QwtPolygonFData(const QwtArray<QwtDoublePoint> &);
-#else
     QwtPolygonFData(const QPolygonF &);
-#endif
 
     QwtPolygonFData &operator=(const QwtPolygonFData &);
     virtual QwtData *copy() const;
@@ -98,18 +85,10 @@ public:
     virtual double x(size_t i) const;
     virtual double y(size_t i) const;
 
-#if QT_VERSION < 0x040000
-    const QwtArray<QwtDoublePoint> &data() const;
-#else
     const QPolygonF &data() const;
-#endif
 
 private:
-#if QT_VERSION < 0x040000
-    QwtArray<QwtDoublePoint> d_data;
-#else
     QPolygonF d_data;
-#endif
 };
 
 /*!

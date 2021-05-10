@@ -15,11 +15,7 @@ class QwtPlotDict::PrivateData
 {
 public:
 
-#if QT_VERSION < 0x040000
-    class ItemList: public QValueList<QwtPlotItem *>
-#else
     class ItemList: public QList<QwtPlotItem *>
-#endif
     {
     public:
         void insertItem(QwtPlotItem *item)
@@ -31,14 +27,7 @@ public:
             // for lists in Qt4. The implementation below
             // is slow, but there shouldn't be many plot items.
 
-#ifdef __GNUC__
-#endif
-
-#if QT_VERSION < 0x040000
-            QValueListIterator<QwtPlotItem *> it;
-#else
             QList<QwtPlotItem *>::Iterator it;
-#endif
             for ( it = begin(); it != end(); ++it )
             {
                 if ( *it == item )
@@ -60,20 +49,12 @@ public:
 
             int i = 0;
 
-#if QT_VERSION < 0x040000
-            QValueListIterator<QwtPlotItem *> it;
-#else
             QList<QwtPlotItem *>::Iterator it;
-#endif
             for ( it = begin(); it != end(); ++it )
             {
                 if ( item == *it )
                 {
-#if QT_VERSION < 0x040000
-                    remove(it);
-#else
                     removeAt(i);
-#endif
                     return;
                 }
                 i++;

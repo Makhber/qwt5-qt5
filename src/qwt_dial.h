@@ -127,9 +127,6 @@ public:
     };
 
     explicit QwtDial( QWidget *parent = NULL);
-#if QT_VERSION < 0x040000
-    explicit QwtDial( QWidget *parent, const char *name);
-#endif
 
     virtual ~QwtDial();
 

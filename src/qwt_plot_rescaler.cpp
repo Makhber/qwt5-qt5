@@ -298,11 +298,9 @@ bool QwtPlotRescaler::eventFilter(QObject *o, QEvent *e)
             case QEvent::Resize:
                 canvasResizeEvent((QResizeEvent *)e);
                 break;
-#if QT_VERSION >= 0x040000
             case QEvent::PolishRequest:
                 rescale();
                 break;
-#endif
             default:;
         }
     }

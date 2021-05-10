@@ -22,21 +22,13 @@
 #include "qwt_plot_canvas.h"
 #include "qwt_plot_printfilter.h"
 
-#if QT_VERSION < 0x040000
-typedef QColorGroup Palette;
-#else
 typedef QPalette Palette;
-#endif
 
 static bool hasBackgroundColor( const QWidget *widget )
 {
-#if QT_VERSION < 0x040000
-    return ( widget->backgroundMode() != Qt::FixedPixmap );
-#else
     const QBrush brush = 
         widget->palette().brush( widget->backgroundRole() );
     return ( brush.style() <= Qt::DiagCrossPattern );
-#endif
 }
 
 class QwtPlotPrintFilter::PrivateData
@@ -212,15 +204,9 @@ void QwtPlotPrintFilter::apply(QwtPlot *plot) const
     }
     if ( plot->legend() )
     {
-#if QT_VERSION < 0x040000
-        QValueList<QWidget *> list = plot->legend()->legendItems();
-        for ( QValueListIterator<QWidget *> it = list.begin();
-            it != list.end(); ++it )
-#else
         QList<QWidget *> list = plot->legend()->legendItems();
         for ( QList<QWidget*>::iterator it = list.begin();
             it != list.end(); ++it )
-#endif
         {
             QWidget *w = *it;
 
@@ -443,15 +429,9 @@ void QwtPlotPrintFilter::reset(QwtPlot *plot) const
 
     if ( plot->legend() )
     {
-#if QT_VERSION < 0x040000
-        QValueList<QWidget *> list = plot->legend()->legendItems();
-        for ( QValueListIterator<QWidget *> it = list.begin();
-            it != list.end(); ++it )
-#else
         QList<QWidget *> list = plot->legend()->legendItems();
         for ( QList<QWidget*>::iterator it = list.begin();
             it != list.end(); ++it )
-#endif
         {
             QWidget *w = *it;
 

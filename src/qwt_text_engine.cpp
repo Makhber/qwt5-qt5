@@ -42,29 +42,9 @@ static QString taggedRichText(const QString &text, int flags)
     return richText;
 }
 
-#if QT_VERSION < 0x040000
-
-#include <qsimplerichtext.h>
-#include <qstylesheet.h>
-
-class QwtRichTextDocument: public QSimpleRichText
-{
-public:
-    QwtRichTextDocument(const QString &text, int flags, const QFont &font):
-        QSimpleRichText(taggedRichText(text, flags), font)
-    {
-    }
-};
-
-#else // QT_VERSION >= 0x040000
-
 #include <qtextobject.h>
 #include <qtextdocument.h>
 #include <qabstracttextdocumentlayout.h>
-
-#if QT_VERSION < 0x040200
-#include <qlabel.h>
-#endif
 
 class QwtRichTextDocument: public QTextDocument
 {
@@ -73,16 +53,11 @@ public:
     {
         setUndoRedoEnabled(false);
         setDefaultFont(font);
-#if QT_VERSION >= 0x040300
         setHtml(text);
-#else
-        setHtml(taggedRichText(text, flags));
-#endif
 
         // make sure we have a document layout
         (void)documentLayout();
 
-#if QT_VERSION >= 0x040300
         QTextOption option = defaultTextOption();
         if ( flags & Qt::TextWordWrap )
             option.setWrapMode(QTextOption::WordWrap);
@@ -102,11 +77,8 @@ public:
         root->setFrameFormat(fm);
 
         adjustSize();
-#endif
     }
 };
-
-#endif
 
 class QwtPlainTextEngine::PrivateData
 {
@@ -145,11 +117,7 @@ private:
         p.drawText(0, 0,  pm.width(), pm.height(), 0, dummy);
         p.end();
 
-#if QT_VERSION < 0x040000
-        const QImage img = pm.convertToImage();
-#else
         const QImage img = pm.toImage();
-#endif
 
         int row = 0;
         for ( row = 0; row < img.height(); row++ )
@@ -297,13 +265,8 @@ int QwtRichTextEngine::heightForWidth(const QFont& font, int flags,
 {
     QwtRichTextDocument doc(text, flags, font);
 
-#if QT_VERSION < 0x040000
-    doc.setWidth(width);
-    const int h = doc.height();
-#else
     doc.setPageSize(QSize(width, QWIDGETSIZE_MAX));
     const int h = qRound(doc.documentLayout()->documentSize().height());
-#endif
     return h;
 }
 
@@ -321,51 +284,6 @@ QSize QwtRichTextEngine::textSize(const QFont &font,
     int flags, const QString& text) const
 {
     QwtRichTextDocument doc(text, flags, font);
-
-#if QT_VERSION < 0x040000
-    doc.setWidth(QWIDGETSIZE_MAX);
-
-    const int w = doc.widthUsed();
-    const int h = doc.height();
-    return QSize(w, h);
-
-#else // QT_VERSION >= 0x040000
-
-#if QT_VERSION < 0x040200
-    /*
-      Unfortunately offering the bounding rect calculation in the
-      API of QTextDocument has been forgotten in Qt <= 4.1.x. It
-      is planned to come with Qt 4.2.x.
-      In the meantime we need a hack with a temporary QLabel,
-      to reengineer the internal calculations.
-    */
-
-    static int off = 0;
-    static QLabel *label = NULL;
-    if ( label == NULL )
-    {
-        label = new QLabel;
-        label->hide();
-
-        const char *s = "XXXXX";
-        label->setText(s);
-        int w1 = label->sizeHint().width();
-        const QFontMetrics fm(label->font());
-        int w2 = fm.width(s);
-        off = w1 - w2;
-    }
-    label->setFont(doc.defaultFont());
-    label->setText(text);
-
-    int w = qwtMax(label->sizeHint().width() - off, 0);
-    doc.setPageSize(QSize(w, QWIDGETSIZE_MAX));
-
-    int h = qRound(doc.documentLayout()->documentSize().height());
-    return QSize(w, h);
-
-#else // QT_VERSION >= 0x040200
-
-#if QT_VERSION >= 0x040300
     QTextOption option = doc.defaultTextOption();
     if ( option.wrapMode() != QTextOption::NoWrap )
     {
@@ -373,11 +291,7 @@ QSize QwtRichTextEngine::textSize(const QFont &font,
         doc.setDefaultTextOption(option);
         doc.adjustSize();
     }
-#endif
-
     return doc.size().toSize();
-#endif
-#endif
 }
 
 /*!
@@ -416,11 +330,7 @@ QString QwtRichTextEngine::taggedText(const QString &text, int flags) const
 */
 bool QwtRichTextEngine::mightRender(const QString &text) const
 {
-#if QT_VERSION < 0x040000
-    return QStyleSheet::mightBeRichText(text);
-#else
     return Qt::mightBeRichText(text);
-#endif
 }
 
 /*!

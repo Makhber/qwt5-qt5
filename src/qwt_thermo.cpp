@@ -67,24 +67,8 @@ QwtThermo::QwtThermo(QWidget *parent):
     initThermo();
 }
 
-#if QT_VERSION < 0x040000
-/*! 
-  Constructor
-  \param parent Parent widget
-  \param name Object name
-*/
-QwtThermo::QwtThermo(QWidget *parent, const char *name): 
-    QWidget(parent, name)
-{
-    initThermo();
-}
-#endif
-
 void QwtThermo::initThermo()
 {
-#if QT_VERSION < 0x040000
-    setWFlags(Qt::WNoAutoErase);
-#endif
     d_data = new PrivateData;
     setRange(d_data->minValue, d_data->maxValue, false);
 
@@ -93,12 +77,7 @@ void QwtThermo::initThermo()
         policy.transpose();
 
     setSizePolicy(policy);
-    
-#if QT_VERSION >= 0x040000
     setAttribute(Qt::WA_WState_OwnSizePolicy, false);
-#else
-    clearWState( WState_OwnSizePolicy );
-#endif
 }
 
 //! Destructor
@@ -206,13 +185,8 @@ void QwtThermo::paintEvent(QPaintEvent *event)
     const QRect &ur = event->rect();
     if ( ur.isValid() )
     {
-#if QT_VERSION < 0x040000
-        QwtPaintBuffer paintBuffer(this, ur);
-        draw(paintBuffer.painter(), ur);
-#else
         QPainter painter(this);
         draw(&painter, ur);
-#endif
     }
 }
 
@@ -228,11 +202,7 @@ void QwtThermo::draw(QPainter *painter, const QRect& rect)
     {
         if (d_data->scalePos != NoScale)
         {
-#if QT_VERSION < 0x040000
-            scaleDraw()->draw(painter, colorGroup());
-#else
             scaleDraw()->draw(painter, palette());
-#endif
         }
 
         qDrawShadePanel(painter,
@@ -240,11 +210,7 @@ void QwtThermo::draw(QPainter *painter, const QRect& rect)
             d_data->thermoRect.y() - d_data->borderWidth,
             d_data->thermoRect.width() + 2 * d_data->borderWidth,
             d_data->thermoRect.height() + 2 * d_data->borderWidth,
-#if QT_VERSION < 0x040000
-            colorGroup(), 
-#else
-            palette(), 
-#endif
+            palette(),
             true, d_data->borderWidth, 0);
     }
     drawThermo(painter);
@@ -413,21 +379,13 @@ void QwtThermo::setOrientation(Qt::Orientation o, ScalePos s)
 
     if ( o != d_data->orientation )
     {
-#if QT_VERSION >= 0x040000
         if ( !testAttribute(Qt::WA_WState_OwnSizePolicy) )
-#else
-        if ( !testWState( WState_OwnSizePolicy ) )
-#endif
         {
             QSizePolicy sp = sizePolicy();
             sp.transpose();
             setSizePolicy(sp);
 
-#if QT_VERSION >= 0x040000
             setAttribute(Qt::WA_WState_OwnSizePolicy, false);
-#else
-            clearWState( WState_OwnSizePolicy );
-#endif
         }
     }
 
@@ -636,12 +594,7 @@ void QwtThermo::drawThermo(QPainter *painter)
     //
     // paint thermometer
     //
-    const QColor bgColor =
-#if QT_VERSION < 0x040000
-        colorGroup().color(QColorGroup::Background);
-#else
-        palette().color(QPalette::Window);
-#endif
+    const QColor bgColor = palette().color(QPalette::Window);
     painter->fillRect(bRect, bgColor);
 
     if (alarm)

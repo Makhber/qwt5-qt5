@@ -13,26 +13,7 @@
 #include "qwt_global.h"
 #include "qwt_double_rect.h"
 
-#if QT_VERSION >= 0x040000
 #include <QPolygonF>
-#else
-#include "qwt_array.h"
-#endif
-
-// MOC_SKIP_BEGIN
-
-#if defined(QWT_TEMPLATEDLL)
-
-#if QT_VERSION < 0x040000
-#ifndef QWTARRAY_TEMPLATE_QWTDOUBLEPOINT // by mjo3
-#define QWTARRAY_TEMPLATE_QWTDOUBLEPOINT
-template class QWT_EXPORT QwtArray<QwtDoublePoint>;
-#endif //end of QWTARRAY_TEMPLATE_QWTDOUBLEPOINT
-#endif
-
-#endif
-
-// MOC_SKIP_END
 
 /*!
   \brief A class for spline interpolation
@@ -94,13 +75,8 @@ public:
     void setSplineType(SplineType);
     SplineType splineType() const;
 
-#if QT_VERSION < 0x040000
-    bool setPoints(const QwtArray<QwtDoublePoint>& points);
-    QwtArray<QwtDoublePoint> points() const;
-#else
     bool setPoints(const QPolygonF& points);
     QPolygonF points() const;
-#endif
 
     void reset();
 
@@ -113,15 +89,8 @@ public:
 
 protected:
 
-#if QT_VERSION < 0x040000
-    bool buildNaturalSpline(
-        const QwtArray<QwtDoublePoint> &);
-    bool buildPeriodicSpline(
-        const QwtArray<QwtDoublePoint> &);
-#else
     bool buildNaturalSpline(const QPolygonF &);
     bool buildPeriodicSpline(const QPolygonF &);
-#endif
 
     class PrivateData;
     PrivateData *d_data;

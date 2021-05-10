@@ -20,9 +20,7 @@ public:
         plot(NULL),
         isVisible(true),
         attributes(0),
-#if QT_VERSION >= 0x040000
         renderHints(0),
-#endif
         z(0.0),
         xAxis(QwtPlot::xBottom),
         yAxis(QwtPlot::yLeft)
@@ -33,9 +31,7 @@ public:
 
     bool isVisible;
     int attributes;
-#if QT_VERSION >= 0x040000
     int renderHints;
-#endif
     double z;
 
     int xAxis;
@@ -230,8 +226,6 @@ bool QwtPlotItem::testItemAttribute(ItemAttribute attribute) const
     return d_data->attributes & attribute;
 }
 
-#if QT_VERSION >= 0x040000
-
 /*!
    Toggle an render hint
  
@@ -264,8 +258,6 @@ bool QwtPlotItem::testRenderHint(RenderHint hint) const
 {
     return (d_data->renderHints & hint);
 }
-
-#endif
 
 //! Show the item
 void QwtPlotItem::show()

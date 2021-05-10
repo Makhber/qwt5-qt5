@@ -14,12 +14,7 @@ public:
         QToolBar *toolBar = new QToolBar(this);
         toolBar->setFixedHeight(80);
 
-#if QT_VERSION < 0x040000
-        setDockEnabled(TornOff, true);
-        setRightJustification(true);
-#else
         toolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-#endif
         QWidget *hBox = new QWidget(toolBar);
         QLabel *label = new QLabel("Timer Interval", hBox);
         QwtCounter *counter = new QwtCounter(hBox);
@@ -30,9 +25,7 @@ public:
         layout->addWidget(counter);
         layout->addWidget(new QWidget(hBox), 10); // spacer);
 
-#if QT_VERSION >= 0x040000
         toolBar->addWidget(hBox);
-#endif
         addToolBar(toolBar);
 
 
@@ -51,9 +44,6 @@ int main(int argc, char **argv)
     QApplication a(argc, argv);
 
     MainWindow mainWindow;
-#if QT_VERSION < 0x040000
-    a.setMainWidget(&mainWindow);
-#endif
 
     mainWindow.resize(600,400);
     mainWindow.show();

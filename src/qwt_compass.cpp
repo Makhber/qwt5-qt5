@@ -53,26 +53,6 @@ QwtCompass::QwtCompass(QWidget* parent):
     initCompass();
 }
 
-#if QT_VERSION < 0x040000
-
-/*!
-  \brief Constructor
-  \param parent Parent widget
-  \param name Object name
-
-  Create a compass widget with a scale, no needle and no rose. 
-  The default origin is 270.0 with no valid value. It accepts
-  mouse and keyboard inputs and has no step size. The default mode
-  is QwtDial::RotateNeedle.
-*/  
-QwtCompass::QwtCompass(QWidget* parent, const char *name):
-    QwtDial(parent, name)
-{
-    initCompass();
-}
-
-#endif
-
 //!  Destructor
 QwtCompass::~QwtCompass() 
 {

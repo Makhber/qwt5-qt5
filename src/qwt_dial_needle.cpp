@@ -15,11 +15,7 @@
 #include "qwt_polygon.h"
 #include "qwt_dial_needle.h"
 
-#if QT_VERSION < 0x040000
-typedef QColorGroup QwtPalette;
-#else
 typedef QPalette QwtPalette;
-#endif
 
 //! Constructor
 QwtDialNeedle::QwtDialNeedle():

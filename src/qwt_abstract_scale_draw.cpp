@@ -140,20 +140,6 @@ const QwtScaleDiv& QwtAbstractScaleDraw::scaleDiv() const
     return d_data->scldiv; 
 }
 
-#if QT_VERSION < 0x040000
-/*!
-  \brief Draw the scale
-
-  \param painter    The painter
-
-  \param colorGroup Color group, text color is used for the labels, 
-                    foreground color for ticks and backbone
-*/
-void QwtAbstractScaleDraw::draw(QPainter *painter, 
-    const QColorGroup& colorGroup) const
-
-#else
-
 /*!
   \brief Draw the scale
 
@@ -164,17 +150,12 @@ void QwtAbstractScaleDraw::draw(QPainter *painter,
 */
 void QwtAbstractScaleDraw::draw(QPainter *painter, 
     const QPalette& palette) const
-#endif
 {
     if ( hasComponent(QwtAbstractScaleDraw::Labels) )
     {
         painter->save();
 
-#if QT_VERSION < 0x040000
-        painter->setPen(colorGroup.text()); // ignore pen style
-#else
         painter->setPen(palette.color(QPalette::Text)); // ignore pen style
-#endif
 
         const QwtValueList &majorTicks = 
             d_data->scldiv.ticks(QwtScaleDiv::MajorTick);
@@ -194,11 +175,7 @@ void QwtAbstractScaleDraw::draw(QPainter *painter,
         painter->save();
 
         QPen pen = painter->pen();
-#if QT_VERSION < 0x040000
-        pen.setColor(colorGroup.foreground());
-#else
         pen.setColor(palette.color(QPalette::WindowText));
-#endif
         painter->setPen(pen);
 
         for ( int tickType = QwtScaleDiv::MinorTick; 
@@ -221,11 +198,7 @@ void QwtAbstractScaleDraw::draw(QPainter *painter,
         painter->save();
 
         QPen pen = painter->pen();
-#if QT_VERSION < 0x040000
-        pen.setColor(colorGroup.foreground());
-#else
         pen.setColor(palette.color(QPalette::WindowText));
-#endif
         painter->setPen(pen);
 
         drawBackbone(painter);

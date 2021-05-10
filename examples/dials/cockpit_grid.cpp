@@ -5,18 +5,12 @@
 #include "speedo_meter.h"
 #include "cockpit_grid.h"
 
-#if QT_VERSION < 0x040000
-typedef QColorGroup Palette;
-#else
 typedef QPalette Palette;
-#endif
 
 CockpitGrid::CockpitGrid(QWidget *parent):
     QFrame(parent)
 {
-#if QT_VERSION >= 0x040100
     setAutoFillBackground(true);
-#endif
 
     setPalette(colorTheme(QColor(Qt::darkGray).darker(150)));
 
@@ -31,13 +25,8 @@ CockpitGrid::CockpitGrid(QWidget *parent):
         layout->addWidget(dial, 0, i);
     }
 
-#if QT_VERSION < 0x040000
-    for ( i = 0; i < layout->numCols(); i++ )
-        layout->setColStretch(i, 1);
-#else
     for ( i = 0; i < layout->columnCount(); i++ )
         layout->setColumnStretch(i, 1);
-#endif
 }
 
 QwtDial *CockpitGrid::createDial(int pos)
