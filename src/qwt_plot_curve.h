@@ -15,7 +15,6 @@
 #include "qwt_global.h"
 #include "qwt_plot_item.h"
 #include "qwt_text.h"
-#include "qwt_polygon.h"
 #include "qwt_data.h"
 
 class QPainter;
@@ -257,9 +256,9 @@ protected:
 
     void fillCurve(QPainter *,
         const QwtScaleMap &, const QwtScaleMap &,
-        QwtPolygon &) const;
+        QPolygon &) const;
     void closePolyline(const QwtScaleMap &, const QwtScaleMap &,
-        QwtPolygon &) const;
+        QPolygon &) const;
 
 private:
     QwtData *d_xy;

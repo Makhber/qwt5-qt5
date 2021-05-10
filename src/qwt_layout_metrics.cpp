@@ -14,7 +14,6 @@
 #include <qpaintdevice.h> 
 #include <qdesktopwidget.h> 
 #include "qwt_math.h"
-#include "qwt_polygon.h"
 #include "qwt_layout_metrics.h"
 
 static QSize deviceDpi(const QPaintDevice *device)
@@ -225,17 +224,17 @@ QRect QwtMetricsMap::layoutToScreen(const QRect &rect) const
 }
 
 #ifndef QT_NO_TRANSFORMATIONS
-QwtPolygon QwtMetricsMap::layoutToDevice(const QwtPolygon &pa, 
+QPolygon QwtMetricsMap::layoutToDevice(const QPolygon &pa, 
     const QPainter *painter) const
 #else
-QwtPolygon QwtMetricsMap::layoutToDevice(const QwtPolygon &pa, 
+QPolygon QwtMetricsMap::layoutToDevice(const QPolygon &pa, 
     const QPainter *) const
 #endif
 {
     if ( isIdentity() )
         return pa;
     
-    QwtPolygon mappedPa(pa);
+    QPolygon mappedPa(pa);
 
 #ifndef QT_NO_TRANSFORMATIONS
     if ( painter )
@@ -255,17 +254,17 @@ QwtPolygon QwtMetricsMap::layoutToDevice(const QwtPolygon &pa,
 }
 
 #ifndef QT_NO_TRANSFORMATIONS
-QwtPolygon QwtMetricsMap::deviceToLayout(const QwtPolygon &pa, 
+QPolygon QwtMetricsMap::deviceToLayout(const QPolygon &pa, 
     const QPainter *painter) const
 #else
-QwtPolygon QwtMetricsMap::deviceToLayout(const QwtPolygon &pa, 
+QPolygon QwtMetricsMap::deviceToLayout(const QPolygon &pa, 
     const QPainter *) const
 #endif
 {
     if ( isIdentity() )
         return pa;
     
-    QwtPolygon mappedPa(pa);
+    QPolygon mappedPa(pa);
 
 #ifndef QT_NO_TRANSFORMATIONS
     if ( painter )
@@ -305,8 +304,8 @@ QRect QwtMetricsMap::translate(
   \param pa Polygon to translate
   \return Translated polygon
 */
-QwtPolygon QwtMetricsMap::translate(
-    const QwtMatrix &m, const QwtPolygon &pa) 
+QPolygon QwtMetricsMap::translate(
+    const QwtMatrix &m, const QPolygon &pa) 
 {
     return m.map(pa);
 }

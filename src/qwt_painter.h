@@ -15,7 +15,6 @@
 #include <qpen.h>
 #include "qwt_global.h"
 #include "qwt_layout_metrics.h"
-#include "qwt_polygon.h"
 
 class QPainter;
 class QBrush;
@@ -93,8 +92,8 @@ public:
 
     static void drawLine(QPainter *, int x1, int y1, int x2, int y2);
     static void drawLine(QPainter *, const QPoint &p1, const QPoint &p2);
-    static void drawPolygon(QPainter *, const QwtPolygon &pa);
-    static void drawPolyline(QPainter *, const QwtPolygon &pa);
+    static void drawPolygon(QPainter *, const QPolygon &pa);
+    static void drawPolyline(QPainter *, const QPolygon &pa);
     static void drawPoint(QPainter *, int x, int y);
 
     static void drawRoundFrame(QPainter *, const QRect &,

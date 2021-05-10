@@ -13,7 +13,7 @@
 #include "qwt_clipper.h"
 #include <algorithm>
 
-static inline QRectF boundingRect(const QwtPolygonF &polygon)
+static inline QRectF boundingRect(const QPolygonF &polygon)
 {
     return polygon.boundingRect();
 }
@@ -32,30 +32,30 @@ class QwtPolygonClipper: public QRect
 public:
     QwtPolygonClipper(const QRect &r);
 
-    QwtPolygon clipPolygon(const QwtPolygon &) const;
+    QPolygon clipPolygon(const QPolygon &) const;
 
 private:
-    void clipEdge(Edge, const QwtPolygon &, QwtPolygon &) const;
+    void clipEdge(Edge, const QPolygon &, QPolygon &) const;
     bool insideEdge(const QPoint &, Edge edge) const;
     QPoint intersectEdge(const QPoint &p1,
         const QPoint &p2, Edge edge) const;
 
-    void addPoint(QwtPolygon &, uint pos, const QPoint &point) const;
+    void addPoint(QPolygon &, uint pos, const QPoint &point) const;
 };
 
 class QwtPolygonClipperF: public QRectF
 {
 public:
     QwtPolygonClipperF(const QRectF &r);
-    QwtPolygonF clipPolygon(const QwtPolygonF &) const;
+    QPolygonF clipPolygon(const QPolygonF &) const;
 
 private:
-    void clipEdge(Edge, const QwtPolygonF &, QwtPolygonF &) const;
+    void clipEdge(Edge, const QPolygonF &, QPolygonF &) const;
     bool insideEdge(const QPointF &, Edge edge) const;
     QPointF intersectEdge(const QPointF &p1,
         const QPointF &p2, Edge edge) const;
 
-    void addPoint(QwtPolygonF &, uint pos, const QPointF &point) const;
+    void addPoint(QPolygonF &, uint pos, const QPointF &point) const;
 };
 
 class QwtCircleClipper: public QRectF
@@ -77,7 +77,7 @@ QwtPolygonClipper::QwtPolygonClipper(const QRect &r):
 }
 
 inline void QwtPolygonClipper::addPoint(
-    QwtPolygon &pa, uint pos, const QPoint &point) const
+    QPolygon &pa, uint pos, const QPoint &point) const
 {
     if ( uint(pa.size()) <= pos ) 
         pa.resize(pos + 5);
@@ -86,18 +86,18 @@ inline void QwtPolygonClipper::addPoint(
 }
 
 //! Sutherland-Hodgman polygon clipping
-QwtPolygon QwtPolygonClipper::clipPolygon(const QwtPolygon &pa) const
+QPolygon QwtPolygonClipper::clipPolygon(const QPolygon &pa) const
 {
     if ( contains( pa.boundingRect() ) )
         return pa;
 
-    QwtPolygon cpa(pa.size());
+    QPolygon cpa(pa.size());
 
     clipEdge((Edge)0, pa, cpa);
 
     for ( uint edge = 1; edge < NEdges; edge++ ) 
     {
-        const QwtPolygon rpa = cpa;
+        const QPolygon rpa = cpa;
         clipEdge((Edge)edge, rpa, cpa);
     }
 
@@ -162,7 +162,7 @@ QPoint QwtPolygonClipper::intersectEdge(const QPoint &p1,
 }
 
 void QwtPolygonClipper::clipEdge(Edge edge, 
-    const QwtPolygon &pa, QwtPolygon &cpa) const
+    const QPolygon &pa, QPolygon &cpa) const
 {
     if ( pa.count() == 0 )
     {
@@ -205,7 +205,7 @@ QwtPolygonClipperF::QwtPolygonClipperF(const QRectF &r):
 {
 }
 
-inline void QwtPolygonClipperF::addPoint(QwtPolygonF &pa, uint pos, const QPointF &point) const
+inline void QwtPolygonClipperF::addPoint(QPolygonF &pa, uint pos, const QPointF &point) const
 {
     if ( uint(pa.size()) <= pos ) 
         pa.resize(pos + 5);
@@ -214,18 +214,18 @@ inline void QwtPolygonClipperF::addPoint(QwtPolygonF &pa, uint pos, const QPoint
 }
 
 //! Sutherland-Hodgman polygon clipping
-QwtPolygonF QwtPolygonClipperF::clipPolygon(const QwtPolygonF &pa) const
+QPolygonF QwtPolygonClipperF::clipPolygon(const QPolygonF &pa) const
 {
     if ( contains( ::boundingRect(pa) ) )
         return pa;
 
-    QwtPolygonF cpa(pa.size());
+    QPolygonF cpa(pa.size());
 
     clipEdge((Edge)0, pa, cpa);
 
     for ( uint edge = 1; edge < NEdges; edge++ ) 
     {
-        const QwtPolygonF rpa = cpa;
+        const QPolygonF rpa = cpa;
         clipEdge((Edge)edge, rpa, cpa);
     }
 
@@ -290,7 +290,7 @@ QPointF QwtPolygonClipperF::intersectEdge(const QPointF &p1,
 }
 
 void QwtPolygonClipperF::clipEdge(Edge edge, 
-    const QwtPolygonF &pa, QwtPolygonF &cpa) const
+    const QPolygonF &pa, QPolygonF &cpa) const
 {
     if ( pa.count() == 0 )
     {
@@ -442,8 +442,8 @@ QList<QPointF> QwtCircleClipper::cuttingPoints(
 
    \return Clipped polygon
 */
-QwtPolygon QwtClipper::clipPolygon(
-    const QRect &clipRect, const QwtPolygon &polygon)
+QPolygon QwtClipper::clipPolygon(
+    const QRect &clipRect, const QPolygon &polygon)
 {
     QwtPolygonClipper clipper(clipRect);
     return clipper.clipPolygon(polygon);
@@ -457,8 +457,8 @@ QwtPolygon QwtClipper::clipPolygon(
 
    \return Clipped polygon
 */
-QwtPolygonF QwtClipper::clipPolygonF(
-    const QRectF &clipRect, const QwtPolygonF &polygon)
+QPolygonF QwtClipper::clipPolygonF(
+    const QRectF &clipRect, const QPolygonF &polygon)
 {
     QwtPolygonClipperF clipper(clipRect);
     return clipper.clipPolygon(polygon);

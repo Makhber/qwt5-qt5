@@ -160,7 +160,7 @@ void QwtSimpleCompassRose::drawRose(
             QPoint p1 = qwtPolar2Pos(center, leafWidth, angle + M_PI_2);
             QPoint p2 = qwtPolar2Pos(center, leafWidth, angle - M_PI_2);
 
-            QwtPolygon pa(3);
+            QPolygon pa(3);
             pa.setPoint(0, center);
             pa.setPoint(1, p);
 

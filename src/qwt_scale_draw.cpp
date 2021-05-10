@@ -13,7 +13,6 @@
 #include <qpainter.h>
 #include "qwt_math.h"
 #include "qwt_painter.h"
-#include "qwt_polygon.h"
 #include "qwt_scale_div.h"
 #include "qwt_scale_map.h"
 #include "qwt_scale_draw.h"
@@ -756,7 +755,7 @@ QRect QwtScaleDraw::labelRect(const QFont &font, double value) const
 #if 0
     QRect br = QwtMetricsMap::translate(m, QRect(QPoint(0, 0), labelSize));
 #else
-    QwtPolygon pol(4);
+    QPolygon pol(4);
     pol.setPoint(0, 0, 0); 
     pol.setPoint(1, 0, labelSize.height() - 1 );
     pol.setPoint(2, labelSize.width() - 1, 0);

@@ -11,8 +11,10 @@
 #define QWT_CLIPPER_H
 
 #include "qwt_global.h"
-#include "qwt_polygon.h"
 #include "qwt_double_interval.h"
+
+#include <QPolygon>
+#include <QPolygonF>
 
 class QRect;
 
@@ -23,8 +25,8 @@ class QRect;
 class QWT_EXPORT QwtClipper
 {
 public:
-    static QwtPolygon clipPolygon(const QRect &, const QwtPolygon &);
-    static QwtPolygonF clipPolygonF(const QRectF &, const QwtPolygonF &);
+    static QPolygon clipPolygon(const QRect &, const QPolygon &);
+    static QPolygonF clipPolygonF(const QRectF &, const QPolygonF &);
 
     static QVector<QwtDoubleInterval> clipCircle(
         const QRectF &, const QPointF &, double radius);

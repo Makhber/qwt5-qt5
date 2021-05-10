@@ -177,7 +177,7 @@ void QwtPainter::drawRect(QPainter *painter, const QRect &rect)
             int pw = painter->pen().width();
             pw = pw % 2 + pw / 2;
 
-            QwtPolygon pa(5);
+            QPolygon pa(5);
             pa.setPoint(0, r.left(), r.top());
             pa.setPoint(1, r.right() - pw, r.top());
             pa.setPoint(2, r.right() - pw, r.bottom() - pw);
@@ -365,7 +365,7 @@ void QwtPainter::drawLine(QPainter *painter, int x1, int y1, int x2, int y2)
     if ( deviceClipping && 
         !(clipRect.contains(x1, y1) && clipRect.contains(x2, y2)) )
     {
-        QwtPolygon pa(2);
+        QPolygon pa(2);
         pa.setPoint(0, x1, y1);
         pa.setPoint(1, x2, y2);
         drawPolyline(painter, pa);
@@ -389,12 +389,12 @@ void QwtPainter::drawLine(QPainter *painter, int x1, int y1, int x2, int y2)
 /*!
   Wrapper for QPainter::drawPolygon()
 */
-void QwtPainter::drawPolygon(QPainter *painter, const QwtPolygon &pa)
+void QwtPainter::drawPolygon(QPainter *painter, const QPolygon &pa)
 {
     QRect clipRect;
     const bool deviceClipping = isClippingNeeded(painter, clipRect);
 
-    QwtPolygon cpa = d_metricsMap.layoutToDevice(pa);
+    QPolygon cpa = d_metricsMap.layoutToDevice(pa);
     if ( deviceClipping )
     {
 
@@ -406,12 +406,12 @@ void QwtPainter::drawPolygon(QPainter *painter, const QwtPolygon &pa)
 /*!
     Wrapper for QPainter::drawPolyline()
 */
-void QwtPainter::drawPolyline(QPainter *painter, const QwtPolygon &pa)
+void QwtPainter::drawPolyline(QPainter *painter, const QPolygon &pa)
 {
     QRect clipRect;
     const bool deviceClipping = isClippingNeeded(painter, clipRect);
 
-    QwtPolygon cpa = d_metricsMap.layoutToDevice(pa);
+    QPolygon cpa = d_metricsMap.layoutToDevice(pa);
     if ( deviceClipping )
         cpa = QwtClipper::clipPolygon(clipRect, cpa);
 

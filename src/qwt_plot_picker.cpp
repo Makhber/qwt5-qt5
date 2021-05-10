@@ -284,7 +284,7 @@ bool QwtPlotPicker::end(bool ok)
     if ( !plot )
         return false;
 
-    const QwtPolygon &pa = selection();
+    const QPolygon &pa = selection();
     if ( pa.count() == 0 )
         return false;
 

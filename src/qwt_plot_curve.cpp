@@ -683,7 +683,7 @@ void QwtPlotCurve::drawLines(QPainter *painter,
     if ( size <= 0 )
         return;
 
-    QwtPolygon polyline;
+    QPolygon polyline;
     if ( ( d_data->attributes & Fitted ) && d_data->curveFitter )
     {
         // Transform x and y values to window coordinates
@@ -833,7 +833,7 @@ void QwtPlotCurve::drawDots(QPainter *painter,
 {
     const bool doFill = d_data->brush.style() != Qt::NoBrush;
 
-    QwtPolygon polyline;
+    QPolygon polyline;
     if ( doFill )
         polyline.resize(to - from + 1);
 
@@ -920,7 +920,7 @@ void QwtPlotCurve::drawSteps(QPainter *painter,
     const QwtScaleMap &xMap, const QwtScaleMap &yMap, 
     int from, int to) const
 {
-    QwtPolygon polyline(2 * (to - from) + 1);
+    QPolygon polyline(2 * (to - from) + 1);
 
     bool inverted = d_data->curveType == Yfx;
     if ( d_data->attributes & Inverted )
@@ -1043,7 +1043,7 @@ QwtCurveFitter *QwtPlotCurve::curveFitter() const
 */
 void QwtPlotCurve::fillCurve(QPainter *painter,
     const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    QwtPolygon &pa) const
+    QPolygon &pa) const
 {
     if ( d_data->brush.style() == Qt::NoBrush )
         return;
@@ -1076,7 +1076,7 @@ void QwtPlotCurve::fillCurve(QPainter *painter,
 */
 void QwtPlotCurve::closePolyline(
     const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    QwtPolygon &pa) const
+    QPolygon &pa) const
 {
     const int sz = pa.size();
     if ( sz < 2 )

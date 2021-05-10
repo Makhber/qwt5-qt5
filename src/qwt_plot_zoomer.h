@@ -101,7 +101,7 @@ protected:
 
     virtual void begin();
     virtual bool end(bool ok = true);
-    virtual bool accept(QwtPolygon &) const;
+    virtual bool accept(QPolygon &) const;
 
 private:
     void init(int selectionFlags, DisplayMode trackerMode, bool doReplot);

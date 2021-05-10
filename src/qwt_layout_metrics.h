@@ -12,7 +12,7 @@
 
 #include <qsize.h>
 #include <qrect.h>
-#include "qwt_polygon.h"
+
 #include "qwt_global.h"
 
 class QPainter;
@@ -72,12 +72,12 @@ public:
     QRect screenToLayout(const QRect &) const;
     QRect layoutToScreen(const QRect &) const;
 
-    QwtPolygon layoutToDevice(const QwtPolygon &, 
+    QPolygon layoutToDevice(const QPolygon &, 
         const QPainter * = NULL) const;
-    QwtPolygon deviceToLayout(const QwtPolygon &, 
+    QPolygon deviceToLayout(const QPolygon &, 
         const QPainter * = NULL) const;
 
-    static QwtPolygon translate(const QTransform &, const QwtPolygon &);
+    static QPolygon translate(const QTransform &, const QPolygon &);
     static QRect translate(const QTransform &, const QRect &);
 
 private:

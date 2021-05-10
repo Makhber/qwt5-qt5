@@ -14,7 +14,6 @@ set( HEADERS
   "qwt_panner.h"
   "qwt_picker.h"
   "qwt_picker_machine.h"
-  "qwt_polygon.h"
   "qwt_round_scale_draw.h"
   "qwt_scale_div.h"
   "qwt_scale_draw.h"

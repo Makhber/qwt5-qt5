@@ -532,7 +532,7 @@ void QwtPlotZoomer::move(double x, double y)
           to a accepted rectangle. 
 */
 
-bool QwtPlotZoomer::accept(QwtPolygon &pa) const
+bool QwtPlotZoomer::accept(QPolygon &pa) const
 {
     if ( pa.count() < 2 )
         return false;
@@ -616,7 +616,7 @@ bool QwtPlotZoomer::end(bool ok)
     if ( !plot )
         return false;
 
-    const QwtPolygon &pa = selection();
+    const QPolygon &pa = selection();
     if ( pa.count() < 2 )
         return false;
 

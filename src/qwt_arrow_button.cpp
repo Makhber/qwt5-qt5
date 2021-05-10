@@ -11,7 +11,6 @@
 #include <qstyle.h>
 #include <qevent.h>
 #include "qwt_math.h"
-#include "qwt_polygon.h"
 #include "qwt_arrow_button.h"
 
 static const int MaxNum = 3;
@@ -216,7 +215,7 @@ void QwtArrowButton::drawButtonLabel(QPainter *painter)
 void QwtArrowButton::drawArrow(QPainter *painter, 
     const QRect &r, Qt::ArrowType arrowType) const 
 {
-    QwtPolygon pa(3);
+    QPolygon pa(3);
 
     switch(arrowType)
     {

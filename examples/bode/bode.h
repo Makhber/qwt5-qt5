@@ -1,5 +1,4 @@
 #include <qmainwindow.h>
-#include <qwt_polygon.h>
 
 class QwtPlotZoomer;
 class QwtPlotPicker;
@@ -15,7 +14,7 @@ public:
 
 private slots:
     void moved(const QPoint &);
-    void selected(const QwtPolygon &);
+    void selected(const QPolygon &);
     
     void print();
     void exportSVG();

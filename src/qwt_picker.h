@@ -16,7 +16,6 @@
 #include <qrect.h>
 #include "qwt_global.h"
 #include "qwt_text.h"
-#include "qwt_polygon.h"
 #include "qwt_event_pattern.h"
 
 class QWidget;
@@ -43,7 +42,7 @@ class QwtPickerMachine;
 
 QwtPicker *picker = new QwtPicker(widget);
 picker->setTrackerMode(QwtPicker::ActiveOnly);
-connect(picker, SIGNAL(selected(const QwtPolygon &)), ...);
+connect(picker, SIGNAL(selected(const QPolygon &)), ...);
 
 // emit the position of clicks on widget
 picker->setSelectionFlags(QwtPicker::PointSelection | QwtPicker::ClickSelection);
@@ -277,7 +276,7 @@ public:
     const QWidget *parentWidget() const;
 
     virtual QRect pickRect() const;
-    const QwtPolygon &selection() const; 
+    const QPolygon &selection() const; 
 
     virtual void drawRubberBand(QPainter *) const;
     virtual void drawTracker(QPainter *) const;
@@ -294,7 +293,7 @@ signals:
 
       \param pa Selected points
     */
-    void selected(const QwtPolygon &pa);
+    void selected(const QPolygon &pa);
 
     /*!
       A signal emitted when a point has been appended to the selection
@@ -320,7 +319,7 @@ signals:
       \param pa Changed selection
       \sa stretchSelection()
     */
-    void changed(const QwtPolygon &pa);
+    void changed(const QPolygon &pa);
 
 protected:
     /*!
@@ -331,7 +330,7 @@ protected:
       \param selection Selection to validate and fixup
       \return true, when accepted, false otherwise
     */
-    virtual bool accept(QwtPolygon &selection) const;
+    virtual bool accept(QPolygon &selection) const;
 
     virtual void transition(const QEvent *);
 
