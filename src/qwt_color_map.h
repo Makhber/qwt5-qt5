@@ -22,10 +22,10 @@ template class QWT_EXPORT QVector<double>;
 #endif
 
 /*!
-  \brief QwtColorMap is used to map values into colors. 
+  \brief QwtColorMap is used to map values into colors.
 
   For displaying 3D data on a 2D plane the 3rd dimension is often
-  displayed using colors, like f.e in a spectrogram. 
+  displayed using colors, like f.e in a spectrogram.
 
   Each color map is optimized to return colors for only one of the
   following image formats:
@@ -39,7 +39,7 @@ template class QWT_EXPORT QVector<double>;
 class QWT_EXPORT QwtColorMap
 {
 public:
-    /*! 
+    /*!
         - RGB\n
         The map is intended to map into QRgb values.
         - Indexed\n
@@ -49,13 +49,9 @@ public:
         \sa rgb(), colorIndex(), colorTable()
     */
 
-    enum Format
-    {
-        RGB,
-        Indexed
-    };
+    enum Format { RGB, Indexed };
 
-    QwtColorMap(Format = QwtColorMap::RGB );
+    QwtColorMap(Format = QwtColorMap::RGB);
     virtual ~QwtColorMap();
 
     Format format() const;
@@ -63,23 +59,21 @@ public:
     //! Clone the color map
     virtual QwtColorMap *copy() const = 0;
 
-    /*!  
+    /*!
        Map a value of a given interval into a rgb value.
        \param interval Range for the values
        \param value Value
        \return rgb value, corresponding to value
     */
-    virtual QRgb rgb(
-        const QwtDoubleInterval &interval, double value) const = 0;
+    virtual QRgb rgb(const QwtDoubleInterval &interval, double value) const = 0;
 
-    /*!  
+    /*!
        Map a value of a given interval into a color index
        \param interval Range for the values
        \param value Value
        \return color index, corresponding to value
      */
-    virtual unsigned char colorIndex(
-        const QwtDoubleInterval &interval, double value) const = 0;
+    virtual unsigned char colorIndex(const QwtDoubleInterval &interval, double value) const = 0;
 
     QColor color(const QwtDoubleInterval &, double value) const;
     virtual QVector<QRgb> colorTable(const QwtDoubleInterval &) const;
@@ -88,33 +82,27 @@ private:
     Format d_format;
 };
 
-
 /*!
   \brief QwtLinearColorMap builds a color map from color stops.
-  
+
   A color stop is a color at a specific position. The valid
   range for the positions is [0.0, 1.0]. When mapping a value
-  into a color it is translated into this interval. If 
+  into a color it is translated into this interval. If
   mode() == FixedColors the color is calculated from the next lower
   color stop. If mode() == ScaledColors the color is calculated
-  by interpolating the colors of the adjacent stops. 
+  by interpolating the colors of the adjacent stops.
 */
-class QWT_EXPORT QwtLinearColorMap: public QwtColorMap
+class QWT_EXPORT QwtLinearColorMap : public QwtColorMap
 {
 public:
     /*!
        Mode of color map
        \sa setMode(), mode()
     */
-    enum Mode
-    {
-        FixedColors,
-        ScaledColors
-    };
+    enum Mode { FixedColors, ScaledColors };
 
     QwtLinearColorMap(QwtColorMap::Format = QwtColorMap::RGB);
-    QwtLinearColorMap( const QColor &from, const QColor &to,
-        QwtColorMap::Format = QwtColorMap::RGB);
+    QwtLinearColorMap(const QColor &from, const QColor &to, QwtColorMap::Format = QwtColorMap::RGB);
 
     QwtLinearColorMap(const QwtLinearColorMap &);
 
@@ -128,15 +116,14 @@ public:
     Mode mode() const;
 
     void setColorInterval(const QColor &color1, const QColor &color2);
-    void addColorStop(double value, const QColor&);
+    void addColorStop(double value, const QColor &);
     QVector<double> colorStops() const;
 
     QColor color1() const;
     QColor color2() const;
 
     virtual QRgb rgb(const QwtDoubleInterval &, double value) const;
-    virtual unsigned char colorIndex(
-        const QwtDoubleInterval &, double value) const;
+    virtual unsigned char colorIndex(const QwtDoubleInterval &, double value) const;
 
     class ColorStops;
 
@@ -148,7 +135,7 @@ private:
 /*!
   \brief QwtAlphaColorMap variies the alpha value of a color
 */
-class QWT_EXPORT QwtAlphaColorMap: public QwtColorMap
+class QWT_EXPORT QwtAlphaColorMap : public QwtColorMap
 {
 public:
     QwtAlphaColorMap(const QColor & = QColor(Qt::gray));
@@ -166,13 +153,11 @@ public:
     virtual QRgb rgb(const QwtDoubleInterval &, double value) const;
 
 private:
-    virtual unsigned char colorIndex(
-        const QwtDoubleInterval &, double value) const;
+    virtual unsigned char colorIndex(const QwtDoubleInterval &, double value) const;
 
     class PrivateData;
     PrivateData *d_data;
 };
-
 
 /*!
    Map a value into a color
@@ -186,15 +171,11 @@ private:
             necessary to map many values, its better to get the
             color table once and find the color using colorIndex().
 */
-inline QColor QwtColorMap::color(
-    const QwtDoubleInterval &interval, double value) const
+inline QColor QwtColorMap::color(const QwtDoubleInterval &interval, double value) const
 {
-    if ( d_format == RGB )
-    {
-        return QColor( rgb(interval, value) );
-    }
-    else
-    {
+    if (d_format == RGB) {
+        return QColor(rgb(interval, value));
+    } else {
         const unsigned int index = colorIndex(interval, value);
         return colorTable(interval)[index]; // slow
     }

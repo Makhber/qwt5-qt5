@@ -18,23 +18,18 @@
 class QwtTextLabel::PrivateData
 {
 public:
-    PrivateData():
-        indent(4),
-        margin(0)
-    {
-    }
+    PrivateData() : indent(4), margin(0) { }
 
     int indent;
     int margin;
     QwtText text;
 };
 
-/*! 
+/*!
   Constructs an empty label.
   \param parent Parent widget
 */
-QwtTextLabel::QwtTextLabel(QWidget *parent):
-    QFrame(parent)
+QwtTextLabel::QwtTextLabel(QWidget *parent) : QFrame(parent)
 {
     init();
 }
@@ -44,8 +39,7 @@ QwtTextLabel::QwtTextLabel(QWidget *parent):
   \param parent Parent widget
   \param text Text
 */
-QwtTextLabel::QwtTextLabel(const QwtText &text, QWidget *parent):
-    QFrame(parent)
+QwtTextLabel::QwtTextLabel(const QwtText &text, QWidget *parent) : QFrame(parent)
 {
     init();
     d_data->text = text;
@@ -117,7 +111,7 @@ int QwtTextLabel::indent() const
 */
 void QwtTextLabel::setIndent(int indent)
 {
-    if ( indent < 0 )
+    if (indent < 0)
         indent = 0;
 
     d_data->indent = indent;
@@ -159,18 +153,17 @@ QSize QwtTextLabel::minimumSizeHint() const
     int mh = mw;
 
     int indent = d_data->indent;
-    if ( indent <= 0 )
+    if (indent <= 0)
         indent = defaultIndent();
 
-    if ( indent > 0 )
-    {
+    if (indent > 0) {
         const int align = d_data->text.renderFlags();
-        if ( align & Qt::AlignLeft || align & Qt::AlignRight )
+        if (align & Qt::AlignLeft || align & Qt::AlignRight)
             mw += d_data->indent;
-        else if ( align & Qt::AlignTop || align & Qt::AlignBottom )
+        else if (align & Qt::AlignTop || align & Qt::AlignBottom)
             mh += d_data->indent;
     }
-        
+
     sz += QSize(mw, mh);
 
     return sz;
@@ -185,15 +178,15 @@ int QwtTextLabel::heightForWidth(int width) const
     const int renderFlags = d_data->text.renderFlags();
 
     int indent = d_data->indent;
-    if ( indent <= 0 )
+    if (indent <= 0)
         indent = defaultIndent();
 
     width -= 2 * frameWidth();
-    if ( renderFlags & Qt::AlignLeft || renderFlags & Qt::AlignRight )
+    if (renderFlags & Qt::AlignLeft || renderFlags & Qt::AlignRight)
         width -= indent;
 
     int height = d_data->text.heightForWidth(width, font());
-    if ( renderFlags & Qt::AlignTop || renderFlags & Qt::AlignBottom )
+    if (renderFlags & Qt::AlignTop || renderFlags & Qt::AlignBottom)
         height += indent;
 
     height += 2 * frameWidth();
@@ -201,7 +194,7 @@ int QwtTextLabel::heightForWidth(int width) const
     return height;
 }
 
-/*! 
+/*!
    Qt paint event
    \param event Paint event
 */
@@ -209,24 +202,23 @@ void QwtTextLabel::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
 
-    if ( !contentsRect().contains( event->rect() ) )
-    {
+    if (!contentsRect().contains(event->rect())) {
         painter.save();
-        painter.setClipRegion( event->region() & frameRect() );
-        drawFrame( &painter );
+        painter.setClipRegion(event->region() & frameRect());
+        drawFrame(&painter);
         painter.restore();
     }
 
     painter.setClipRegion(event->region() & contentsRect());
 
-    drawContents( &painter );
+    drawContents(&painter);
 }
 
 //! Redraw the text and focus indicator
 void QwtTextLabel::drawContents(QPainter *painter)
 {
     const QRect r = textRect();
-    if ( r.isEmpty() )
+    if (r.isEmpty())
         return;
 
     painter->setFont(font());
@@ -234,14 +226,12 @@ void QwtTextLabel::drawContents(QPainter *painter)
 
     drawText(painter, r);
 
-    if ( hasFocus() )
-    {
+    if (hasFocus()) {
         const int margin = 2;
 
         QRect focusRect = contentsRect();
         focusRect.setRect(focusRect.x() + margin, focusRect.y() + margin,
-            focusRect.width() - 2 * margin - 2, 
-            focusRect.height() - 2 * margin - 2);
+                          focusRect.width() - 2 * margin - 2, focusRect.height() - 2 * margin - 2);
 
         QwtPainter::drawFocusRect(painter, this, focusRect);
     }
@@ -253,7 +243,7 @@ void QwtTextLabel::drawText(QPainter *painter, const QRect &textRect)
     d_data->text.draw(painter, textRect);
 }
 
-/*! 
+/*!
   Calculate the rect for the text in widget coordinates
   \return Text rect
 */
@@ -261,29 +251,26 @@ QRect QwtTextLabel::textRect() const
 {
     QRect r = contentsRect();
 
-    if ( !r.isEmpty() && d_data->margin > 0 )
-    {
-        r.setRect(r.x() + d_data->margin, r.y() + d_data->margin,
-            r.width() - 2 * d_data->margin, r.height() - 2 * d_data->margin );
+    if (!r.isEmpty() && d_data->margin > 0) {
+        r.setRect(r.x() + d_data->margin, r.y() + d_data->margin, r.width() - 2 * d_data->margin,
+                  r.height() - 2 * d_data->margin);
     }
 
-    if ( !r.isEmpty() )
-    {
+    if (!r.isEmpty()) {
         int indent = d_data->indent;
-        if ( indent <= 0 )
+        if (indent <= 0)
             indent = defaultIndent();
 
-        if ( indent > 0 )
-        {
+        if (indent > 0) {
             const int renderFlags = d_data->text.renderFlags();
 
-            if ( renderFlags & Qt::AlignLeft )
+            if (renderFlags & Qt::AlignLeft)
                 r.setX(r.x() + indent);
-            else if ( renderFlags & Qt::AlignRight )
+            else if (renderFlags & Qt::AlignRight)
                 r.setWidth(r.width() - indent);
-            else if ( renderFlags & Qt::AlignTop )
+            else if (renderFlags & Qt::AlignTop)
                 r.setY(r.y() + indent);
-            else if ( renderFlags & Qt::AlignBottom )
+            else if (renderFlags & Qt::AlignBottom)
                 r.setHeight(r.height() - indent);
         }
     }
@@ -293,19 +280,18 @@ QRect QwtTextLabel::textRect() const
 
 int QwtTextLabel::defaultIndent() const
 {
-    if ( frameWidth() <= 0 )
+    if (frameWidth() <= 0)
         return 0;
 
     QFont fnt;
-    if ( d_data->text.testPaintAttribute(QwtText::PaintUsingTextFont) )
+    if (d_data->text.testPaintAttribute(QwtText::PaintUsingTextFont))
         fnt = d_data->text.font();
     else
         fnt = font();
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     return QFontMetrics(fnt).horizontalAdvance('x') / 2;
 #else
     return QFontMetrics(fnt).width('x') / 2;
 #endif
 }
-

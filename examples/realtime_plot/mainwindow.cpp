@@ -11,32 +11,28 @@
 #include "start.xpm"
 #include "clear.xpm"
 
-class MyToolBar: public QToolBar
+class MyToolBar : public QToolBar
 {
 public:
-    MyToolBar(MainWindow *parent):
-        QToolBar(parent)
-    {
-    }
+    MyToolBar(MainWindow *parent) : QToolBar(parent) { }
     void addSpacing(int spacing)
     {
         QLabel *label = new QLabel(this);
         addWidget(label);
         label->setFixedWidth(spacing);
-    }    
+    }
 };
 
-class Counter: public QWidget
+class Counter : public QWidget
 {
 public:
-    Counter(QWidget *parent, 
-            const QString &prefix, const QString &suffix,
-            int min, int max, int step):
-        QWidget(parent)
+    Counter(QWidget *parent, const QString &prefix, const QString &suffix, int min, int max,
+            int step)
+        : QWidget(parent)
     {
         QHBoxLayout *layout = new QHBoxLayout(this);
 
-        if ( !prefix.isEmpty() )
+        if (!prefix.isEmpty())
             layout->addWidget(new QLabel(prefix + " ", this));
 
         d_counter = new QSpinBox(this);
@@ -44,7 +40,7 @@ public:
         d_counter->setSingleStep(step);
         layout->addWidget(d_counter);
 
-        if ( !suffix.isEmpty() )
+        if (!suffix.isEmpty())
             layout->addWidget(new QLabel(QString(" ") + suffix, this));
     }
 
@@ -98,8 +94,7 @@ QToolBar *MainWindow::toolBar()
 
     QWidget *hBox = new QWidget(toolBar);
 
-    d_randomCount = 
-        new Counter(hBox, "Points", QString(), 1, 100000, 100);
+    d_randomCount = new Counter(hBox, "Points", QString(), 1, 100000, 100);
     d_randomCount->setValue(1000);
 
     d_timerCount = new Counter(hBox, "Delay", "ms", 0, 100000, 100);
@@ -123,9 +118,8 @@ QToolBar *MainWindow::toolBar()
 
 void MainWindow::appendPoints(bool on)
 {
-    if ( on )
-        d_plot->append(d_timerCount->value(),
-            d_randomCount->value());
+    if (on)
+        d_plot->append(d_timerCount->value(), d_randomCount->value());
     else
         d_plot->stop();
 }
@@ -140,30 +134,26 @@ void MainWindow::showRunning(bool running)
 
 void MainWindow::initWhatsThis()
 {
-    const char *text1 =
-        "Zooming is enabled until the selected area gets "
-        "too small for the significance on the axes.\n\n"
-        "You can zoom in using the left mouse button.\n"
-        "The middle mouse button is used to go back to the "
-        "previous zoomed area.\n"
-        "The right mouse button is used to unzoom completely.";
+    const char *text1 = "Zooming is enabled until the selected area gets "
+                        "too small for the significance on the axes.\n\n"
+                        "You can zoom in using the left mouse button.\n"
+                        "The middle mouse button is used to go back to the "
+                        "previous zoomed area.\n"
+                        "The right mouse button is used to unzoom completely.";
 
-    const char *text2 =
-        "Number of random points that will be generated.";
+    const char *text2 = "Number of random points that will be generated.";
 
-    const char *text3 =
-        "Delay between the generation of two random points.";
+    const char *text3 = "Delay between the generation of two random points.";
 
-    const char *text4 =
-        "Start generation of random points.\n\n"
-        "The intention of this example is to show how to implement "
-        "growing curves. The points will be generated and displayed "
-        "one after the other.\n"
-        "To check the performance, a small delay and a large number "
-        "of points are useful. To watch the curve growing, a delay "
-        " > 300 ms and less points are better.\n"
-        "To inspect the curve, stacked zooming is implemented using the "
-        "mouse buttons on the plot.";
+    const char *text4 = "Start generation of random points.\n\n"
+                        "The intention of this example is to show how to implement "
+                        "growing curves. The points will be generated and displayed "
+                        "one after the other.\n"
+                        "To check the performance, a small delay and a large number "
+                        "of points are useful. To watch the curve growing, a delay "
+                        " > 300 ms and less points are better.\n"
+                        "To inspect the curve, stacked zooming is implemented using the "
+                        "mouse buttons on the plot.";
 
     const char *text5 = "Remove all points.";
 
@@ -173,4 +163,3 @@ void MainWindow::initWhatsThis()
     d_startAction->setWhatsThis(text4);
     d_clearAction->setWhatsThis(text5);
 }
-

@@ -6,11 +6,10 @@
 #include <qwt_math.h>
 #include "tunerfrm.h"
 
-class TuningThermo: public QWidget
+class TuningThermo : public QWidget
 {
 public:
-    TuningThermo(QWidget *parent):
-        QWidget(parent)
+    TuningThermo(QWidget *parent) : QWidget(parent)
     {
         d_thermo = new QwtThermo(this);
         d_thermo->setOrientation(Qt::Horizontal, QwtThermo::NoScale);
@@ -28,17 +27,13 @@ public:
         setFixedWidth(3 * label->sizeHint().width());
     }
 
-    void setValue(double value)
-    {
-        d_thermo->setValue(value);
-    }
+    void setValue(double value) { d_thermo->setValue(value); }
 
 private:
     QwtThermo *d_thermo;
 };
 
-TunerFrame::TunerFrame(QWidget *parent): 
-    QFrame(parent)
+TunerFrame::TunerFrame(QWidget *parent) : QFrame(parent)
 {
     d_sldFreq = new QwtSlider(this, Qt::Horizontal, QwtSlider::TopScale);
     d_sldFreq->setRange(87.5, 108, 0.01, 10);
@@ -54,7 +49,6 @@ TunerFrame::TunerFrame(QWidget *parent):
     d_whlFreq->setRange(87.5, 108, 0.01);
     d_whlFreq->setTotalAngle(3600.0);
     d_whlFreq->setFixedHeight(30);
-
 
     connect(d_whlFreq, SIGNAL(valueChanged(double)), SLOT(adjustFreq(double)));
     connect(d_sldFreq, SIGNAL(valueChanged(double)), SLOT(adjustFreq(double)));
@@ -79,15 +73,15 @@ void TunerFrame::adjustFreq(double frq)
 
     const double x = (frq - 87.5) * factor;
     const double field = qwtSqr(sin(x) * cos(4.0 * x));
-    
-    d_thmTune->setValue(field);  
 
-    if (d_sldFreq->value() != frq) 
+    d_thmTune->setValue(field);
+
+    if (d_sldFreq->value() != frq)
         d_sldFreq->setValue(frq);
-    if (d_whlFreq->value() != frq) 
+    if (d_whlFreq->value() != frq)
         d_whlFreq->setValue(frq);
 
-    emit fieldChanged(field);   
+    emit fieldChanged(field);
 }
 
 void TunerFrame::setFreq(double frq)

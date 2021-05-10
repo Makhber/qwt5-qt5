@@ -4,7 +4,7 @@
 #include <qtoolbutton.h>
 #include "plot.h"
 
-class MainWindow: public QMainWindow
+class MainWindow : public QMainWindow
 {
 public:
     MainWindow(QWidget * = NULL);
@@ -13,8 +13,7 @@ private:
     Plot *d_plot;
 };
 
-MainWindow::MainWindow(QWidget *parent):
-    QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     d_plot = new Plot(this);
 
@@ -27,13 +26,13 @@ MainWindow::MainWindow(QWidget *parent):
     QToolButton *btnPrint = new QToolButton(toolBar);
 
     btnSpectrogram->setText("Spectrogram");
-    //btnSpectrogram->setIcon(QIcon());
+    // btnSpectrogram->setIcon(QIcon());
     btnSpectrogram->setCheckable(true);
     btnSpectrogram->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     toolBar->addWidget(btnSpectrogram);
 
     btnContour->setText("Contour");
-    //btnContour->setIcon(QIcon());
+    // btnContour->setIcon(QIcon());
     btnContour->setCheckable(true);
     btnContour->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     toolBar->addWidget(btnContour);
@@ -44,12 +43,9 @@ MainWindow::MainWindow(QWidget *parent):
 
     addToolBar(toolBar);
 
-    connect(btnSpectrogram, SIGNAL(toggled(bool)), 
-        d_plot, SLOT(showSpectrogram(bool)));
-    connect(btnContour, SIGNAL(toggled(bool)), 
-        d_plot, SLOT(showContour(bool)));
-    connect(btnPrint, SIGNAL(clicked()), 
-        d_plot, SLOT(printPlot()) );
+    connect(btnSpectrogram, SIGNAL(toggled(bool)), d_plot, SLOT(showSpectrogram(bool)));
+    connect(btnContour, SIGNAL(toggled(bool)), d_plot, SLOT(showContour(bool)));
+    connect(btnPrint, SIGNAL(clicked()), d_plot, SLOT(printPlot()));
 
     btnSpectrogram->setChecked(true);
     btnContour->setChecked(false);
@@ -61,8 +57,8 @@ int main(int argc, char **argv)
 
     MainWindow mainWindow;
 
-    mainWindow.resize(600,400);
+    mainWindow.resize(600, 400);
     mainWindow.show();
 
-    return a.exec(); 
+    return a.exec();
 }

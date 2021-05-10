@@ -64,27 +64,26 @@ int main(int argc, char **argv)
 }
 \endcode
 
-  \todo Improve the support for a logarithmic range and/or scale. 
+  \todo Improve the support for a logarithmic range and/or scale.
 */
-class QWT_EXPORT QwtThermo: public QWidget, public QwtAbstractScale
+class QWT_EXPORT QwtThermo : public QWidget, public QwtAbstractScale
 {
     Q_OBJECT
 
-    Q_ENUMS( ScalePos )
+    Q_ENUMS(ScalePos)
 
-    Q_PROPERTY( QBrush alarmBrush READ alarmBrush WRITE setAlarmBrush )
-    Q_PROPERTY( QColor alarmColor READ alarmColor WRITE setAlarmColor )
-    Q_PROPERTY( bool alarmEnabled READ alarmEnabled WRITE setAlarmEnabled )
-    Q_PROPERTY( double alarmLevel READ alarmLevel WRITE setAlarmLevel )
-    Q_PROPERTY( ScalePos scalePosition READ scalePosition
-        WRITE setScalePosition )
-    Q_PROPERTY( int borderWidth READ borderWidth WRITE setBorderWidth )
-    Q_PROPERTY( QBrush fillBrush READ fillBrush WRITE setFillBrush )
-    Q_PROPERTY( QColor fillColor READ fillColor WRITE setFillColor )
-    Q_PROPERTY( double maxValue READ maxValue WRITE setMaxValue )
-    Q_PROPERTY( double minValue READ minValue WRITE setMinValue )
-    Q_PROPERTY( int pipeWidth READ pipeWidth WRITE setPipeWidth )
-    Q_PROPERTY( double value READ value WRITE setValue )
+    Q_PROPERTY(QBrush alarmBrush READ alarmBrush WRITE setAlarmBrush)
+    Q_PROPERTY(QColor alarmColor READ alarmColor WRITE setAlarmColor)
+    Q_PROPERTY(bool alarmEnabled READ alarmEnabled WRITE setAlarmEnabled)
+    Q_PROPERTY(double alarmLevel READ alarmLevel WRITE setAlarmLevel)
+    Q_PROPERTY(ScalePos scalePosition READ scalePosition WRITE setScalePosition)
+    Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
+    Q_PROPERTY(QBrush fillBrush READ fillBrush WRITE setFillBrush)
+    Q_PROPERTY(QColor fillColor READ fillColor WRITE setFillColor)
+    Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(int pipeWidth READ pipeWidth WRITE setPipeWidth)
+    Q_PROPERTY(double value READ value WRITE setValue)
 
 public:
     /*
@@ -92,17 +91,10 @@ public:
       orientation and scale position:
       - Qt::Horizonal combines with NoScale, TopScale and BottomScale
       - Qt::Vertical combines with NoScale, LeftScale and RightScale
-      
+
       \sa setOrientation(), setScalePosition()
     */
-    enum ScalePos 
-    {
-        NoScale, 
-        LeftScale, 
-        RightScale, 
-        TopScale, 
-        BottomScale
-    };
+    enum ScalePos { NoScale, LeftScale, RightScale, TopScale, BottomScale };
 
     explicit QwtThermo(QWidget *parent = NULL);
     virtual ~QwtThermo();
@@ -120,7 +112,7 @@ public:
 
     void setFillColor(const QColor &c);
     const QColor &fillColor() const;
- 
+
     void setAlarmBrush(const QBrush &b);
     const QBrush &alarmBrush() const;
 
@@ -155,11 +147,11 @@ public:
 
 public slots:
     void setValue(double val);
-    
+
 protected:
-    void draw(QPainter *p, const QRect& update_rect);
+    void draw(QPainter *p, const QRect &update_rect);
     void drawThermo(QPainter *p);
-    void layoutThermo( bool update = true );
+    void layoutThermo(bool update = true);
     virtual void scaleChange();
     virtual void changeEvent(QEvent *event);
 
@@ -171,7 +163,7 @@ protected:
 private:
     void initThermo();
     int transform(double v) const;
-    
+
     class PrivateData;
     PrivateData *d_data;
 };

@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -30,14 +30,14 @@ class QwtPickerMachine;
   QwtPicker filters all mouse and keyboard events of a widget
   and translates them into an array of selected points. Depending
   on the QwtPicker::SelectionType the selection might be a single point,
-  a rectangle or a polygon. The selection process is supported by 
-  optional rubberbands (rubberband selection) and position trackers. 
+  a rectangle or a polygon. The selection process is supported by
+  optional rubberbands (rubberband selection) and position trackers.
 
   QwtPicker is useful for widgets where the event handlers
   can't be overloaded, like for components of composite widgets.
   It offers alternative handlers for mouse and key events.
 
-  \par Example 
+  \par Example
   \verbatim #include <qwt_picker.h>
 
 QwtPicker *picker = new QwtPicker(widget);
@@ -48,19 +48,19 @@ connect(picker, SIGNAL(selected(const QPolygon &)), ...);
 picker->setSelectionFlags(QwtPicker::PointSelection | QwtPicker::ClickSelection);
 
     ...
-    
+
 // now select rectangles
 picker->setSelectionFlags(QwtPicker::RectSelection | QwtPicker::DragSelection);
 picker->setRubberBand(QwtPicker::RectRubberBand); \endverbatim\n
 
   The selection process uses the commands begin(), append(), move() and end().
-  append() adds a new point to the selection, move() changes the position of 
-  the latest point. 
+  append() adds a new point to the selection, move() changes the position of
+  the latest point.
 
-  The commands are initiated from a small state machine (QwtPickerMachine) 
-  that translates mouse and key events. There are a couple of predefined 
+  The commands are initiated from a small state machine (QwtPickerMachine)
+  that translates mouse and key events. There are a couple of predefined
   state machines for point, rect and polygon selections. The selectionFlags()
-  control which one should be used. It is possible to use other machines 
+  control which one should be used. It is possible to use other machines
   by overloading stateMachine().
 
   The picker is active (isActive()), between begin() and end().
@@ -76,7 +76,7 @@ picker->setRubberBand(QwtPicker::RectRubberBand); \endverbatim\n
            or if trackerMode() is AlwayOn.
 */
 
-class QWT_EXPORT QwtPicker: public QObject, public QwtEventPattern
+class QWT_EXPORT QwtPicker : public QObject, public QwtEventPattern
 {
     Q_OBJECT
 
@@ -95,7 +95,7 @@ class QWT_EXPORT QwtPicker: public QObject, public QwtEventPattern
     Q_PROPERTY(QPen rubberBandPen READ rubberBandPen WRITE setRubberBandPen)
 
 public:
-    /*! 
+    /*!
       This enum type describes the type of a selection. It can be or'd
       with QwtPicker::RectSelectionType and QwtPicker::SelectionMode
       and passed to QwtPicker::setSelectionFlags()
@@ -113,18 +113,17 @@ public:
       \sa QwtPicker::setSelectionFlags(), QwtPicker::selectionFlags()
     */
 
-    enum SelectionType
-    {
+    enum SelectionType {
         NoSelection = 0,
         PointSelection = 1,
         RectSelection = 2,
         PolygonSelection = 4
     };
 
-    /*! 
+    /*!
       \brief Selection subtype for RectSelection
-      This enum type describes the type of rectangle selections. 
-      It can be or'd with QwtPicker::RectSelectionType and 
+      This enum type describes the type of rectangle selections.
+      It can be or'd with QwtPicker::RectSelectionType and
       QwtPicker::SelectionMode and passed to QwtPicker::setSelectionFlags().
       - CornerToCorner\n
         The first and the second selected point are the corners
@@ -133,33 +132,24 @@ public:
         The first point is the center, the second a corner of the
         rectangle.
       - CenterToRadius\n
-        The first point is the center of a quadrat, calculated by the maximum 
+        The first point is the center of a quadrat, calculated by the maximum
         of the x- and y-distance.
 
       The default value is CornerToCorner.
       \sa QwtPicker::setSelectionFlags(), QwtPicker::selectionFlags()
     */
-    enum RectSelectionType
-    {
-        CornerToCorner = 64,
-        CenterToCorner = 128,
-        CenterToRadius = 256
-    };
+    enum RectSelectionType { CornerToCorner = 64, CenterToCorner = 128, CenterToRadius = 256 };
 
-    /*! 
+    /*!
       Values of this enum type or'd together with a SelectionType value
       identifies which state machine should be used for the selection.
 
       The default value is ClickSelection.
       \sa stateMachine()
     */
-    enum SelectionMode
-    {
-        ClickSelection = 1024,
-        DragSelection = 2048
-    };
+    enum SelectionMode { ClickSelection = 1024, DragSelection = 2048 };
 
-    /*! 
+    /*!
       Rubberband style
       - NoRubberBand\n
         No rubberband.
@@ -183,8 +173,7 @@ public:
       \sa QwtPicker::setRubberBand(), QwtPicker::rubberBand()
     */
 
-    enum RubberBand
-    {
+    enum RubberBand {
         NoRubberBand = 0,
 
         // Point
@@ -202,7 +191,7 @@ public:
         UserRubberBand = 100
     };
 
-    /*! 
+    /*!
       - AlwaysOff\n
         Display never.
       - AlwaysOn\n
@@ -210,21 +199,16 @@ public:
       - ActiveOnly\n
         Display only when the selection is active.
 
-      \sa QwtPicker::setTrackerMode(), QwtPicker::trackerMode(), 
+      \sa QwtPicker::setTrackerMode(), QwtPicker::trackerMode(),
           QwtPicker::isActive()
     */
-    enum DisplayMode
-    {
-        AlwaysOff,
-        AlwaysOn,
-        ActiveOnly
-    };
+    enum DisplayMode { AlwaysOff, AlwaysOn, ActiveOnly };
 
-    /*! 
+    /*!
       Controls what to do with the selected points of an active
          selection when the observed widget is resized.
       - Stretch\n
-         All points are scaled according to the new size, 
+         All points are scaled according to the new size,
       - KeepSize\n
          All points remain unchanged.
 
@@ -232,15 +216,11 @@ public:
       \sa QwtPicker::setResizeMode(), QwtPicker::resize()
     */
 
-    enum ResizeMode
-    {
-        Stretch,
-        KeepSize
-    };
+    enum ResizeMode { Stretch, KeepSize };
 
     explicit QwtPicker(QWidget *parent);
-    explicit QwtPicker(int selectionFlags, RubberBand rubberBand,
-        DisplayMode trackerMode, QWidget *);
+    explicit QwtPicker(int selectionFlags, RubberBand rubberBand, DisplayMode trackerMode,
+                       QWidget *);
 
     virtual ~QwtPicker();
 
@@ -276,7 +256,7 @@ public:
     const QWidget *parentWidget() const;
 
     virtual QRect pickRect() const;
-    const QPolygon &selection() const; 
+    const QPolygon &selection() const;
 
     virtual void drawRubberBand(QPainter *) const;
     virtual void drawTracker(QPainter *) const;
@@ -285,10 +265,9 @@ public:
     QPoint trackerPosition() const;
     QRect trackerRect(const QFont &) const;
 
-
 signals:
     /*!
-      A signal emitting the selected points, 
+      A signal emitting the selected points,
       at the end of a selection.
 
       \param pa Selected points
@@ -304,7 +283,7 @@ signals:
     void appended(const QPoint &pos);
 
     /*!
-      A signal emitted whenever the last appended point of the 
+      A signal emitted whenever the last appended point of the
       selection has been moved.
 
       \param pos Position of the moved last point of the selection.
@@ -326,7 +305,7 @@ protected:
       \brief Validate and fixup the selection
 
       Accepts all selections unmodified
-    
+
       \param selection Selection to validate and fixup
       \return true, when accepted, false otherwise
     */
@@ -343,15 +322,14 @@ protected:
 
     virtual void widgetMousePressEvent(QMouseEvent *);
     virtual void widgetMouseReleaseEvent(QMouseEvent *);
-    virtual void widgetMouseDoubleClickEvent(QMouseEvent *); 
-    virtual void widgetMouseMoveEvent(QMouseEvent *); 
+    virtual void widgetMouseDoubleClickEvent(QMouseEvent *);
+    virtual void widgetMouseMoveEvent(QMouseEvent *);
     virtual void widgetWheelEvent(QWheelEvent *);
-    virtual void widgetKeyPressEvent(QKeyEvent *); 
-    virtual void widgetKeyReleaseEvent(QKeyEvent *); 
-    virtual void widgetLeaveEvent(QEvent *); 
+    virtual void widgetKeyPressEvent(QKeyEvent *);
+    virtual void widgetKeyReleaseEvent(QKeyEvent *);
+    virtual void widgetLeaveEvent(QEvent *);
 
-    virtual void stretchSelection(const QSize &oldSize, 
-        const QSize &newSize);
+    virtual void stretchSelection(const QSize &oldSize, const QSize &newSize);
 
     virtual QwtPickerMachine *stateMachine(int) const;
 
@@ -361,8 +339,7 @@ protected:
     const QWidget *trackerWidget() const;
 
 private:
-    void init(QWidget *, int selectionFlags, RubberBand rubberBand,
-        DisplayMode trackerMode);
+    void init(QWidget *, int selectionFlags, RubberBand rubberBand, DisplayMode trackerMode);
 
     void setStateMachine(QwtPickerMachine *);
     void setMouseTracking(bool);
@@ -371,5 +348,5 @@ private:
     class PrivateData;
     PrivateData *d_data;
 };
-            
+
 #endif

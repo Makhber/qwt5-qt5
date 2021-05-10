@@ -5,12 +5,11 @@
 
 class QwtPlotCurve;
 
-class CpuPlot : public QwtPlot 
+class CpuPlot : public QwtPlot
 {
     Q_OBJECT
 public:
-    enum CpuData
-    {
+    enum CpuData {
         User,
         System,
         Total,
@@ -20,8 +19,7 @@ public:
     };
 
     CpuPlot(QWidget * = 0);
-    const QwtPlotCurve *cpuCurve(int id) const
-        { return data[id].curve; }
+    const QwtPlotCurve *cpuCurve(int id) const { return data[id].curve; }
 
 protected:
     void timerEvent(QTimerEvent *e);

@@ -4,7 +4,7 @@
 class QwtPlot;
 class QwtScaleWidget;
 
-class ScalePicker: public QObject
+class ScalePicker : public QObject
 {
     Q_OBJECT
 public:

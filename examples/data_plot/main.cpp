@@ -6,7 +6,7 @@
 #include <qlayout.h>
 #include "data_plot.h"
 
-class MainWindow: public QMainWindow
+class MainWindow : public QMainWindow
 {
 public:
     MainWindow()
@@ -28,12 +28,10 @@ public:
         toolBar->addWidget(hBox);
         addToolBar(toolBar);
 
-
         DataPlot *plot = new DataPlot(this);
         setCentralWidget(plot);
 
-        connect(counter, SIGNAL(valueChanged(double)),
-            plot, SLOT(setTimerInterval(double)) );
+        connect(counter, SIGNAL(valueChanged(double)), plot, SLOT(setTimerInterval(double)));
 
         counter->setValue(20.0);
     }
@@ -45,8 +43,8 @@ int main(int argc, char **argv)
 
     MainWindow mainWindow;
 
-    mainWindow.resize(600,400);
+    mainWindow.resize(600, 400);
     mainWindow.show();
 
-    return a.exec(); 
+    return a.exec();
 }

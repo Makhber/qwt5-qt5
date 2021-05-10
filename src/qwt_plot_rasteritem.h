@@ -14,7 +14,7 @@
 #include <qstring.h>
 #include <qimage.h>
 
-#include "qwt_plot_item.h" 
+#include "qwt_plot_item.h"
 
 /*!
   \brief A class, which displays raster data
@@ -33,7 +33,7 @@
   \sa QwtPlotSpectrogram
 */
 
-class QWT_EXPORT QwtPlotRasterItem: public QwtPlotItem
+class QWT_EXPORT QwtPlotRasterItem : public QwtPlotItem
 {
 public:
     /*!
@@ -53,15 +53,10 @@ public:
 
       The default policy is NoCache
      */
-    enum CachePolicy
-    {
-        NoCache,
-        PaintCache,
-        ScreenCache
-    };
+    enum CachePolicy { NoCache, PaintCache, ScreenCache };
 
-    explicit QwtPlotRasterItem(const QString& title = QString());
-    explicit QwtPlotRasterItem(const QwtText& title);
+    explicit QwtPlotRasterItem(const QString &title = QString());
+    explicit QwtPlotRasterItem(const QwtText &title);
     virtual ~QwtPlotRasterItem();
 
     void setAlpha(int alpha);
@@ -72,31 +67,28 @@ public:
 
     void invalidateCache();
 
-    virtual void draw(QPainter *p,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRect &rect) const;
+    virtual void draw(QPainter *p, const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                      const QRect &rect) const;
 
     virtual QSize rasterHint(const QRectF &) const;
 
 protected:
+    /*!
+     Renders an image for an area
 
-     /*!
-      Renders an image for an area
+     The format of the image must be QImage::Format_Indexed8,
+     QImage::Format_RGB32 or QImage::Format_ARGB32
 
-      The format of the image must be QImage::Format_Indexed8,
-      QImage::Format_RGB32 or QImage::Format_ARGB32
-      
-      \param xMap Maps x-values into pixel coordinates.
-      \param yMap Maps y-values into pixel coordinates.
-      \param area Requested area for the image in scale coordinates
-     */
-    virtual QImage renderImage(const QwtScaleMap &xMap, 
-        const QwtScaleMap &yMap, const QRectF &area
-        ) const = 0;
+     \param xMap Maps x-values into pixel coordinates.
+     \param yMap Maps y-values into pixel coordinates.
+     \param area Requested area for the image in scale coordinates
+    */
+    virtual QImage renderImage(const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                               const QRectF &area) const = 0;
 
 private:
-    QwtPlotRasterItem( const QwtPlotRasterItem & );
-    QwtPlotRasterItem &operator=( const QwtPlotRasterItem & );
+    QwtPlotRasterItem(const QwtPlotRasterItem &);
+    QwtPlotRasterItem &operator=(const QwtPlotRasterItem &);
 
     void init();
 

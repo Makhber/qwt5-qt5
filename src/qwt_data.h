@@ -38,7 +38,7 @@ class QWT_EXPORT QwtData
 {
 public:
     QwtData();
-    virtual ~QwtData(); 
+    virtual ~QwtData();
 
     //! \return Pointer to a copy (virtual copy constructor)
     virtual QwtData *copy() const = 0;
@@ -68,11 +68,10 @@ protected:
     QwtData &operator=(const QwtData &);
 };
 
-
 /*!
-  \brief Data class containing a single QVector<QPointF> object. 
+  \brief Data class containing a single QVector<QPointF> object.
  */
-class QWT_EXPORT QwtPolygonFData: public QwtData
+class QWT_EXPORT QwtPolygonFData : public QwtData
 {
 public:
     QwtPolygonFData(const QPolygonF &);
@@ -94,7 +93,7 @@ private:
   \brief Data class containing two QVector<double> objects.
  */
 
-class QWT_EXPORT QwtArrayData: public QwtData
+class QWT_EXPORT QwtArrayData : public QwtData
 {
 public:
     QwtArrayData(const QVector<double> &x, const QVector<double> &y);
@@ -119,7 +118,7 @@ private:
 /*!
   \brief Data class containing two pointers to memory blocks of doubles.
  */
-class QWT_EXPORT QwtCPointerData: public QwtData
+class QWT_EXPORT QwtCPointerData : public QwtData
 {
 public:
     QwtCPointerData(const double *x, const double *y, size_t size);

@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -31,7 +31,7 @@ class QwtScaleDiv;
   rectangle.
 */
 
-class QWT_EXPORT QwtPlotGrid: public QwtPlotItem
+class QWT_EXPORT QwtPlotGrid : public QwtPlotItem
 {
 public:
     explicit QwtPlotGrid();
@@ -60,22 +60,19 @@ public:
     void setPen(const QPen &p);
 
     void setMajPen(const QPen &p);
-    const QPen& majPen() const;
+    const QPen &majPen() const;
 
     void setMinPen(const QPen &p);
-    const QPen& minPen() const;
+    const QPen &minPen() const;
 
-    virtual void draw(QPainter *p, 
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRect &rect) const;
+    virtual void draw(QPainter *p, const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                      const QRect &rect) const;
 
-    virtual void updateScaleDiv(const QwtScaleDiv &xMap,
-        const QwtScaleDiv &yMap);
+    virtual void updateScaleDiv(const QwtScaleDiv &xMap, const QwtScaleDiv &yMap);
 
 private:
-    void drawLines(QPainter *painter, const QRect &,
-        Qt::Orientation orientation, const QwtScaleMap &, 
-        const QList<double> &) const;
+    void drawLines(QPainter *painter, const QRect &, Qt::Orientation orientation,
+                   const QwtScaleMap &, const QList<double> &) const;
 
     class PrivateData;
     PrivateData *d_data;

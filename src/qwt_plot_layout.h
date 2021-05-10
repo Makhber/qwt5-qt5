@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -31,19 +31,18 @@ public:
         Unused
       - IgnoreScrollbars\n
         Ignore the dimension of the scrollbars. There are no
-        scrollbars, when the plot is rendered to a paint device 
+        scrollbars, when the plot is rendered to a paint device
         (QwtPlot::print() ).
       - IgnoreFrames\n
         Ignore all frames. QwtPlot::print() doesn't paint them.
       - IgnoreMargin\n
         Ignore the margin().
       - IgnoreLegend\n
-        Ignore the legend. 
+        Ignore the legend.
 
       \sa activate()
      */
-    enum Options
-    {
+    enum Options {
         AlignScales = 1,
         IgnoreScrollbars = 2,
         IgnoreFrames = 4,
@@ -73,10 +72,9 @@ public:
     void setLegendRatio(double ratio);
     double legendRatio() const;
 
-    virtual QSize minimumSizeHint(const QwtPlot *) const;    
+    virtual QSize minimumSizeHint(const QwtPlot *) const;
 
-    virtual void activate(const QwtPlot *, 
-        const QRect &rect, int options = 0);
+    virtual void activate(const QwtPlot *, const QRect &rect, int options = 0);
 
     virtual void invalidate();
 
@@ -88,16 +86,13 @@ public:
     class LayoutData;
 
 protected:
-
     QRect layoutLegend(int options, const QRect &) const;
-    QRect alignLegend(const QRect &canvasRect, 
-        const QRect &legendRect) const;
+    QRect alignLegend(const QRect &canvasRect, const QRect &legendRect) const;
 
-    void expandLineBreaks(int options, const QRect &rect, 
-        int &dimTitle, int dimAxes[QwtPlot::axisCnt]) const;
+    void expandLineBreaks(int options, const QRect &rect, int &dimTitle,
+                          int dimAxes[QwtPlot::axisCnt]) const;
 
-    void alignScales(int options, QRect &canvasRect,
-        QRect scaleRect[QwtPlot::axisCnt]) const;
+    void alignScales(int options, QRect &canvasRect, QRect scaleRect[QwtPlot::axisCnt]) const;
 
 private:
     class PrivateData;

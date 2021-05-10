@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -13,7 +13,6 @@
 #include "qwt_global.h"
 #include "qwt_scale_div.h"
 #include "qwt_text.h"
-
 
 class QPalette;
 class QPainter;
@@ -33,32 +32,26 @@ class QwtScaleMap;
 class QWT_EXPORT QwtAbstractScaleDraw
 {
 public:
+    /*!
+       Components of a scale
 
-     /*!
-        Components of a scale
+       - Backbone
+       - Ticks
+       - Labels
 
-        - Backbone
-        - Ticks
-        - Labels
+       \sa enableComponent(), hasComponent
+   */
 
-        \sa enableComponent(), hasComponent
-    */
+    enum ScaleComponent { Backbone = 1, Ticks = 2, Labels = 4 };
 
-    enum ScaleComponent
-    { 
-        Backbone = 1,
-        Ticks = 2,
-        Labels = 4
-    };
- 
     QwtAbstractScaleDraw();
-    QwtAbstractScaleDraw( const QwtAbstractScaleDraw & );
+    QwtAbstractScaleDraw(const QwtAbstractScaleDraw &);
     virtual ~QwtAbstractScaleDraw();
 
     QwtAbstractScaleDraw &operator=(const QwtAbstractScaleDraw &);
-    
+
     void setScaleDiv(const QwtScaleDiv &s);
-    const QwtScaleDiv& scaleDiv() const;
+    const QwtScaleDiv &scaleDiv() const;
 
     void setTransformation(QwtScaleTransformation *);
     const QwtScaleMap &map() const;
@@ -77,13 +70,13 @@ public:
 
     virtual QwtText label(double) const;
 
-    /*!  
-      Calculate the extent 
+    /*!
+      Calculate the extent
 
       The extent is the distcance from the baseline to the outermost
       pixel of the scale draw in opposite to its orientation.
       It is at least minimumExtent() pixels.
- 
+
       \sa setMinimumExtent(), minimumExtent()
     */
     virtual int extent(const QPen &, const QFont &) const = 0;
@@ -96,13 +89,13 @@ public:
 protected:
     /*!
        Draw a tick
-  
+
        \param painter Painter
        \param value Value of the tick
        \param len Lenght of the tick
 
        \sa drawBackbone(), drawLabel()
-    */  
+    */
     virtual void drawTick(QPainter *painter, double value, int len) const = 0;
 
     /*!
@@ -113,14 +106,14 @@ protected:
     */
     virtual void drawBackbone(QPainter *painter) const = 0;
 
-    /*!  
+    /*!
         Draws the label for a major scale tick
-    
+
         \param painter Painter
         \param value Value
 
         \sa drawTick, drawBackbone
-    */ 
+    */
     virtual void drawLabel(QPainter *painter, double value) const = 0;
 
     void invalidateCache();

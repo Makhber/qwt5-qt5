@@ -34,18 +34,16 @@ class QwtScaleDraw;
 class QWT_EXPORT QwtSlider : public QwtAbstractSlider, public QwtAbstractScale
 {
     Q_OBJECT
-    Q_ENUMS( ScalePos )
-    Q_ENUMS( BGSTYLE )
-    Q_PROPERTY( ScalePos scalePosition READ scalePosition
-        WRITE setScalePosition )
-    Q_PROPERTY( BGSTYLE bgStyle READ bgStyle WRITE setBgStyle )
-    Q_PROPERTY( int thumbLength READ thumbLength WRITE setThumbLength )
-    Q_PROPERTY( int thumbWidth READ thumbWidth WRITE setThumbWidth )
-    Q_PROPERTY( int borderWidth READ borderWidth WRITE setBorderWidth )
- 
-public:
+    Q_ENUMS(ScalePos)
+    Q_ENUMS(BGSTYLE)
+    Q_PROPERTY(ScalePos scalePosition READ scalePosition WRITE setScalePosition)
+    Q_PROPERTY(BGSTYLE bgStyle READ bgStyle WRITE setBgStyle)
+    Q_PROPERTY(int thumbLength READ thumbLength WRITE setThumbLength)
+    Q_PROPERTY(int thumbWidth READ thumbWidth WRITE setThumbWidth)
+    Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
 
-    /*! 
+public:
+    /*!
       Scale position. QwtSlider tries to enforce valid combinations of its
       orientation and scale position:
       - Qt::Horizonal combines with NoScale, TopScale and BottomScale
@@ -53,38 +51,31 @@ public:
 
       \sa QwtSlider()
      */
-    enum ScalePos 
-    { 
-        NoScale, 
+    enum ScalePos {
+        NoScale,
 
-        LeftScale, 
-        RightScale, 
-        TopScale, 
-        BottomScale 
+        LeftScale,
+        RightScale,
+        TopScale,
+        BottomScale
     };
 
-    /*! 
+    /*!
       Background style.
       \sa QwtSlider()
      */
-    enum BGSTYLE 
-    { 
-        BgTrough = 0x1, 
-        BgSlot = 0x2, 
-        BgBoth = BgTrough | BgSlot
-    };
+    enum BGSTYLE { BgTrough = 0x1, BgSlot = 0x2, BgBoth = BgTrough | BgSlot };
 
-    explicit QwtSlider(QWidget *parent,
-          Qt::Orientation = Qt::Horizontal,
-          ScalePos = NoScale, BGSTYLE bgStyle = BgTrough);
-    
+    explicit QwtSlider(QWidget *parent, Qt::Orientation = Qt::Horizontal, ScalePos = NoScale,
+                       BGSTYLE bgStyle = BgTrough);
+
     virtual ~QwtSlider();
 
-    virtual void setOrientation(Qt::Orientation); 
+    virtual void setOrientation(Qt::Orientation);
 
     void setBgStyle(BGSTYLE);
     BGSTYLE bgStyle() const;
-    
+
     void setScalePosition(ScalePos s);
     ScalePos scalePosition() const;
 
@@ -99,28 +90,27 @@ public:
 
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
-    
+
     void setScaleDraw(QwtScaleDraw *);
     const QwtScaleDraw *scaleDraw() const;
 
 protected:
     virtual double getValue(const QPoint &p);
-    virtual void getScrollMode(const QPoint &p, 
-        int &scrollMode, int &direction);
+    virtual void getScrollMode(const QPoint &p, int &scrollMode, int &direction);
 
-    void draw(QPainter *p, const QRect& update_rect);
-    virtual void drawSlider (QPainter *p, const QRect &r);
+    void draw(QPainter *p, const QRect &update_rect);
+    virtual void drawSlider(QPainter *p, const QRect &r);
     virtual void drawThumb(QPainter *p, const QRect &, int pos);
 
     virtual void resizeEvent(QResizeEvent *e);
-    virtual void paintEvent (QPaintEvent *e);
+    virtual void paintEvent(QPaintEvent *e);
 
     virtual void valueChange();
     virtual void rangeChange();
     virtual void scaleChange();
     virtual void changeEvent(QEvent *event);
 
-    void layoutSlider( bool update = true );
+    void layoutSlider(bool update = true);
     int xyPosition(double v) const;
 
     QwtScaleDraw *scaleDraw();

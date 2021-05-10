@@ -1,7 +1,7 @@
 #include <qwt_plot.h>
 #include <qwt_plot_spectrogram.h>
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 

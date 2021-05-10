@@ -23,18 +23,13 @@ static QString taggedRichText(const QString &text, int flags)
     QString richText = text;
 
     // By default QSimpleRichText is Qt::AlignLeft
-    if (flags & Qt::AlignJustify)
-    {
+    if (flags & Qt::AlignJustify) {
         richText.prepend(QString::fromLatin1("<div align=\"justify\">"));
         richText.append(QString::fromLatin1("</div>"));
-    }
-    else if (flags & Qt::AlignRight)
-    {
+    } else if (flags & Qt::AlignRight) {
         richText.prepend(QString::fromLatin1("<div align=\"right\">"));
         richText.append(QString::fromLatin1("</div>"));
-    }
-    else if (flags & Qt::AlignHCenter)
-    {
+    } else if (flags & Qt::AlignHCenter) {
         richText.prepend(QString::fromLatin1("<div align=\"center\">"));
         richText.append(QString::fromLatin1("</div>"));
     }
@@ -46,7 +41,7 @@ static QString taggedRichText(const QString &text, int flags)
 #include <qtextdocument.h>
 #include <qabstracttextdocumentlayout.h>
 
-class QwtRichTextDocument: public QTextDocument
+class QwtRichTextDocument : public QTextDocument
 {
 public:
     QwtRichTextDocument(const QString &text, int flags, const QFont &font)
@@ -59,12 +54,12 @@ public:
         (void)documentLayout();
 
         QTextOption option = defaultTextOption();
-        if ( flags & Qt::TextWordWrap )
+        if (flags & Qt::TextWordWrap)
             option.setWrapMode(QTextOption::WordWrap);
         else
             option.setWrapMode(QTextOption::NoWrap);
 
-        option.setAlignment((Qt::Alignment) flags);
+        option.setAlignment((Qt::Alignment)flags);
         setDefaultTextOption(option);
 
         QTextFrame *root = rootFrame();
@@ -87,10 +82,8 @@ public:
     {
         const QString fontKey = font.key();
 
-        QMap<QString, int>::const_iterator it = 
-            d_ascentCache.find(fontKey);
-        if ( it == d_ascentCache.end() )
-        {
+        QMap<QString, int>::const_iterator it = d_ascentCache.find(fontKey);
+        if (it == d_ascentCache.end()) {
             int ascent = findAscent(font);
             it = d_ascentCache.insert(fontKey, ascent);
         }
@@ -105,7 +98,7 @@ private:
         static const QColor white(Qt::white);
 
         const QFontMetrics fm(font);
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
         QPixmap pm(fm.horizontalAdvance(dummy), fm.height());
 #else
         QPixmap pm(fm.width(dummy), fm.height());
@@ -113,40 +106,34 @@ private:
         pm.fill(white);
 
         QPainter p(&pm);
-        p.setFont(font);  
-        p.drawText(0, 0,  pm.width(), pm.height(), 0, dummy);
+        p.setFont(font);
+        p.drawText(0, 0, pm.width(), pm.height(), 0, dummy);
         p.end();
 
         const QImage img = pm.toImage();
 
         int row = 0;
-        for ( row = 0; row < img.height(); row++ )
-        {   
+        for (row = 0; row < img.height(); row++) {
             const QRgb *line = (const QRgb *)img.scanLine(row);
 
             const int w = pm.width();
-            for ( int col = 0; col < w; col++ )
-            {   
-                if ( line[col] != white.rgb() )
+            for (int col = 0; col < w; col++) {
+                if (line[col] != white.rgb())
                     return fm.ascent() - row + 1;
             }
         }
 
         return fm.ascent();
-    }   
+    }
 
     mutable QMap<QString, int> d_ascentCache;
 };
 
 //! Constructor
-QwtTextEngine::QwtTextEngine()
-{
-}
+QwtTextEngine::QwtTextEngine() { }
 
 //! Destructor
-QwtTextEngine::~QwtTextEngine()
-{
-}
+QwtTextEngine::~QwtTextEngine() { }
 
 //! Constructor
 QwtPlainTextEngine::QwtPlainTextEngine()
@@ -166,16 +153,15 @@ QwtPlainTextEngine::~QwtPlainTextEngine()
    \param font Font of the text
    \param flags Bitwise OR of the flags used like in QPainter::drawText
    \param text Text to be rendered
-   \param width Width  
+   \param width Width
 
    \return Calculated height
 */
-int QwtPlainTextEngine::heightForWidth(const QFont& font, int flags,
-        const QString& text, int width) const
+int QwtPlainTextEngine::heightForWidth(const QFont &font, int flags, const QString &text,
+                                       int width) const
 {
     const QFontMetrics fm(font);
-    const QRect rect = fm.boundingRect(
-        0, 0, width, QWIDGETSIZE_MAX, flags, text);
+    const QRect rect = fm.boundingRect(0, 0, width, QWIDGETSIZE_MAX, flags, text);
 
     return rect.height();
 }
@@ -189,12 +175,10 @@ int QwtPlainTextEngine::heightForWidth(const QFont& font, int flags,
 
   \return Caluclated size
 */
-QSize QwtPlainTextEngine::textSize(const QFont &font,
-    int flags, const QString& text) const
+QSize QwtPlainTextEngine::textSize(const QFont &font, int flags, const QString &text) const
 {
     const QFontMetrics fm(font);
-    const QRect rect = fm.boundingRect(
-        0, 0, QWIDGETSIZE_MAX, QWIDGETSIZE_MAX, flags, text);
+    const QRect rect = fm.boundingRect(0, 0, QWIDGETSIZE_MAX, QWIDGETSIZE_MAX, flags, text);
 
     return rect.size();
 }
@@ -208,8 +192,8 @@ QSize QwtPlainTextEngine::textSize(const QFont &font,
   \param top Return value for the top margin
   \param bottom Return value for the bottom margin
 */
-void QwtPlainTextEngine::textMargins(const QFont &font, const QString &,
-    int &left, int &right, int &top, int &bottom) const
+void QwtPlainTextEngine::textMargins(const QFont &font, const QString &, int &left, int &right,
+                                     int &top, int &bottom) const
 {
     left = right = top = 0;
 
@@ -220,7 +204,7 @@ void QwtPlainTextEngine::textMargins(const QFont &font, const QString &,
 
 /*!
   \brief Draw the text in a clipping rectangle
-      
+
   A wrapper for QPainter::drawText.
 
   \param painter Painter
@@ -228,13 +212,13 @@ void QwtPlainTextEngine::textMargins(const QFont &font, const QString &,
   \param flags Bitwise OR of the flags used like in QPainter::drawText
   \param text Text to be rendered
 */
-void QwtPlainTextEngine::draw(QPainter *painter, const QRect &rect,
-    int flags, const QString& text) const
+void QwtPlainTextEngine::draw(QPainter *painter, const QRect &rect, int flags,
+                              const QString &text) const
 {
     QwtPainter::drawText(painter, rect, flags, text);
 }
 
-/*! 
+/*!
   Test if a string can be rendered by this text engine.
   \return Always true. All texts can be rendered by QwtPlainTextEngine
 */
@@ -246,22 +230,20 @@ bool QwtPlainTextEngine::mightRender(const QString &) const
 #ifndef QT_NO_RICHTEXT
 
 //! Constructor
-QwtRichTextEngine::QwtRichTextEngine()
-{
-}
+QwtRichTextEngine::QwtRichTextEngine() { }
 
 /*!
    Find the height for a given width
-  
+
    \param font Font of the text
    \param flags Bitwise OR of the flags used like in QPainter::drawText
    \param text Text to be rendered
-   \param width Width  
+   \param width Width
 
    \return Calculated height
 */
-int QwtRichTextEngine::heightForWidth(const QFont& font, int flags,
-        const QString& text, int width) const
+int QwtRichTextEngine::heightForWidth(const QFont &font, int flags, const QString &text,
+                                      int width) const
 {
     QwtRichTextDocument doc(text, flags, font);
 
@@ -272,7 +254,7 @@ int QwtRichTextEngine::heightForWidth(const QFont& font, int flags,
 
 /*!
   Returns the size, that is needed to render text
-  
+
   \param font Font of the text
   \param flags Bitwise OR of the flags used like in QPainter::drawText
   \param text Text to be rendered
@@ -280,13 +262,11 @@ int QwtRichTextEngine::heightForWidth(const QFont& font, int flags,
   \return Caluclated size
 */
 
-QSize QwtRichTextEngine::textSize(const QFont &font,
-    int flags, const QString& text) const
+QSize QwtRichTextEngine::textSize(const QFont &font, int flags, const QString &text) const
 {
     QwtRichTextDocument doc(text, flags, font);
     QTextOption option = doc.defaultTextOption();
-    if ( option.wrapMode() != QTextOption::NoWrap )
-    {
+    if (option.wrapMode() != QTextOption::NoWrap) {
         option.setWrapMode(QTextOption::NoWrap);
         doc.setDefaultTextOption(option);
         doc.adjustSize();
@@ -302,14 +282,14 @@ QSize QwtRichTextEngine::textSize(const QFont &font,
   \param flags Bitwise OR of the flags like in for QPainter::drawText
   \param text Text to be rendered
 */
-void QwtRichTextEngine::draw(QPainter *painter, const QRect &rect,
-    int flags, const QString& text) const
+void QwtRichTextEngine::draw(QPainter *painter, const QRect &rect, int flags,
+                             const QString &text) const
 {
     QwtRichTextDocument doc(text, flags, painter->font());
     QwtPainter::drawSimpleRichText(painter, rect, flags, doc);
 }
 
-/*! 
+/*!
    Wrap text into <div align=...> </div> tags according flags
 
    \param text Text
@@ -341,8 +321,8 @@ bool QwtRichTextEngine::mightRender(const QString &text) const
   \param top Return 0
   \param bottom Return 0
 */
-void QwtRichTextEngine::textMargins(const QFont &, const QString &,
-    int &left, int &right, int &top, int &bottom) const
+void QwtRichTextEngine::textMargins(const QFont &, const QString &, int &left, int &right, int &top,
+                                    int &bottom) const
 {
     left = right = top = bottom = 0;
 }

@@ -1,14 +1,13 @@
 #include <qdatetime.h>
 
-class CpuStat 
+class CpuStat
 {
 public:
     CpuStat();
     void statistic(double &user, double &system);
     QTime upTime() const;
 
-    enum Value
-    {
+    enum Value {
         User,
         Nice,
         System,

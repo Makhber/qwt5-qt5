@@ -22,26 +22,25 @@ template class QWT_EXPORT QMap<double, QString>;
 
 #endif
 
-
 class QwtCompassRose;
 
 /*!
   \brief A Compass Widget
 
   QwtCompass is a widget to display and enter directions. It consists
-  of a scale, an optional needle and rose. 
+  of a scale, an optional needle and rose.
 
-  \image html dials1.png 
+  \image html dials1.png
 
   \note The examples/dials example shows how to use QwtCompass.
 */
 
-class QWT_EXPORT QwtCompass: public QwtDial 
+class QWT_EXPORT QwtCompass : public QwtDial
 {
     Q_OBJECT
 
 public:
-    explicit QwtCompass( QWidget* parent = NULL);
+    explicit QwtCompass(QWidget *parent = NULL);
     virtual ~QwtCompass();
 
     void setRose(QwtCompassRose *rose);
@@ -55,11 +54,10 @@ public:
 protected:
     virtual QwtText scaleLabel(double value) const;
 
-    virtual void drawRose(QPainter *, const QPoint &center,
-        int radius, double north, QPalette::ColorGroup) const;
+    virtual void drawRose(QPainter *, const QPoint &center, int radius, double north,
+                          QPalette::ColorGroup) const;
 
-    virtual void drawScaleContents(QPainter *, 
-        const QPoint &center, int radius) const; 
+    virtual void drawScaleContents(QPainter *, const QPoint &center, int radius) const;
 
     virtual void keyPressEvent(QKeyEvent *);
 

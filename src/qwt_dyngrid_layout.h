@@ -18,9 +18,9 @@
 /*!
   \brief The QwtDynGridLayout class lays out widgets in a grid,
          adjusting the number of columns and rows to the current size.
-         
-  QwtDynGridLayout takes the space it gets, divides it up into rows and 
-  columns, and puts each of the widgets it manages into the correct cell(s). 
+
+  QwtDynGridLayout takes the space it gets, divides it up into rows and
+  columns, and puts each of the widgets it manages into the correct cell(s).
   It lays out as many number of columns as possible (limited by maxCols()).
 */
 
@@ -38,13 +38,13 @@ public:
     void setMaxCols(uint maxCols);
     uint maxCols() const;
 
-    uint numRows () const; 
-    uint numCols () const;
+    uint numRows() const;
+    uint numCols() const;
 
     virtual void addItem(QLayoutItem *);
 
-    virtual QLayoutItem *itemAt( int index ) const;
-    virtual QLayoutItem *takeAt( int index );
+    virtual QLayoutItem *itemAt(int index) const;
+    virtual QLayoutItem *takeAt(int index);
     virtual int count() const;
 
     void setExpandingDirections(Qt::Orientations);
@@ -66,12 +66,9 @@ public:
     virtual uint columnsForWidth(int width) const;
 
 protected:
-
-    void layoutGrid(uint numCols,
-        QVector<int>& rowHeight, QVector<int>& colWidth) const;
-    void stretchGrid(const QRect &rect, uint numCols, 
-        QVector<int>& rowHeight, QVector<int>& colWidth) const;
-
+    void layoutGrid(uint numCols, QVector<int> &rowHeight, QVector<int> &colWidth) const;
+    void stretchGrid(const QRect &rect, uint numCols, QVector<int> &rowHeight,
+                     QVector<int> &colWidth) const;
 
 private:
     void init();

@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -11,39 +11,32 @@
 #include "qwt_interval_data.h"
 
 //! Constructor
-QwtIntervalData::QwtIntervalData()
-{
-}
+QwtIntervalData::QwtIntervalData() { }
 
 //! Constructor
-QwtIntervalData::QwtIntervalData(
-        const QVector<QwtDoubleInterval> &intervals, 
-        const QVector<double> &values):
-    d_intervals(intervals),
-    d_values(values)
-{
-}
-    
-//! Destructor
-QwtIntervalData::~QwtIntervalData()
+QwtIntervalData::QwtIntervalData(const QVector<QwtDoubleInterval> &intervals,
+                                 const QVector<double> &values)
+    : d_intervals(intervals), d_values(values)
 {
 }
 
+//! Destructor
+QwtIntervalData::~QwtIntervalData() { }
+
 //! Assign samples
-void QwtIntervalData::setData(
-    const QVector<QwtDoubleInterval> &intervals,
-    const QVector<double> &values)
+void QwtIntervalData::setData(const QVector<QwtDoubleInterval> &intervals,
+                              const QVector<double> &values)
 {
     d_intervals = intervals;
     d_values = values;
 }
 
-/*! 
+/*!
    Calculate the bounding rectangle of the samples
 
    The x coordinates of the rectangle are built from the intervals,
    the y coordinates from the values.
-   
+
    \return Bounding rectangle
 */
 QRectF QwtIntervalData::boundingRect() const
@@ -54,36 +47,32 @@ QRectF QwtIntervalData::boundingRect() const
     bool isValid = false;
 
     const size_t sz = size();
-    for ( size_t i = 0; i < sz; i++ )
-    {
+    for (size_t i = 0; i < sz; i++) {
         const QwtDoubleInterval intv = interval(i);
-        if ( !intv.isValid() )
+        if (!intv.isValid())
             continue;
 
         const double v = value(i);
 
-        if ( !isValid )
-        {
+        if (!isValid) {
             minX = intv.minValue();
             maxX = intv.maxValue();
             minY = maxY = v;
 
             isValid = true;
-        }
-        else
-        {
-            if ( intv.minValue() < minX )
+        } else {
+            if (intv.minValue() < minX)
                 minX = intv.minValue();
-            if ( intv.maxValue() > maxX )
+            if (intv.maxValue() > maxX)
                 maxX = intv.maxValue();
 
-            if ( v < minY )
+            if (v < minY)
                 minY = v;
-            if ( v > maxY )
+            if (v > maxY)
                 maxY = v;
         }
     }
-    if ( !isValid )
+    if (!isValid)
         return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
     return QRectF(minX, minY, maxX - minX, maxY - minY);

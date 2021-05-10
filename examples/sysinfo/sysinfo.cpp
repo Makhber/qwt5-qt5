@@ -6,18 +6,17 @@
 #include <qlayout.h>
 #include <qwt_thermo.h>
 
-class ValueBar: public QWidget
+class ValueBar : public QWidget
 {
 public:
-    ValueBar(Qt::Orientation orientation, 
-            const QString &text, QWidget *parent, double value = 0.0):
-        QWidget(parent)
+    ValueBar(Qt::Orientation orientation, const QString &text, QWidget *parent, double value = 0.0)
+        : QWidget(parent)
     {
         d_label = new QLabel(text, this);
         d_label->setFont(QFont("Helvetica", 10));
 
         d_thermo = new QwtThermo(this);
-        d_thermo->setRange(0.0,100.0);
+        d_thermo->setRange(0.0, 100.0);
         d_thermo->setValue(value);
         d_thermo->setFont(QFont("Helvetica", 8));
         d_thermo->setPipeWidth(6);
@@ -30,15 +29,12 @@ public:
         layout->setMargin(0);
         layout->setSpacing(0);
 
-        if ( orientation == Qt::Horizontal )
-        {
+        if (orientation == Qt::Horizontal) {
             d_label->setAlignment(Qt::AlignCenter);
             d_thermo->setOrientation(orientation, QwtThermo::BottomScale);
             layout->addWidget(d_label);
             layout->addWidget(d_thermo);
-        }
-        else
-        {
+        } else {
             d_label->setAlignment(Qt::AlignRight);
             d_thermo->setOrientation(orientation, QwtThermo::LeftScale);
             layout->addWidget(d_thermo, 10, Qt::AlignHCenter);
@@ -46,10 +42,8 @@ public:
         }
     }
 
-    void setValue(double value)
-    {
-        d_thermo->setValue(value);
-    }
+    void setValue(double value) { d_thermo->setValue(value); }
+
 private:
     QLabel *d_label;
     QwtThermo *d_thermo;
@@ -58,9 +52,8 @@ private:
 class SysInfo : public QFrame
 {
 public:
-    SysInfo(QWidget *parent = NULL):
-        QFrame(parent)
-    {   
+    SysInfo(QWidget *parent = NULL) : QFrame(parent)
+    {
         QGroupBox *memBox = new QGroupBox("Memory Usage", this);
         memBox->setFont(QFont("Helvetica", 10));
 
@@ -96,10 +89,10 @@ public:
     }
 };
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
     QApplication a(argc, argv);
-    
+
     SysInfo info;
     info.resize(info.sizeHint().expandedTo(QSize(600, 400)));
     info.show();

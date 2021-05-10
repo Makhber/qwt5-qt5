@@ -12,8 +12,8 @@
 
 #include <qglobal.h>
 
-#include "qwt_raster_data.h" 
-#include "qwt_plot_rasteritem.h" 
+#include "qwt_raster_data.h"
+#include "qwt_plot_rasteritem.h"
 
 class QwtColorMap;
 
@@ -25,13 +25,13 @@ class QwtColorMap;
   from the values using a color map.
 
   In ContourMode contour lines are painted for the contour levels.
-  
+
   \image html spectrogram3.png
 
   \sa QwtRasterData, QwtColorMap
 */
 
-class QWT_EXPORT QwtPlotSpectrogram: public QwtPlotRasterItem
+class QWT_EXPORT QwtPlotSpectrogram : public QwtPlotRasterItem
 {
 public:
     /*!
@@ -47,11 +47,7 @@ public:
       \sa setDisplayMode(), testDisplayMode()
     */
 
-    enum DisplayMode
-    {
-        ImageMode = 1,
-        ContourMode = 2
-    };
+    enum DisplayMode { ImageMode = 1, ContourMode = 2 };
 
     explicit QwtPlotSpectrogram(const QString &title = QString());
     virtual ~QwtPlotSpectrogram();
@@ -81,24 +77,20 @@ public:
 
     virtual int rtti() const;
 
-    virtual void draw(QPainter *p,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRect &rect) const;
+    virtual void draw(QPainter *p, const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                      const QRect &rect) const;
 
 protected:
-    virtual QImage renderImage(
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap, 
-        const QRectF &rect) const;
+    virtual QImage renderImage(const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                               const QRectF &rect) const;
 
-    virtual QSize contourRasterSize(
-        const QRectF &, const QRect &) const;
+    virtual QSize contourRasterSize(const QRectF &, const QRect &) const;
 
-    virtual QwtRasterData::ContourLines renderContourLines(
-        const QRectF &rect, const QSize &raster) const;
+    virtual QwtRasterData::ContourLines renderContourLines(const QRectF &rect,
+                                                           const QSize &raster) const;
 
-    virtual void drawContourLines(QPainter *p,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QwtRasterData::ContourLines& lines) const;
+    virtual void drawContourLines(QPainter *p, const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                                  const QwtRasterData::ContourLines &lines) const;
 
 private:
     class PrivateData;

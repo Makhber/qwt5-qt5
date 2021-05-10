@@ -14,10 +14,9 @@
 
 #include <QDialog>
 
-namespace QwtDesignerPlugin
-{
+namespace QwtDesignerPlugin {
 
-class PlotDialog: public QDialog 
+class PlotDialog : public QDialog
 {
     Q_OBJECT
 
@@ -25,7 +24,7 @@ public:
     PlotDialog(const QString &properties, QWidget *parent = NULL);
 
 signals:
-    void edited(const QString&);
+    void edited(const QString &);
 };
 
 }

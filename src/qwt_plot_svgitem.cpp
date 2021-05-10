@@ -19,9 +19,7 @@
 class QwtPlotSvgItem::PrivateData
 {
 public:
-    PrivateData()
-    {
-    }
+    PrivateData() { }
 
     QRectF boundingRect;
     QSvgRenderer renderer;
@@ -29,30 +27,28 @@ public:
 
 /*!
    \brief Constructor
- 
+
    Sets the following item attributes:
    - QwtPlotItem::AutoScale: true
    - QwtPlotItem::Legend:    false
 
    \param title Title
 */
-QwtPlotSvgItem::QwtPlotSvgItem(const QString& title):
-    QwtPlotItem(QwtText(title))
+QwtPlotSvgItem::QwtPlotSvgItem(const QString &title) : QwtPlotItem(QwtText(title))
 {
     init();
 }
 
 /*!
    \brief Constructor
- 
+
    Sets the following item attributes:
    - QwtPlotItem::AutoScale: true
    - QwtPlotItem::Legend:    false
 
    \param title Title
 */
-QwtPlotSvgItem::QwtPlotSvgItem(const QwtText& title):
-    QwtPlotItem(title)
+QwtPlotSvgItem::QwtPlotSvgItem(const QwtText &title) : QwtPlotItem(title)
 {
     init();
 }
@@ -87,8 +83,7 @@ int QwtPlotSvgItem::rtti() const
 
    \return true, if the SVG file could be loaded
 */
-bool QwtPlotSvgItem::loadFile(const QRectF &rect, 
-    const QString &fileName)
+bool QwtPlotSvgItem::loadFile(const QRectF &rect, const QString &fileName)
 {
     d_data->boundingRect = rect;
     const bool ok = d_data->renderer.load(fileName);
@@ -97,15 +92,14 @@ bool QwtPlotSvgItem::loadFile(const QRectF &rect,
 }
 
 /*!
-   Load SVG data 
+   Load SVG data
 
    \param rect Bounding rectangle
    \param data in SVG format
 
    \return true, if the SVG data could be loaded
 */
-bool QwtPlotSvgItem::loadData(const QRectF &rect, 
-    const QByteArray &data)
+bool QwtPlotSvgItem::loadData(const QRectF &rect, const QByteArray &data)
 {
     d_data->boundingRect = rect;
     const bool ok = d_data->renderer.load(data);
@@ -139,16 +133,14 @@ QSvgRenderer &QwtPlotSvgItem::renderer()
   \param yMap Y-Scale Map
   \param canvasRect Contents rect of the plot canvas
 */
-void QwtPlotSvgItem::draw(QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRect &canvasRect) const
+void QwtPlotSvgItem::draw(QPainter *painter, const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                          const QRect &canvasRect) const
 {
     const QRectF cRect = invTransform(xMap, yMap, canvasRect);
     const QRectF bRect = boundingRect();
-    if ( bRect.isValid() && cRect.isValid() )
-    {
+    if (bRect.isValid() && cRect.isValid()) {
         QRectF rect = bRect;
-        if ( bRect.contains(cRect) )
+        if (bRect.contains(cRect))
             rect = cRect;
 
         const QRect r = transform(xMap, yMap, rect);
@@ -163,10 +155,9 @@ void QwtPlotSvgItem::draw(QPainter *painter,
   \param viewBox View Box, see QSvgRenderer::viewBox
   \param rect Traget rectangle on the paint device
 */
-void QwtPlotSvgItem::render(QPainter *painter,
-        const QRectF &viewBox, const QRect &rect) const
+void QwtPlotSvgItem::render(QPainter *painter, const QRectF &viewBox, const QRect &rect) const
 {
-    if ( !viewBox.isValid() )
+    if (!viewBox.isValid())
         return;
 
     d_data->renderer.setViewBox(viewBox);
@@ -185,7 +176,7 @@ QRectF QwtPlotSvgItem::viewBox(const QRectF &rect) const
     const QSize sz = d_data->renderer.defaultSize();
     const QRectF br = boundingRect();
 
-    if ( !rect.isValid() || !br.isValid() || sz.isNull() )
+    if (!rect.isValid() || !br.isValid() || sz.isNull())
         return QRectF();
 
     QwtScaleMap xMap;

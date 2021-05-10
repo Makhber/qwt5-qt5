@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -11,23 +11,19 @@
 #include "qwt_data.h"
 
 //! Constructor
-QwtData::QwtData()
-{
-}
+QwtData::QwtData() { }
 
 //! Destructor
-QwtData::~QwtData()
-{
-}
+QwtData::~QwtData() { }
 
 /*!
   Returns the bounding rectangle of the data. If there is
   no bounding rect, like for empty data the rectangle is invalid:
   QRectF::isValid() == false
 
-  \warning This is an slow implementation iterating over all points. 
+  \warning This is an slow implementation iterating over all points.
            It is intended to be overloaded by derived classes. In case of
-           auto scaling boundingRect() is called for every replot, so it 
+           auto scaling boundingRect() is called for every replot, so it
            might be worth to implement a cache, or use x(0), x(size() - 1)
            for ordered data ...
 */
@@ -35,25 +31,24 @@ QRectF QwtData::boundingRect() const
 {
     const size_t sz = size();
 
-    if ( sz <= 0 )
+    if (sz <= 0)
         return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
     double minX, maxX, minY, maxY;
     minX = maxX = x(0);
     minY = maxY = y(0);
 
-    for ( size_t i = 1; i < sz; i++ )
-    {
+    for (size_t i = 1; i < sz; i++) {
         const double xv = x(i);
-        if ( xv < minX )
+        if (xv < minX)
             minX = xv;
-        if ( xv > maxX )
+        if (xv > maxX)
             maxX = xv;
 
         const double yv = y(i);
-        if ( yv < minY )
+        if (yv < minY)
             minY = yv;
-        if ( yv > maxY )
+        if (yv > maxY)
             maxY = yv;
     }
     return QRectF(minX, minY, maxX - minX, maxY - minY);
@@ -65,26 +60,21 @@ QRectF QwtData::boundingRect() const
   \param polygon Polygon data
   \sa QwtPlotCurve::setData()
 */
-QwtPolygonFData::QwtPolygonFData(const QPolygonF &polygon):
-    d_data(polygon)
-{
-}
+QwtPolygonFData::QwtPolygonFData(const QPolygonF &polygon) : d_data(polygon) { }
 
-//! Assignment 
-QwtPolygonFData& QwtPolygonFData::operator=(
-    const QwtPolygonFData &data)
+//! Assignment
+QwtPolygonFData &QwtPolygonFData::operator=(const QwtPolygonFData &data)
 {
-    if (this != &data)
-    {
+    if (this != &data) {
         d_data = data.d_data;
     }
     return *this;
 }
 
-//! \return Size of the data set 
-size_t QwtPolygonFData::size() const 
-{ 
-    return d_data.size(); 
+//! \return Size of the data set
+size_t QwtPolygonFData::size() const
+{
+    return d_data.size();
 }
 
 /*!
@@ -93,9 +83,9 @@ size_t QwtPolygonFData::size() const
   \param i Index
   \return x X value of data point i
 */
-double QwtPolygonFData::x(size_t i) const 
-{ 
-    return d_data[int(i)].x(); 
+double QwtPolygonFData::x(size_t i) const
+{
+    return d_data[int(i)].x();
 }
 
 /*!
@@ -104,9 +94,9 @@ double QwtPolygonFData::x(size_t i) const
   \param i Index
   \return y Y value of data point i
 */
-double QwtPolygonFData::y(size_t i) const 
-{ 
-    return d_data[int(i)].y(); 
+double QwtPolygonFData::y(size_t i) const
+{
+    return d_data[int(i)].y();
 }
 
 //! \return Point array
@@ -118,9 +108,9 @@ const QPolygonF &QwtPolygonFData::data() const
 /*!
   \return Pointer to a copy (virtual copy constructor)
 */
-QwtData *QwtPolygonFData::copy() const 
-{ 
-    return new QwtPolygonFData(d_data); 
+QwtData *QwtPolygonFData::copy() const
+{
+    return new QwtPolygonFData(d_data);
 }
 
 /*!
@@ -128,19 +118,14 @@ QwtData *QwtPolygonFData::copy() const
 
   \param x Array of x values
   \param y Array of y values
-  
+
   \sa QwtPlotCurve::setData()
 */
-QwtArrayData::QwtArrayData(
-        const QVector<double> &x, const QVector<double> &y): 
-    d_x(x), 
-    d_y(y)
-{
-}
+QwtArrayData::QwtArrayData(const QVector<double> &x, const QVector<double> &y) : d_x(x), d_y(y) { }
 
 /*!
   Constructor
-  
+
   \param x Array of x values
   \param y Array of y values
   \param size Size of the x and y arrays
@@ -155,21 +140,20 @@ QwtArrayData::QwtArrayData(const double *x, const double *y, size_t size)
     memcpy(d_y.data(), y, size * sizeof(double));
 }
 
-//! Assignment 
-QwtArrayData& QwtArrayData::operator=(const QwtArrayData &data)
+//! Assignment
+QwtArrayData &QwtArrayData::operator=(const QwtArrayData &data)
 {
-    if (this != &data)
-    {
+    if (this != &data) {
         d_x = data.d_x;
         d_y = data.d_y;
     }
     return *this;
 }
 
-//! \return Size of the data set 
-size_t QwtArrayData::size() const 
-{ 
-    return qwtMin(d_x.size(), d_y.size()); 
+//! \return Size of the data set
+size_t QwtArrayData::size() const
+{
+    return qwtMin(d_x.size(), d_y.size());
 }
 
 /*!
@@ -178,9 +162,9 @@ size_t QwtArrayData::size() const
   \param i Index
   \return x X value of data point i
 */
-double QwtArrayData::x(size_t i) const 
-{ 
-    return d_x[int(i)]; 
+double QwtArrayData::x(size_t i) const
+{
+    return d_x[int(i)];
 }
 
 /*!
@@ -189,9 +173,9 @@ double QwtArrayData::x(size_t i) const
   \param i Index
   \return y Y value of data point i
 */
-double QwtArrayData::y(size_t i) const 
-{ 
-    return d_y[int(i)]; 
+double QwtArrayData::y(size_t i) const
+{
+    return d_y[int(i)];
 }
 
 //! \return Array of the x-values
@@ -209,9 +193,9 @@ const QVector<double> &QwtArrayData::yData() const
 /*!
   \return Pointer to a copy (virtual copy constructor)
 */
-QwtData *QwtArrayData::copy() const 
-{ 
-    return new QwtArrayData(d_x, d_y); 
+QwtData *QwtArrayData::copy() const
+{
+    return new QwtArrayData(d_x, d_y);
 }
 
 /*!
@@ -223,7 +207,7 @@ QRectF QwtArrayData::boundingRect() const
 {
     const size_t sz = size();
 
-    if ( sz <= 0 )
+    if (sz <= 0)
         return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
     double minX, maxX, minY, maxY;
@@ -233,18 +217,17 @@ QRectF QwtArrayData::boundingRect() const
     minX = maxX = *xIt++;
     minY = maxY = *yIt++;
 
-    while ( xIt < end )
-    {
+    while (xIt < end) {
         const double xv = *xIt++;
-        if ( xv < minX )
+        if (xv < minX)
             minX = xv;
-        if ( xv > maxX )
+        if (xv > maxX)
             maxX = xv;
 
         const double yv = *yIt++;
-        if ( yv < minY )
+        if (yv < minY)
             minY = yv;
-        if ( yv > maxY )
+        if (yv > maxY)
             maxY = yv;
     }
     return QRectF(minX, minY, maxX - minX, maxY - minY);
@@ -258,24 +241,20 @@ QRectF QwtArrayData::boundingRect() const
   \param size Size of the x and y arrays
 
   \warning The programmer must assure that the memory blocks referenced
-           by the pointers remain valid during the lifetime of the 
+           by the pointers remain valid during the lifetime of the
            QwtPlotCPointer object.
 
   \sa QwtPlotCurve::setData(), QwtPlotCurve::setRawData()
 */
-QwtCPointerData::QwtCPointerData(
-    const double *x, const double *y, size_t size):
-    d_x(x), 
-    d_y(y), 
-    d_size(size)
+QwtCPointerData::QwtCPointerData(const double *x, const double *y, size_t size)
+    : d_x(x), d_y(y), d_size(size)
 {
 }
 
-//! Assignment 
-QwtCPointerData& QwtCPointerData::operator=(const QwtCPointerData &data)
+//! Assignment
+QwtCPointerData &QwtCPointerData::operator=(const QwtCPointerData &data)
 {
-    if (this != &data)
-    {
+    if (this != &data) {
         d_x = data.d_x;
         d_y = data.d_y;
         d_size = data.d_size;
@@ -283,10 +262,10 @@ QwtCPointerData& QwtCPointerData::operator=(const QwtCPointerData &data)
     return *this;
 }
 
-//! \return Size of the data set 
-size_t QwtCPointerData::size() const 
-{   
-    return d_size; 
+//! \return Size of the data set
+size_t QwtCPointerData::size() const
+{
+    return d_size;
 }
 
 /*!
@@ -295,9 +274,9 @@ size_t QwtCPointerData::size() const
   \param i Index
   \return x X value of data point i
 */
-double QwtCPointerData::x(size_t i) const 
-{ 
-    return d_x[int(i)]; 
+double QwtCPointerData::x(size_t i) const
+{
+    return d_x[int(i)];
 }
 
 /*!
@@ -306,9 +285,9 @@ double QwtCPointerData::x(size_t i) const
   \param i Index
   \return y Y value of data point i
 */
-double QwtCPointerData::y(size_t i) const 
-{ 
-    return d_y[int(i)]; 
+double QwtCPointerData::y(size_t i) const
+{
+    return d_y[int(i)];
 }
 
 //! \return Array of the x-values
@@ -326,7 +305,7 @@ const double *QwtCPointerData::yData() const
 /*!
   \return Pointer to a copy (virtual copy constructor)
 */
-QwtData *QwtCPointerData::copy() const 
+QwtData *QwtCPointerData::copy() const
 {
     return new QwtCPointerData(d_x, d_y, d_size);
 }
@@ -340,7 +319,7 @@ QRectF QwtCPointerData::boundingRect() const
 {
     const size_t sz = size();
 
-    if ( sz <= 0 )
+    if (sz <= 0)
         return QRectF(1.0, 1.0, -2.0, -2.0); // invalid
 
     double minX, maxX, minY, maxY;
@@ -350,18 +329,17 @@ QRectF QwtCPointerData::boundingRect() const
     minX = maxX = *xIt++;
     minY = maxY = *yIt++;
 
-    while ( xIt < end )
-    {
+    while (xIt < end) {
         const double xv = *xIt++;
-        if ( xv < minX )
+        if (xv < minX)
             minX = xv;
-        if ( xv > maxX )
+        if (xv > maxX)
             maxX = xv;
 
         const double yv = *yIt++;
-        if ( yv < minY )
+        if (yv < minY)
             minY = yv;
-        if ( yv > maxY )
+        if (yv > maxY)
             maxY = yv;
     }
     return QRectF(minX, minY, maxX - minX, maxY - minY);

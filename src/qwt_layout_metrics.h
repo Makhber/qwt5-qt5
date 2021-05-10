@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -31,7 +31,7 @@ class QPaintDevice;
   ( always in screen resolution ) into the layout/printing code of QwtPlot.
 
   Qt4 is able to paint floating point based coordinates, what makes it
-  possible always to render in screen coordinates 
+  possible always to render in screen coordinates
   ( with a common scale factor ).
   QwtMetricsMap will be obsolete as soon as Qt3 support has been
   dropped ( Qwt 6.x ).
@@ -43,8 +43,7 @@ public:
 
     bool isIdentity() const;
 
-    void setMetrics(const QPaintDevice *layoutMetrics,
-        const QPaintDevice *deviceMetrics);
+    void setMetrics(const QPaintDevice *layoutMetrics, const QPaintDevice *deviceMetrics);
 
     int layoutToDeviceX(int x) const;
     int deviceToLayoutX(int x) const;
@@ -61,7 +60,6 @@ public:
     QPoint screenToLayout(const QPoint &) const;
     QPoint layoutToScreen(const QPoint &point) const;
 
-
     QSize layoutToDevice(const QSize &) const;
     QSize deviceToLayout(const QSize &) const;
     QSize screenToLayout(const QSize &) const;
@@ -72,10 +70,8 @@ public:
     QRect screenToLayout(const QRect &) const;
     QRect layoutToScreen(const QRect &) const;
 
-    QPolygon layoutToDevice(const QPolygon &, 
-        const QPainter * = NULL) const;
-    QPolygon deviceToLayout(const QPolygon &, 
-        const QPainter * = NULL) const;
+    QPolygon layoutToDevice(const QPolygon &, const QPainter * = NULL) const;
+    QPolygon deviceToLayout(const QPolygon &, const QPainter * = NULL) const;
 
     static QPolygon translate(const QTransform &, const QPolygon &);
     static QRect translate(const QTransform &, const QRect &);
@@ -135,26 +131,22 @@ inline int QwtMetricsMap::layoutToScreenY(int y) const
 
 inline QSize QwtMetricsMap::layoutToDevice(const QSize &size) const
 {
-    return QSize(layoutToDeviceX(size.width()), 
-        layoutToDeviceY(size.height()));
+    return QSize(layoutToDeviceX(size.width()), layoutToDeviceY(size.height()));
 }
 
 inline QSize QwtMetricsMap::deviceToLayout(const QSize &size) const
 {
-    return QSize(deviceToLayoutX(size.width()), 
-        deviceToLayoutY(size.height()));
+    return QSize(deviceToLayoutX(size.width()), deviceToLayoutY(size.height()));
 }
 
 inline QSize QwtMetricsMap::screenToLayout(const QSize &size) const
 {
-    return QSize(screenToLayoutX(size.width()), 
-        screenToLayoutY(size.height()));
+    return QSize(screenToLayoutX(size.width()), screenToLayoutY(size.height()));
 }
 
 inline QSize QwtMetricsMap::layoutToScreen(const QSize &size) const
 {
-    return QSize(layoutToScreenX(size.width()), 
-        layoutToScreenY(size.height()));
+    return QSize(layoutToScreenX(size.width()), layoutToScreenY(size.height()));
 }
 
 #endif

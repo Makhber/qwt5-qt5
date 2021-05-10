@@ -5,7 +5,7 @@
 
 class QTimer;
 
-class RandomPlot: public IncrementalPlot
+class RandomPlot : public IncrementalPlot
 {
     Q_OBJECT
 

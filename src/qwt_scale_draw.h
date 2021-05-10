@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -27,10 +27,10 @@
   the scale can be drawn with the QwtAbstractScaleDraw::draw() member.
 */
 
-class QWT_EXPORT QwtScaleDraw: public QwtAbstractScaleDraw
+class QWT_EXPORT QwtScaleDraw : public QwtAbstractScaleDraw
 {
 public:
-    /*! 
+    /*!
         Alignment of the scale draw
         \sa setAlignment(), alignment()
      */
@@ -78,7 +78,6 @@ public:
     QRect boundingLabelRect(const QFont &, double val) const;
 
 protected:
-  
     QTransform labelMatrix(const QPoint &, const QSize &) const;
 
     virtual void drawTick(QPainter *p, double val, int len) const;
@@ -92,7 +91,7 @@ private:
     PrivateData *d_data;
 };
 
-/*! 
+/*!
    Move the position of the scale
    \sa move(const QPoint &)
 */

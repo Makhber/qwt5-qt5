@@ -24,7 +24,3 @@ private:
     TuningThermo *d_thmTune;
     QwtSlider *d_sldFreq;
 };
-
-
-
-

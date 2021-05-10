@@ -3,7 +3,7 @@
 class QwtPlotCurve;
 class QwtPlotMarker;
 
-class BodePlot: public QwtPlot
+class BodePlot : public QwtPlot
 {
     Q_OBJECT
 public:
@@ -13,8 +13,7 @@ public slots:
     void setDamp(double damping);
 
 private:
-    void showData(double *frequency, double *amplitude, 
-        double *phase, int count);
+    void showData(double *frequency, double *amplitude, double *phase, int count);
     void showPeak(double freq, double amplitude);
     void show3dB(double freq);
 

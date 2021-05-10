@@ -1,7 +1,7 @@
 #include <qframe.h>
 class QwtCompass;
 
-class CompassGrid: public QFrame
+class CompassGrid : public QFrame
 {
 public:
     CompassGrid(QWidget *parent = NULL);

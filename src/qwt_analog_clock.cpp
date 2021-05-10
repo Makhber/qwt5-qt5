@@ -13,8 +13,7 @@
   Constructor
   \param parent Parent widget
 */
-QwtAnalogClock::QwtAnalogClock(QWidget *parent):
-    QwtDial(parent)
+QwtAnalogClock::QwtAnalogClock(QWidget *parent) : QwtDial(parent)
 {
     initClock();
 }
@@ -32,28 +31,23 @@ void QwtAnalogClock::initClock()
     setScaleTicks(1, 0, 8);
     scaleDraw()->setSpacing(8);
 
-    QColor knobColor =
-        palette().color(QPalette::Active, QPalette::Text);
+    QColor knobColor = palette().color(QPalette::Active, QPalette::Text);
     knobColor = knobColor.darker(120);
 
     QColor handColor;
     int width;
 
-    for ( int i = 0; i < NHands; i++ )
-    {
-        if ( i == SecondHand )
-        {
+    for (int i = 0; i < NHands; i++) {
+        if (i == SecondHand) {
             width = 2;
             handColor = knobColor.darker(120);
-        }
-        else
-        {
+        } else {
             width = 8;
             handColor = knobColor;
         }
 
-        QwtDialSimpleNeedle *hand = new QwtDialSimpleNeedle(
-            QwtDialSimpleNeedle::Arrow, true, handColor, knobColor);
+        QwtDialSimpleNeedle *hand =
+                new QwtDialSimpleNeedle(QwtDialSimpleNeedle::Arrow, true, handColor, knobColor);
         hand->setWidth(width);
 
         d_hand[i] = NULL;
@@ -64,11 +58,11 @@ void QwtAnalogClock::initClock()
 //! Destructor
 QwtAnalogClock::~QwtAnalogClock()
 {
-    for ( int i = 0; i < NHands; i++ )
+    for (int i = 0; i < NHands; i++)
         delete d_hand[i];
 }
 
-/*! 
+/*!
   Nop method, use setHand instead
   \sa setHand()
 */
@@ -86,8 +80,7 @@ void QwtAnalogClock::setNeedle(QwtDialNeedle *)
 */
 void QwtAnalogClock::setHand(Hand hand, QwtDialNeedle *needle)
 {
-    if ( hand >= 0 && hand < NHands )
-    {
+    if (hand >= 0 && hand < NHands) {
         delete d_hand[hand];
         d_hand[hand] = needle;
     }
@@ -100,7 +93,7 @@ void QwtAnalogClock::setHand(Hand hand, QwtDialNeedle *needle)
 */
 QwtDialNeedle *QwtAnalogClock::hand(Hand hd)
 {
-    if ( hd < 0 || hd >= NHands )
+    if (hd < 0 || hd >= NHands)
         return NULL;
 
     return d_hand[hd];
@@ -123,26 +116,23 @@ const QwtDialNeedle *QwtAnalogClock::hand(Hand hd) const
   can't handle default parameters for slots.
 */
 void QwtAnalogClock::setCurrentTime()
-{ 
-    setTime(QTime::currentTime()); 
+{
+    setTime(QTime::currentTime());
 }
 
 /*!
-  Set a time 
+  Set a time
   \param time Time to display
 */
 void QwtAnalogClock::setTime(const QTime &time)
 {
-    if ( time.isValid() )
-    {
-        setValue((time.hour() % 12) * 60.0 * 60.0 
-            + time.minute() * 60.0 + time.second());
-    }
-    else
+    if (time.isValid()) {
+        setValue((time.hour() % 12) * 60.0 * 60.0 + time.minute() * 60.0 + time.second());
+    } else
         setValid(false);
 }
 
-/*! 
+/*!
   Find the scale label for a given value
 
   \param value Value
@@ -150,7 +140,7 @@ void QwtAnalogClock::setTime(const QTime &time)
 */
 QwtText QwtAnalogClock::scaleLabel(double value) const
 {
-    if ( value == 0.0 )
+    if (value == 0.0)
         value = 60.0 * 60.0 * 12.0;
 
     return QString::number(int(value / (60.0 * 60.0)));
@@ -171,25 +161,22 @@ QwtText QwtAnalogClock::scaleLabel(double value) const
 
   \sa drawHand()
 */
-void QwtAnalogClock::drawNeedle(QPainter *painter, const QPoint &center,
-        int radius, double, QPalette::ColorGroup cg) const
+void QwtAnalogClock::drawNeedle(QPainter *painter, const QPoint &center, int radius, double,
+                                QPalette::ColorGroup cg) const
 {
-    if ( isValid() )
-    {
+    if (isValid()) {
         const double hours = value() / (60.0 * 60.0);
         const double minutes = (value() - (int)hours * 60.0 * 60.0) / 60.0;
-        const double seconds = value() - (int)hours * 60.0 * 60.0 
-            - (int)minutes * 60.0;
+        const double seconds = value() - (int)hours * 60.0 * 60.0 - (int)minutes * 60.0;
 
         double angle[NHands];
         angle[HourHand] = 360.0 * hours / 12.0;
         angle[MinuteHand] = 360.0 * minutes / 60.0;
         angle[SecondHand] = 360.0 * seconds / 60.0;
 
-        for ( int hand = 0; hand < NHands; hand++ )
-        {
+        for (int hand = 0; hand < NHands; hand++) {
             double d = angle[hand];
-            if ( direction() == Clockwise )
+            if (direction() == Clockwise)
                 d = 360.0 - d;
 
             d -= origin();
@@ -209,14 +196,12 @@ void QwtAnalogClock::drawNeedle(QPainter *painter, const QPoint &center,
   \param direction Direction of the hand in degrees, counter clockwise
   \param cg ColorGroup
 */
-void QwtAnalogClock::drawHand(QPainter *painter, Hand hd,
-    const QPoint &center, int radius, double direction, 
-    QPalette::ColorGroup cg) const
+void QwtAnalogClock::drawHand(QPainter *painter, Hand hd, const QPoint &center, int radius,
+                              double direction, QPalette::ColorGroup cg) const
 {
     const QwtDialNeedle *needle = hand(hd);
-    if ( needle )
-    {
-        if ( hd == HourHand )
+    if (needle) {
+        if (hd == HourHand)
             radius = qRound(0.8 * radius);
 
         needle->draw(painter, center, radius, direction, cg);

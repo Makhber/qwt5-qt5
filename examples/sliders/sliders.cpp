@@ -7,13 +7,12 @@
 #include <qwt_scale_map.h>
 #include "sliders.h"
 
-class Layout: public QBoxLayout
+class Layout : public QBoxLayout
 {
 public:
-    Layout(Qt::Orientation o, QWidget *parent = NULL):
-        QBoxLayout(QBoxLayout::LeftToRight, parent)
+    Layout(Qt::Orientation o, QWidget *parent = NULL) : QBoxLayout(QBoxLayout::LeftToRight, parent)
     {
-        if ( o == Qt::Vertical )
+        if (o == Qt::Vertical)
             setDirection(QBoxLayout::TopToBottom);
 
         setSpacing(20);
@@ -21,37 +20,35 @@ public:
     }
 };
 
-Slider::Slider(QWidget *parent, int sliderType):
-    QWidget(parent)
+Slider::Slider(QWidget *parent, int sliderType) : QWidget(parent)
 {
     d_slider = createSlider(this, sliderType);
 
     QFlags<Qt::AlignmentFlag> alignment;
-    switch(d_slider->scalePosition())
-    {
-        case QwtSlider::NoScale:
-            if ( d_slider->orientation() == Qt::Horizontal )
-                alignment = Qt::AlignHCenter | Qt::AlignTop;
-            else
-                alignment = Qt::AlignVCenter | Qt::AlignLeft;
-            break;
-        case QwtSlider::LeftScale:
-            alignment = Qt::AlignVCenter | Qt::AlignRight;
-            break;
-        case QwtSlider::RightScale:
-            alignment = Qt::AlignVCenter | Qt::AlignLeft;
-            break;
-        case QwtSlider::TopScale:
-            alignment = Qt::AlignHCenter | Qt::AlignBottom;
-            break;
-        case QwtSlider::BottomScale:
+    switch (d_slider->scalePosition()) {
+    case QwtSlider::NoScale:
+        if (d_slider->orientation() == Qt::Horizontal)
             alignment = Qt::AlignHCenter | Qt::AlignTop;
-            break;
+        else
+            alignment = Qt::AlignVCenter | Qt::AlignLeft;
+        break;
+    case QwtSlider::LeftScale:
+        alignment = Qt::AlignVCenter | Qt::AlignRight;
+        break;
+    case QwtSlider::RightScale:
+        alignment = Qt::AlignVCenter | Qt::AlignLeft;
+        break;
+    case QwtSlider::TopScale:
+        alignment = Qt::AlignHCenter | Qt::AlignBottom;
+        break;
+    case QwtSlider::BottomScale:
+        alignment = Qt::AlignHCenter | Qt::AlignTop;
+        break;
     }
 
     d_label = new QLabel("0", this);
     d_label->setAlignment(alignment);
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     d_label->setFixedWidth(d_label->fontMetrics().horizontalAdvance("10000.9"));
 #else
     d_label->setFixedWidth(d_label->fontMetrics().width("10000.9"));
@@ -60,7 +57,7 @@ Slider::Slider(QWidget *parent, int sliderType):
     connect(d_slider, SIGNAL(valueChanged(double)), SLOT(setNum(double)));
 
     QBoxLayout *layout;
-    if ( d_slider->orientation() == Qt::Horizontal )
+    if (d_slider->orientation() == Qt::Horizontal)
         layout = new QHBoxLayout(this);
     else
         layout = new QVBoxLayout(this);
@@ -73,59 +70,46 @@ QwtSlider *Slider::createSlider(QWidget *parent, int sliderType) const
 {
     QwtSlider *slider = NULL;
 
-    switch(sliderType)
-    {
-        case 0:
-        {
-            slider = new QwtSlider(parent, 
-                Qt::Horizontal, QwtSlider::TopScale, QwtSlider::BgTrough);
-            slider->setThumbWidth(10);
-            slider->setRange(-10.0, 10.0, 1.0, 0); // paging disabled
-            break;
-        }
-        case 1:
-        {
-            slider = new QwtSlider(parent, 
-                Qt::Horizontal, QwtSlider::NoScale, QwtSlider::BgBoth);
-            slider->setRange(0.0, 1.0, 0.01, 5);
-            break;
-        }
-        case 2:
-        {
-            slider = new QwtSlider(parent, 
-                Qt::Horizontal, QwtSlider::BottomScale, QwtSlider::BgSlot);
-            slider->setThumbWidth(25);
-            slider->setThumbLength(12);
-            slider->setRange(1000.0, 3000.0, 10.0, 10);
-            break;
-        }
-        case 3:
-        {
-            slider = new QwtSlider(parent, 
-                Qt::Vertical, QwtSlider::LeftScale, QwtSlider::BgSlot);
-            slider->setRange(0.0, 100.0, 1.0, 5);
-            slider->setScaleMaxMinor(5);
-            break;
-        }
-        case 4:
-        {
-            slider = new QwtSlider(parent, 
-                Qt::Vertical, QwtSlider::NoScale, QwtSlider::BgTrough);
-            slider->setRange(0.0,100.0,1.0, 10);
-            break;
-        }
-        case 5:
-        {
-            slider = new QwtSlider(parent, 
-                Qt::Vertical, QwtSlider::RightScale, QwtSlider::BgBoth);
-            slider->setScaleEngine(new QwtLog10ScaleEngine);
-            slider->setThumbWidth(20);
-            slider->setBorderWidth(1);
-            slider->setRange(0.0, 4.0, 0.01);
-            slider->setScale(1.0, 1.0e4);
-            slider->setScaleMaxMinor(10);
-            break;
-        }
+    switch (sliderType) {
+    case 0: {
+        slider = new QwtSlider(parent, Qt::Horizontal, QwtSlider::TopScale, QwtSlider::BgTrough);
+        slider->setThumbWidth(10);
+        slider->setRange(-10.0, 10.0, 1.0, 0); // paging disabled
+        break;
+    }
+    case 1: {
+        slider = new QwtSlider(parent, Qt::Horizontal, QwtSlider::NoScale, QwtSlider::BgBoth);
+        slider->setRange(0.0, 1.0, 0.01, 5);
+        break;
+    }
+    case 2: {
+        slider = new QwtSlider(parent, Qt::Horizontal, QwtSlider::BottomScale, QwtSlider::BgSlot);
+        slider->setThumbWidth(25);
+        slider->setThumbLength(12);
+        slider->setRange(1000.0, 3000.0, 10.0, 10);
+        break;
+    }
+    case 3: {
+        slider = new QwtSlider(parent, Qt::Vertical, QwtSlider::LeftScale, QwtSlider::BgSlot);
+        slider->setRange(0.0, 100.0, 1.0, 5);
+        slider->setScaleMaxMinor(5);
+        break;
+    }
+    case 4: {
+        slider = new QwtSlider(parent, Qt::Vertical, QwtSlider::NoScale, QwtSlider::BgTrough);
+        slider->setRange(0.0, 100.0, 1.0, 10);
+        break;
+    }
+    case 5: {
+        slider = new QwtSlider(parent, Qt::Vertical, QwtSlider::RightScale, QwtSlider::BgBoth);
+        slider->setScaleEngine(new QwtLog10ScaleEngine);
+        slider->setThumbWidth(20);
+        slider->setBorderWidth(1);
+        slider->setRange(0.0, 4.0, 0.01);
+        slider->setScale(1.0, 1.0e4);
+        slider->setScaleMaxMinor(10);
+        break;
+    }
     }
 
     return slider;
@@ -133,9 +117,7 @@ QwtSlider *Slider::createSlider(QWidget *parent, int sliderType) const
 
 void Slider::setNum(double v)
 {
-    if ( d_slider->scaleMap().transformation()->type() ==
-        QwtScaleTransformation::Log10 )
-    {
+    if (d_slider->scaleMap().transformation()->type() == QwtScaleTransformation::Log10) {
         v = pow(10.0, v);
     }
 
@@ -145,18 +127,17 @@ void Slider::setNum(double v)
     d_label->setText(text);
 }
 
-SliderDemo::SliderDemo(QWidget *p): 
-    QWidget(p)
+SliderDemo::SliderDemo(QWidget *p) : QWidget(p)
 {
     int i;
 
     Layout *hSliderLayout = new Layout(Qt::Vertical);
-    for ( i = 0; i < 3; i++ )
+    for (i = 0; i < 3; i++)
         hSliderLayout->addWidget(new Slider(this, i));
     hSliderLayout->addStretch();
 
     Layout *vSliderLayout = new Layout(Qt::Horizontal);
-    for ( ; i < 6; i++ )
+    for (; i < 6; i++)
         vSliderLayout->addWidget(new Slider(this, i));
 
     QLabel *vTitle = new QLabel("Vertical Sliders", this);
@@ -180,11 +161,11 @@ SliderDemo::SliderDemo(QWidget *p):
     mainLayout->addLayout(layout2, 10);
 }
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
     QApplication a(argc, argv);
 
-    QApplication::setFont(QFont("Helvetica",10));
+    QApplication::setFont(QFont("Helvetica", 10));
 
     SliderDemo w;
 

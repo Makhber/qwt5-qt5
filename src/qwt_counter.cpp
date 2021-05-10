@@ -21,8 +21,7 @@
 class QwtCounter::PrivateData
 {
 public:
-    PrivateData():
-        editable(true)
+    PrivateData() : editable(true)
     {
         increment[Button1] = 1;
         increment[Button2] = 10;
@@ -47,8 +46,7 @@ public:
 
   \param parent
  */
-QwtCounter::QwtCounter(QWidget *parent):
-    QWidget(parent) 
+QwtCounter::QwtCounter(QWidget *parent) : QWidget(parent)
 {
     initCounter();
 }
@@ -64,10 +62,8 @@ void QwtCounter::initCounter()
     layout->setMargin(0);
 
     int i;
-    for(i = ButtonCnt - 1; i >= 0; i--)
-    {
-        QwtArrowButton *btn =
-            new QwtArrowButton(i+1, Qt::DownArrow,this);
+    for (i = ButtonCnt - 1; i >= 0; i--) {
+        QwtArrowButton *btn = new QwtArrowButton(i + 1, Qt::DownArrow, this);
         btn->setFocusPolicy(NoFocus);
         btn->installEventFilter(this);
         layout->addWidget(btn);
@@ -83,33 +79,29 @@ void QwtCounter::initCounter()
     d_data->valueEdit->setValidator(new QDoubleValidator(d_data->valueEdit));
     layout->addWidget(d_data->valueEdit);
 
-    connect( d_data->valueEdit, SIGNAL(editingFinished()), 
-        SLOT(textChanged()) );
+    connect(d_data->valueEdit, SIGNAL(editingFinished()), SLOT(textChanged()));
 
     layout->setStretchFactor(d_data->valueEdit, 10);
 
-    for(i = 0; i < ButtonCnt; i++)
-    {
+    for (i = 0; i < ButtonCnt; i++) {
         using namespace Qt;
 
-        QwtArrowButton *btn =
-            new QwtArrowButton(i+1, Qt::UpArrow, this);
+        QwtArrowButton *btn = new QwtArrowButton(i + 1, Qt::UpArrow, this);
         btn->setFocusPolicy(NoFocus);
         btn->installEventFilter(this);
         layout->addWidget(btn);
 
         connect(btn, SIGNAL(released()), SLOT(btnReleased()));
         connect(btn, SIGNAL(clicked()), SLOT(btnClicked()));
-    
+
         d_data->buttonUp[i] = btn;
     }
 
     setNumButtons(2);
-    setRange(0.0,1.0,0.001);
+    setRange(0.0, 1.0, 0.001);
     setValue(0.0);
 
-    setSizePolicy(
-        QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed));
+    setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed));
 
     setFocusProxy(d_data->valueEdit);
     setFocusPolicy(StrongFocus);
@@ -126,30 +118,29 @@ QwtCounter::~QwtCounter()
 */
 void QwtCounter::polish()
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     const int w = d_data->valueEdit->fontMetrics().horizontalAdvance("W") + 8;
 #else
     const int w = d_data->valueEdit->fontMetrics().width("W") + 8;
 #endif
 
-    for ( int i = 0; i < ButtonCnt; i++ )
-    {
+    for (int i = 0; i < ButtonCnt; i++) {
         d_data->buttonDown[i]->setMinimumWidth(w);
         d_data->buttonUp[i]->setMinimumWidth(w);
     }
 }
 
 //! Set from lineedit
-void QwtCounter::textChanged() 
+void QwtCounter::textChanged()
 {
-    if ( !d_data->editable ) 
+    if (!d_data->editable)
         return;
 
     bool converted = false;
 
     const double value = d_data->valueEdit->text().toDouble(&converted);
-    if ( converted ) 
-       setValue( value );
+    if (converted)
+        setValue(value);
 }
 
 /**
@@ -162,7 +153,7 @@ void QwtCounter::setEditable(bool editable)
 {
     using namespace Qt;
 
-    if ( editable == d_data->editable ) 
+    if (editable == d_data->editable)
         return;
 
     d_data->editable = editable;
@@ -170,17 +161,17 @@ void QwtCounter::setEditable(bool editable)
 }
 
 //! returns whether the line edit is edatble. (default is yes)
-bool QwtCounter::editable() const 
-{   
+bool QwtCounter::editable() const
+{
     return d_data->editable;
 }
 
 /*!
-   Handle PolishRequest events 
+   Handle PolishRequest events
 */
-bool QwtCounter::event ( QEvent * e ) 
+bool QwtCounter::event(QEvent *e)
 {
-    if ( e->type() == QEvent::PolishRequest )
+    if (e->type() == QEvent::PolishRequest)
         polish();
     return QWidget::event(e);
 }
@@ -205,57 +196,53 @@ bool QwtCounter::event ( QEvent * e )
   - Shift + Qt::Key_PageDown
     Decrement by incSteps(QwtCounter::Button3)
 */
-void QwtCounter::keyPressEvent (QKeyEvent *e)
+void QwtCounter::keyPressEvent(QKeyEvent *e)
 {
     bool accepted = true;
 
-    switch ( e->key() )
-    {
-        case Qt::Key_Home:
-            if ( e->modifiers() & Qt::ControlModifier )
-                setValue(minValue());
-            else
-                accepted = false;
-            break;
-        case Qt::Key_End:
-            if ( e->modifiers() & Qt::ControlModifier )
-                setValue(maxValue());
-            else
-                accepted = false;
-            break;
-        case Qt::Key_Up:
-            incValue(d_data->increment[0]);
-            break;
-        case Qt::Key_Down:
-            incValue(-d_data->increment[0]);
-            break;
-        case Qt::Key_PageUp:
-        case Qt::Key_PageDown:
-        {
-            int increment = d_data->increment[0];
-            if ( d_data->nButtons >= 2 )
-                increment = d_data->increment[1];
-            if ( d_data->nButtons >= 3 )
-            {
-                if ( e->modifiers() & Qt::ShiftModifier )
-                    increment = d_data->increment[2];
-            }
-            if ( e->key() == Qt::Key_PageDown )
-                increment = -increment;
-            incValue(increment);
-            break;
-        }
-        default:
+    switch (e->key()) {
+    case Qt::Key_Home:
+        if (e->modifiers() & Qt::ControlModifier)
+            setValue(minValue());
+        else
             accepted = false;
+        break;
+    case Qt::Key_End:
+        if (e->modifiers() & Qt::ControlModifier)
+            setValue(maxValue());
+        else
+            accepted = false;
+        break;
+    case Qt::Key_Up:
+        incValue(d_data->increment[0]);
+        break;
+    case Qt::Key_Down:
+        incValue(-d_data->increment[0]);
+        break;
+    case Qt::Key_PageUp:
+    case Qt::Key_PageDown: {
+        int increment = d_data->increment[0];
+        if (d_data->nButtons >= 2)
+            increment = d_data->increment[1];
+        if (d_data->nButtons >= 3) {
+            if (e->modifiers() & Qt::ShiftModifier)
+                increment = d_data->increment[2];
+        }
+        if (e->key() == Qt::Key_PageDown)
+            increment = -increment;
+        incValue(increment);
+        break;
+    }
+    default:
+        accepted = false;
     }
 
-    if ( accepted )
-    {
+    if (accepted) {
         e->accept();
         return;
     }
 
-    QWidget::keyPressEvent (e);
+    QWidget::keyPressEvent(e);
 }
 
 /*!
@@ -266,29 +253,26 @@ void QwtCounter::wheelEvent(QWheelEvent *e)
 {
     e->accept();
 
-    if ( d_data->nButtons <= 0 )
+    if (d_data->nButtons <= 0)
         return;
 
     int increment = d_data->increment[0];
-    if ( d_data->nButtons >= 2 )
-    {
-        if ( e->modifiers() & Qt::ControlModifier )
+    if (d_data->nButtons >= 2) {
+        if (e->modifiers() & Qt::ControlModifier)
             increment = d_data->increment[1];
     }
-    if ( d_data->nButtons >= 3 )
-    {
-        if ( e->modifiers() & Qt::ShiftModifier )
+    if (d_data->nButtons >= 3) {
+        if (e->modifiers() & Qt::ShiftModifier)
             increment = d_data->increment[2];
     }
-        
-    for ( int i = 0; i < d_data->nButtons; i++ )
-    {
+
+    for (int i = 0; i < d_data->nButtons; i++) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-        if ( d_data->buttonDown[i]->geometry().contains(e->position().toPoint()) ||
-            d_data->buttonUp[i]->geometry().contains(e->position().toPoint()) )
+        if (d_data->buttonDown[i]->geometry().contains(e->position().toPoint())
+            || d_data->buttonUp[i]->geometry().contains(e->position().toPoint()))
 #else
-        if ( d_data->buttonDown[i]->geometry().contains(e->pos()) ||
-            d_data->buttonUp[i]->geometry().contains(e->pos()) )
+        if (d_data->buttonDown[i]->geometry().contains(e->pos())
+            || d_data->buttonUp[i]->geometry().contains(e->pos()))
 #endif
         {
             increment = d_data->increment[i];
@@ -298,7 +282,7 @@ void QwtCounter::wheelEvent(QWheelEvent *e)
     const int wheel_delta = 120;
 
     int delta = e->angleDelta().y();
-    if ( delta >= 2 * wheel_delta )
+    if (delta >= 2 * wheel_delta)
         delta /= 2; // Never saw an abs(delta) < 240
 
     incValue(delta / wheel_delta * increment);
@@ -315,8 +299,8 @@ void QwtCounter::wheelEvent(QWheelEvent *e)
 */
 void QwtCounter::setIncSteps(QwtCounter::Button btn, int nSteps)
 {
-    if (( btn >= 0) && (btn < ButtonCnt))
-       d_data->increment[btn] = nSteps;
+    if ((btn >= 0) && (btn < ButtonCnt))
+        d_data->increment[btn] = nSteps;
 }
 
 /*!
@@ -327,8 +311,8 @@ void QwtCounter::setIncSteps(QwtCounter::Button btn, int nSteps)
 */
 int QwtCounter::incSteps(QwtCounter::Button btn) const
 {
-    if (( btn >= 0) && (btn < ButtonCnt))
-       return d_data->increment[btn];
+    if ((btn >= 0) && (btn < ButtonCnt))
+        return d_data->increment[btn];
 
     return 0;
 }
@@ -353,14 +337,14 @@ void QwtCounter::setValue(double v)
 */
 void QwtCounter::valueChange()
 {
-    if ( isValid() )
+    if (isValid())
         showNum(value());
     else
         d_data->valueEdit->setText(QString());
 
     updateButtons();
 
-    if ( isValid() )
+    if (isValid())
         emit valueChanged(value());
 }
 
@@ -374,21 +358,16 @@ void QwtCounter::valueChange()
 */
 void QwtCounter::updateButtons()
 {
-    if ( isValid() )
-    {
+    if (isValid()) {
         // 1. save enabled state of the smallest down- and up-button
         // 2. change enabled state on under- or over-flow
 
-        for ( int i = 0; i < ButtonCnt; i++ )
-        {
+        for (int i = 0; i < ButtonCnt; i++) {
             d_data->buttonDown[i]->setEnabled(value() > minValue());
             d_data->buttonUp[i]->setEnabled(value() < maxValue());
         }
-    }
-    else
-    {
-        for ( int i = 0; i < ButtonCnt; i++ )
-        {
+    } else {
+        for (int i = 0; i < ButtonCnt; i++) {
             d_data->buttonDown[i]->setEnabled(false);
             d_data->buttonUp[i]->setEnabled(false);
         }
@@ -401,18 +380,14 @@ void QwtCounter::updateButtons()
 */
 void QwtCounter::setNumButtons(int n)
 {
-    if ( n<0 || n>ButtonCnt )
+    if (n < 0 || n > ButtonCnt)
         return;
 
-    for ( int i = 0; i < ButtonCnt; i++ )
-    {
-        if ( i < n )
-        {
+    for (int i = 0; i < ButtonCnt; i++) {
+        if (i < n) {
             d_data->buttonDown[i]->show();
             d_data->buttonUp[i]->show();
-        }
-        else
-        {
+        } else {
             d_data->buttonDown[i]->hide();
             d_data->buttonUp[i]->hide();
         }
@@ -424,12 +399,12 @@ void QwtCounter::setNumButtons(int n)
 /*!
     \return The number of buttons on each side of the widget.
 */
-int QwtCounter::numButtons() const 
-{ 
-    return d_data->nButtons; 
+int QwtCounter::numButtons() const
+{
+    return d_data->nButtons;
 }
 
-/*!  
+/*!
   Display number string
 
   \param number Number
@@ -447,12 +422,11 @@ void QwtCounter::showNum(double number)
 //!  Button clicked
 void QwtCounter::btnClicked()
 {
-    for ( int i = 0; i < ButtonCnt; i++ )
-    {
-        if ( d_data->buttonUp[i] == sender() )
+    for (int i = 0; i < ButtonCnt; i++) {
+        if (d_data->buttonUp[i] == sender())
             incValue(d_data->increment[i]);
 
-        if ( d_data->buttonDown[i] == sender() )
+        if (d_data->buttonDown[i] == sender())
             incValue(-d_data->increment[i]);
     }
 }
@@ -481,24 +455,24 @@ QSize QwtCounter::sizeHint() const
 
     int w = tmp.setNum(minValue()).length();
     int w1 = tmp.setNum(maxValue()).length();
-    if ( w1 > w )
+    if (w1 > w)
         w = w1;
     w1 = tmp.setNum(minValue() + step()).length();
-    if ( w1 > w )
+    if (w1 > w)
         w = w1;
     w1 = tmp.setNum(maxValue() - step()).length();
-    if ( w1 > w )
+    if (w1 > w)
         w = w1;
 
     tmp.fill('9', w);
 
     QFontMetrics fm(d_data->valueEdit->font());
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     w = fm.horizontalAdvance(tmp) + 2;
 #else
     w = fm.width(tmp) + 2;
 #endif
-    if ( d_data->valueEdit->hasFrame() )
+    if (d_data->valueEdit->hasFrame())
         w += 2 * style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
 
     // Now we replace default sizeHint contribution of d_data->valueEdit by
@@ -506,8 +480,8 @@ QSize QwtCounter::sizeHint() const
 
     w += QWidget::sizeHint().width() - d_data->valueEdit->sizeHint().width();
 
-    const int h = qwtMin(QWidget::sizeHint().height(), 
-        d_data->valueEdit->minimumSizeHint().height());
+    const int h =
+            qwtMin(QWidget::sizeHint().height(), d_data->valueEdit->minimumSizeHint().height());
     return QSize(w, h);
 }
 
@@ -516,8 +490,8 @@ double QwtCounter::step() const
 {
     return QwtDoubleRange::step();
 }
-    
-/*! 
+
+/*!
    Set the step size
    \param stepSize Step size
    \sa QwtDoubleRange::setStep()
@@ -533,7 +507,7 @@ double QwtCounter::minVal() const
     return minValue();
 }
 
-/*! 
+/*!
   Set the minimum value of the range
 
   \param value Minimum value
@@ -550,7 +524,7 @@ double QwtCounter::maxVal() const
     return QwtDoubleRange::maxValue();
 }
 
-/*! 
+/*!
   Set the maximum value of the range
 
   \param value Maximum value
@@ -561,7 +535,7 @@ void QwtCounter::setMaxValue(double value)
     setRange(minValue(), value, step());
 }
 
-/*! 
+/*!
   Set the number of increment steps for button 1
   \param nSteps Number of steps
 */
@@ -576,7 +550,7 @@ int QwtCounter::stepButton1() const
     return incSteps(Button1);
 }
 
-/*! 
+/*!
   Set the number of increment steps for button 2
   \param nSteps Number of steps
 */
@@ -591,7 +565,7 @@ int QwtCounter::stepButton2() const
     return incSteps(Button2);
 }
 
-/*! 
+/*!
   Set the number of increment steps for button 3
   \param nSteps Number of steps
 */
@@ -611,4 +585,3 @@ double QwtCounter::value() const
 {
     return QwtDoubleRange::value();
 }
-

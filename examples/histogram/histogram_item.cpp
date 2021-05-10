@@ -15,14 +15,12 @@ public:
     double reference;
 };
 
-HistogramItem::HistogramItem(const QwtText &title):
-    QwtPlotItem(title)
+HistogramItem::HistogramItem(const QwtText &title) : QwtPlotItem(title)
 {
     init();
 }
 
-HistogramItem::HistogramItem(const QString &title):
-    QwtPlotItem(QwtText(title))
+HistogramItem::HistogramItem(const QString &title) : QwtPlotItem(QwtText(title))
 {
     init();
 }
@@ -46,8 +44,7 @@ void HistogramItem::init()
 
 void HistogramItem::setBaseline(double reference)
 {
-    if ( d_data->reference != reference )
-    {
+    if (d_data->reference != reference) {
         d_data->reference = reference;
         itemChanged();
     }
@@ -71,8 +68,7 @@ const QwtIntervalData &HistogramItem::data() const
 
 void HistogramItem::setColor(const QColor &color)
 {
-    if ( d_data->color != color )
-    {
+    if (d_data->color != color) {
         d_data->color = color;
         itemChanged();
     }
@@ -86,30 +82,25 @@ QColor HistogramItem::color() const
 QRectF HistogramItem::boundingRect() const
 {
     QRectF rect = d_data->data.boundingRect();
-    if ( !rect.isValid() ) 
+    if (!rect.isValid())
         return rect;
 
-    if ( d_data->attributes & Xfy ) 
-    {
-        rect = QRectF( rect.y(), rect.x(), 
-            rect.height(), rect.width() );
+    if (d_data->attributes & Xfy) {
+        rect = QRectF(rect.y(), rect.x(), rect.height(), rect.width());
 
-        if ( rect.left() > d_data->reference ) 
-            rect.setLeft( d_data->reference );
-        else if ( rect.right() < d_data->reference ) 
-            rect.setRight( d_data->reference );
-    } 
-    else 
-    {
-        if ( rect.bottom() < d_data->reference ) 
-            rect.setBottom( d_data->reference );
-        else if ( rect.top() > d_data->reference ) 
-            rect.setTop( d_data->reference );
+        if (rect.left() > d_data->reference)
+            rect.setLeft(d_data->reference);
+        else if (rect.right() < d_data->reference)
+            rect.setRight(d_data->reference);
+    } else {
+        if (rect.bottom() < d_data->reference)
+            rect.setBottom(d_data->reference);
+        else if (rect.top() > d_data->reference)
+            rect.setTop(d_data->reference);
     }
 
     return rect;
 }
-
 
 int HistogramItem::rtti() const
 {
@@ -118,10 +109,10 @@ int HistogramItem::rtti() const
 
 void HistogramItem::setHistogramAttribute(HistogramAttribute attribute, bool on)
 {
-    if ( bool(d_data->attributes & attribute) == on )
+    if (bool(d_data->attributes & attribute) == on)
         return;
 
-    if ( on )
+    if (on)
         d_data->attributes |= attribute;
     else
         d_data->attributes &= ~attribute;
@@ -134,8 +125,8 @@ bool HistogramItem::testHistogramAttribute(HistogramAttribute attribute) const
     return d_data->attributes & attribute;
 }
 
-void HistogramItem::draw(QPainter *painter, const QwtScaleMap &xMap, 
-    const QwtScaleMap &yMap, const QRect &) const
+void HistogramItem::draw(QPainter *painter, const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                         const QRect &) const
 {
     const QwtIntervalData &iData = d_data->data;
 
@@ -144,112 +135,89 @@ void HistogramItem::draw(QPainter *painter, const QwtScaleMap &xMap,
     const int x0 = xMap.transform(baseline());
     const int y0 = yMap.transform(baseline());
 
-    for ( int i = 0; i < (int)iData.size(); i++ )
-    {
-        if ( d_data->attributes & HistogramItem::Xfy )
-        {
+    for (int i = 0; i < (int)iData.size(); i++) {
+        if (d_data->attributes & HistogramItem::Xfy) {
             const int x2 = xMap.transform(iData.value(i));
-            if ( x2 == x0 )
+            if (x2 == x0)
                 continue;
 
-            int y1 = yMap.transform( iData.interval(i).minValue());
-            int y2 = yMap.transform( iData.interval(i).maxValue());
-            if ( y1 > y2 )
+            int y1 = yMap.transform(iData.interval(i).minValue());
+            int y2 = yMap.transform(iData.interval(i).maxValue());
+            if (y1 > y2)
                 qSwap(y1, y2);
 
-            if ( i < (int)iData.size() - 2 )
-            {
-                const int yy1 = yMap.transform(iData.interval(i+1).minValue());
-                const int yy2 = yMap.transform(iData.interval(i+1).maxValue());
+            if (i < (int)iData.size() - 2) {
+                const int yy1 = yMap.transform(iData.interval(i + 1).minValue());
+                const int yy2 = yMap.transform(iData.interval(i + 1).maxValue());
 
-                if ( y2 == qwtMin(yy1, yy2) )
-                {
-                    const int xx2 = xMap.transform(
-                        iData.interval(i+1).minValue());
-                    if ( xx2 != x0 && ( (xx2 < x0 && x2 < x0) ||
-                                          (xx2 > x0 && x2 > x0) ) )
-                    {
-                       // One pixel distance between neighboured bars
-                       y2++;
+                if (y2 == qwtMin(yy1, yy2)) {
+                    const int xx2 = xMap.transform(iData.interval(i + 1).minValue());
+                    if (xx2 != x0 && ((xx2 < x0 && x2 < x0) || (xx2 > x0 && x2 > x0))) {
+                        // One pixel distance between neighboured bars
+                        y2++;
                     }
                 }
             }
 
-            drawBar(painter, Qt::Horizontal,
-                QRect(x0, y1, x2 - x0, y2 - y1));
-        }
-        else
-        {
+            drawBar(painter, Qt::Horizontal, QRect(x0, y1, x2 - x0, y2 - y1));
+        } else {
             const int y2 = yMap.transform(iData.value(i));
-            if ( y2 == y0 )
+            if (y2 == y0)
                 continue;
 
             int x1 = xMap.transform(iData.interval(i).minValue());
             int x2 = xMap.transform(iData.interval(i).maxValue());
-            if ( x1 > x2 )
+            if (x1 > x2)
                 qSwap(x1, x2);
 
-            if ( i < (int)iData.size() - 2 )
-            {
-                const int xx1 = xMap.transform(iData.interval(i+1).minValue());
-                const int xx2 = xMap.transform(iData.interval(i+1).maxValue());
+            if (i < (int)iData.size() - 2) {
+                const int xx1 = xMap.transform(iData.interval(i + 1).minValue());
+                const int xx2 = xMap.transform(iData.interval(i + 1).maxValue());
 
-                if ( x2 == qwtMin(xx1, xx2) )
-                {
-                    const int yy2 = yMap.transform(iData.value(i+1));
-                    if ( yy2 != y0 && ( (yy2 < y0 && y2 < y0) ||
-                                    (yy2 > y0 && y2 > y0) ) )
-                    {
+                if (x2 == qwtMin(xx1, xx2)) {
+                    const int yy2 = yMap.transform(iData.value(i + 1));
+                    if (yy2 != y0 && ((yy2 < y0 && y2 < y0) || (yy2 > y0 && y2 > y0))) {
                         // One pixel distance between neighboured bars
                         x2--;
                     }
                 }
             }
-            drawBar(painter, Qt::Vertical,
-                QRect(x1, y0, x2 - x1, y2 - y0) );
+            drawBar(painter, Qt::Vertical, QRect(x1, y0, x2 - x1, y2 - y0));
         }
     }
 }
 
-void HistogramItem::drawBar(QPainter *painter,
-   Qt::Orientation, const QRect& rect) const
+void HistogramItem::drawBar(QPainter *painter, Qt::Orientation, const QRect &rect) const
 {
-   painter->save();
+    painter->save();
 
-   const QColor color(painter->pen().color());
-   const QRect r = rect.normalized();
+    const QColor color(painter->pen().color());
+    const QRect r = rect.normalized();
 
-   const int factor = 125;
-   const QColor light(color.lighter(factor));
-   const QColor dark(color.darker(factor));
+    const int factor = 125;
+    const QColor light(color.lighter(factor));
+    const QColor dark(color.darker(factor));
 
-   painter->setBrush(color);
-   painter->setPen(Qt::NoPen);
-   QwtPainter::drawRect(painter, r.x() + 1, r.y() + 1,
-      r.width() - 2, r.height() - 2);
-   painter->setBrush(Qt::NoBrush);
+    painter->setBrush(color);
+    painter->setPen(Qt::NoPen);
+    QwtPainter::drawRect(painter, r.x() + 1, r.y() + 1, r.width() - 2, r.height() - 2);
+    painter->setBrush(Qt::NoBrush);
 
-   painter->setPen(QPen(light, 2));
-   QwtPainter::drawLine(painter,
-      r.left() + 1, r.top() + 2, r.right() + 1, r.top() + 2);
+    painter->setPen(QPen(light, 2));
+    QwtPainter::drawLine(painter, r.left() + 1, r.top() + 2, r.right() + 1, r.top() + 2);
 
-   painter->setPen(QPen(dark, 2));
-   QwtPainter::drawLine(painter, 
-      r.left() + 1, r.bottom(), r.right() + 1, r.bottom());
+    painter->setPen(QPen(dark, 2));
+    QwtPainter::drawLine(painter, r.left() + 1, r.bottom(), r.right() + 1, r.bottom());
 
-   painter->setPen(QPen(light, 1));
+    painter->setPen(QPen(light, 1));
 
-   QwtPainter::drawLine(painter, 
-      r.left(), r.top() + 1, r.left(), r.bottom());
-   QwtPainter::drawLine(painter,
-      r.left() + 1, r.top() + 2, r.left() + 1, r.bottom() - 1);
+    QwtPainter::drawLine(painter, r.left(), r.top() + 1, r.left(), r.bottom());
+    QwtPainter::drawLine(painter, r.left() + 1, r.top() + 2, r.left() + 1, r.bottom() - 1);
 
-   painter->setPen(QPen(dark, 1));
+    painter->setPen(QPen(dark, 1));
 
-   QwtPainter::drawLine(painter, 
-      r.right() + 1, r.top() + 1, r.right() + 1, r.bottom());
-   QwtPainter::drawLine(painter, 
-      r.right(), r.top() + 2, r.right(), r.bottom() - 1);
+    QwtPainter::drawLine(painter, r.right() + 1, r.top() + 1, r.right() + 1, r.bottom());
+    QwtPainter::drawLine(painter, r.right(), r.top() + 2, r.right(), r.bottom() - 1);
 
-   painter->restore();
+    painter->restore();
 }

@@ -31,14 +31,14 @@ class QwtPlotPrintFilter;
   \brief A 2-D plotting widget
 
   QwtPlot is a widget for plotting two-dimensional graphs.
-  An unlimited number of plot items can be displayed on 
-  its canvas. Plot items might be curves (QwtPlotCurve), markers 
-  (QwtPlotMarker), the grid (QwtPlotGrid), or anything else derived 
+  An unlimited number of plot items can be displayed on
+  its canvas. Plot items might be curves (QwtPlotCurve), markers
+  (QwtPlotMarker), the grid (QwtPlotGrid), or anything else derived
   from QwtPlotItem.
   A plot can have up to four axes, with each plot item attached to an x- and
   a y axis. The scales at the axes can be explicitely set (QwtScaleDiv), or
-  are calculated from the plot items, using algorithms (QwtScaleEngine) which 
-  can be configured separately for each axis. 
+  are calculated from the plot items, using algorithms (QwtScaleEngine) which
+  can be configured separately for each axis.
 
   \image html plot.png
 
@@ -68,14 +68,13 @@ myPlot->replot();
 \endverbatim
 */
 
-class QWT_EXPORT QwtPlot: public QFrame, public QwtPlotDict
+class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
 {
     Q_OBJECT
-    Q_PROPERTY( QString propertiesDocument 
-        READ grabProperties WRITE applyProperties )
+    Q_PROPERTY(QString propertiesDocument READ grabProperties WRITE applyProperties)
 
 public:
-    /*! 
+    /*!
       Axis index
 
       - yLeft\n
@@ -83,17 +82,16 @@ public:
       - xBottom\n
       - xTop\n
      */
-    enum Axis 
-    { 
-        yLeft, 
-        yRight, 
-        xBottom, 
-        xTop, 
+    enum Axis {
+        yLeft,
+        yRight,
+        xBottom,
+        xTop,
 
-        axisCnt 
+        axisCnt
     };
 
-    /*! 
+    /*!
         Position of the legend, relative to the canvas.
 
         - LeftLegend\n
@@ -105,23 +103,22 @@ public:
         - TopLegend\n
           The legend will be between xTop axis and the title.
         - ExternalLegend\n
-          External means that only the content of the legend 
-          will be handled by QwtPlot, but not its geometry. 
+          External means that only the content of the legend
+          will be handled by QwtPlot, but not its geometry.
           This might be interesting if an application wants to
           have a legend in an external window ( or on the canvas ).
 
-        \note In case of ExternalLegend, the legend is not 
+        \note In case of ExternalLegend, the legend is not
               printed by print().
 
         \sa insertLegend()
      */
-    enum LegendPosition 
-    {
+    enum LegendPosition {
         LeftLegend,
         RightLegend,
         BottomLegend,
         TopLegend,
-        
+
         ExternalLegend
     };
 
@@ -136,10 +133,9 @@ public:
     void setAutoReplot(bool tf = true);
     bool autoReplot() const;
 
-    void print(QPaintDevice &p,
-        const QwtPlotPrintFilter & = QwtPlotPrintFilter()) const;
+    void print(QPaintDevice &p, const QwtPlotPrintFilter & = QwtPlotPrintFilter()) const;
     virtual void print(QPainter *, const QRect &rect,
-        const QwtPlotPrintFilter & = QwtPlotPrintFilter()) const;
+                       const QwtPlotPrintFilter & = QwtPlotPrintFilter()) const;
 
     // Layout
 
@@ -163,8 +159,8 @@ public:
     QwtPlotCanvas *canvas();
     const QwtPlotCanvas *canvas() const;
 
-    void setCanvasBackground (const QColor &c);
-    const QColor& canvasBackground() const;
+    void setCanvasBackground(const QColor &c);
+    const QColor &canvasBackground() const;
 
     void setCanvasLineWidth(int w);
     int canvasLineWidth() const;
@@ -216,10 +212,9 @@ public:
     void setAxisMaxMajor(int axisId, int maxMajor);
     int axisMaxMinor(int axisId) const;
 
-    // Legend 
+    // Legend
 
-    void insertLegend(QwtLegend *, LegendPosition = QwtPlot::RightLegend,
-        double ratio = -1.0);
+    void insertLegend(QwtLegend *, LegendPosition = QwtPlot::RightLegend, double ratio = -1.0);
 
     QwtLegend *legend();
     const QwtLegend *legend() const;
@@ -239,8 +234,8 @@ public:
 
 signals:
     /*!
-      A signal which is emitted when the user has clicked on 
-      a legend item, which is in QwtLegend::ClickableItem mode. 
+      A signal which is emitted when the user has clicked on
+      a legend item, which is in QwtLegend::ClickableItem mode.
 
       \param plotItem Corresponding plot item of the
                  selected legend item
@@ -251,7 +246,7 @@ signals:
     void legendClicked(QwtPlotItem *plotItem);
 
     /*!
-      A signal which is emitted when the user has clicked on 
+      A signal which is emitted when the user has clicked on
       a legend item, which is in QwtLegend::CheckableItem mode
 
       \param plotItem Corresponding plot item of the
@@ -277,25 +272,22 @@ protected slots:
 protected:
     static bool axisValid(int axisId);
 
-    virtual void drawItems(QPainter *, const QRect &,
-        const QwtScaleMap maps[axisCnt],
-        const QwtPlotPrintFilter &) const;
+    virtual void drawItems(QPainter *, const QRect &, const QwtScaleMap maps[axisCnt],
+                           const QwtPlotPrintFilter &) const;
 
     virtual void updateTabOrder();
 
     virtual void resizeEvent(QResizeEvent *e);
 
-    virtual void printLegendItem(QPainter *, 
-        const QWidget *, const QRect &) const;
+    virtual void printLegendItem(QPainter *, const QWidget *, const QRect &) const;
 
     virtual void printTitle(QPainter *, const QRect &) const;
 
-    virtual void printScale(QPainter *, int axisId, int startDist, int endDist,
-        int baseDist, const QRect &) const;
+    virtual void printScale(QPainter *, int axisId, int startDist, int endDist, int baseDist,
+                            const QRect &) const;
 
-    virtual void printCanvas(QPainter *, 
-        const QRect &boundingRect, const QRect &canvasRect,
-        const QwtScaleMap maps[axisCnt], const QwtPlotPrintFilter &) const;
+    virtual void printCanvas(QPainter *, const QRect &boundingRect, const QRect &canvasRect,
+                             const QwtScaleMap maps[axisCnt], const QwtPlotPrintFilter &) const;
 
     virtual void printLegend(QPainter *, const QRect &) const;
 

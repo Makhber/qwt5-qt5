@@ -10,13 +10,10 @@
 
 const unsigned int c_rangeMax = 1000;
 
-class Zoomer: public ScrollZoomer
+class Zoomer : public ScrollZoomer
 {
 public:
-    Zoomer(QwtPlotCanvas *canvas):
-        ScrollZoomer(canvas)
-    {
-    }
+    Zoomer(QwtPlotCanvas *canvas) : ScrollZoomer(canvas) { }
 
     virtual void rescale()
     {
@@ -24,16 +21,14 @@ public:
         QwtScaleDraw *sd = scaleWidget->scaleDraw();
 
         int minExtent = 0;
-        if ( zoomRectIndex() > 0 )
-        {
+        if (zoomRectIndex() > 0) {
             // When scrolling in vertical direction
             // the plot is jumping in horizontal direction
             // because of the different widths of the labels
             // So we better use a fixed extent.
 
             minExtent = sd->spacing() + sd->majTickLength() + 1;
-            minExtent += sd->labelSize(
-                scaleWidget->font(), c_rangeMax).width();
+            minExtent += sd->labelSize(scaleWidget->font(), c_rangeMax).width();
         }
 
         sd->setMinimumExtent(minExtent);
@@ -42,10 +37,7 @@ public:
     }
 };
 
-RandomPlot::RandomPlot(QWidget *parent):
-    IncrementalPlot(parent),
-    d_timer(0),
-    d_timerCount(0)
+RandomPlot::RandomPlot(QWidget *parent) : IncrementalPlot(parent), d_timer(0), d_timerCount(0)
 {
     setFrameStyle(QFrame::NoFrame);
     setLineWidth(0);
@@ -61,7 +53,7 @@ RandomPlot::RandomPlot(QWidget *parent):
 
     setAxisScale(xBottom, 0, c_rangeMax);
     setAxisScale(yLeft, 0, c_rangeMax);
-    
+
     replot();
 
     // enable zooming
@@ -73,27 +65,26 @@ RandomPlot::RandomPlot(QWidget *parent):
 
 QSize RandomPlot::sizeHint() const
 {
-    return QSize(540,400);
+    return QSize(540, 400);
 }
 
 void RandomPlot::appendPoint()
 {
     double x = rand() % c_rangeMax;
-    x += ( rand() % 100 ) / 100;
+    x += (rand() % 100) / 100;
 
     double y = rand() % c_rangeMax;
-    y += ( rand() % 100 ) / 100;
+    y += (rand() % 100) / 100;
 
     appendData(x, y);
 
-    if ( --d_timerCount <= 0 )
+    if (--d_timerCount <= 0)
         stop();
 }
 
 void RandomPlot::append(int timeout, int count)
 {
-    if ( !d_timer )
-    {
+    if (!d_timer) {
         d_timer = new QTimer(this);
         connect(d_timer, SIGNAL(timeout()), SLOT(appendPoint()));
     }
@@ -108,8 +99,7 @@ void RandomPlot::append(int timeout, int count)
 
 void RandomPlot::stop()
 {
-    if ( d_timer )
-    {
+    if (d_timer) {
         d_timer->stop();
         emit running(false);
     }

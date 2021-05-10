@@ -24,13 +24,13 @@
 */
 class QWT_EXPORT QwtWheel : public QwtAbstractSlider
 {
-    Q_OBJECT 
-    Q_PROPERTY( double totalAngle READ totalAngle WRITE setTotalAngle )
-    Q_PROPERTY( double viewAngle READ viewAngle WRITE setViewAngle )
-    Q_PROPERTY( int    tickCnt READ tickCnt WRITE setTickCnt )
-    Q_PROPERTY( int    internalBorder READ internalBorder WRITE setInternalBorder )
-    Q_PROPERTY( double mass READ mass WRITE setMass )
-            
+    Q_OBJECT
+    Q_PROPERTY(double totalAngle READ totalAngle WRITE setTotalAngle)
+    Q_PROPERTY(double viewAngle READ viewAngle WRITE setViewAngle)
+    Q_PROPERTY(int tickCnt READ tickCnt WRITE setTickCnt)
+    Q_PROPERTY(int internalBorder READ internalBorder WRITE setInternalBorder)
+    Q_PROPERTY(double mass READ mass WRITE setMass)
+
 public:
     explicit QwtWheel(QWidget *parent = NULL);
     virtual ~QwtWheel();
@@ -44,12 +44,12 @@ public:
 
     double mass() const;
 
-    void setTotalAngle (double angle);
+    void setTotalAngle(double angle);
     void setTickCnt(int cnt);
     void setViewAngle(double angle);
     void setInternalBorder(int width);
     void setMass(double val);
-    void setWheelWidth( int w );
+    void setWheelWidth(int w);
 
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
@@ -58,18 +58,17 @@ protected:
     virtual void resizeEvent(QResizeEvent *e);
     virtual void paintEvent(QPaintEvent *e);
 
-    void layoutWheel( bool update = true );
+    void layoutWheel(bool update = true);
     void draw(QPainter *, const QRect &);
     void drawWheel(QPainter *, const QRect &);
     void drawWheelBackground(QPainter *, const QRect &);
     void setColorArray();
 
     virtual void valueChange();
-    virtual void paletteChange( const QPalette &);
+    virtual void paletteChange(const QPalette &);
 
     virtual double getValue(const QPoint &);
-    virtual void getScrollMode(const QPoint &, 
-        int &scrollMode, int &direction);
+    virtual void getScrollMode(const QPoint &, int &scrollMode, int &direction);
 
 private:
     void initWheel();

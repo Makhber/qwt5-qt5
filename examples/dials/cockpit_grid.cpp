@@ -7,8 +7,7 @@
 
 typedef QPalette Palette;
 
-CockpitGrid::CockpitGrid(QWidget *parent):
-    QFrame(parent)
+CockpitGrid::CockpitGrid(QWidget *parent) : QFrame(parent)
 {
     setAutoFillBackground(true);
 
@@ -19,89 +18,76 @@ CockpitGrid::CockpitGrid(QWidget *parent):
     layout->setMargin(0);
 
     int i;
-    for ( i = 0; i < 3; i++ )
-    {
+    for (i = 0; i < 3; i++) {
         QwtDial *dial = createDial(i);
         layout->addWidget(dial, 0, i);
     }
 
-    for ( i = 0; i < layout->columnCount(); i++ )
+    for (i = 0; i < layout->columnCount(); i++)
         layout->setColumnStretch(i, 1);
 }
 
 QwtDial *CockpitGrid::createDial(int pos)
 {
     QwtDial *dial = NULL;
-    switch(pos)
-    {
-        case 0:
-        {
-            d_clock = new QwtAnalogClock(this);
+    switch (pos) {
+    case 0: {
+        d_clock = new QwtAnalogClock(this);
 
-            const QColor knobColor = QColor(Qt::gray).lighter(130);
+        const QColor knobColor = QColor(Qt::gray).lighter(130);
 
-            for ( int i = 0; i < QwtAnalogClock::NHands; i++)
-            {
-                QColor handColor = QColor(Qt::gray).lighter(150);
-                int width = 8;
+        for (int i = 0; i < QwtAnalogClock::NHands; i++) {
+            QColor handColor = QColor(Qt::gray).lighter(150);
+            int width = 8;
 
-                if ( i == QwtAnalogClock::SecondHand )
-                {
-                    handColor = Qt::gray;
-                    width = 5;
-                }
-                
-                QwtDialSimpleNeedle *hand = new QwtDialSimpleNeedle(
-                    QwtDialSimpleNeedle::Arrow, true, handColor, knobColor);
-                hand->setWidth(width);
-
-                d_clock->setHand((QwtAnalogClock::Hand)i, hand);
+            if (i == QwtAnalogClock::SecondHand) {
+                handColor = Qt::gray;
+                width = 5;
             }
 
-            QTimer *timer = new QTimer(d_clock);
-            timer->connect(timer, SIGNAL(timeout()), 
-                d_clock, SLOT(setCurrentTime()));
-            timer->start(1000);
+            QwtDialSimpleNeedle *hand =
+                    new QwtDialSimpleNeedle(QwtDialSimpleNeedle::Arrow, true, handColor, knobColor);
+            hand->setWidth(width);
 
-            dial = d_clock;
-            break;
-        }
-        case 1:
-        {
-            d_speedo = new SpeedoMeter(this);
-            d_speedo->setRange(0.0, 240.0);
-            d_speedo->setScale(-1, 2, 20);
-
-            QTimer *timer = new QTimer(d_speedo);
-            timer->connect(timer, SIGNAL(timeout()), 
-                this, SLOT(changeSpeed()));
-            timer->start(50);
-
-            dial = d_speedo;
-            break;
-        }
-        case 2:
-        {
-            d_ai = new AttitudeIndicator(this);
-
-            QTimer *gradientTimer = new QTimer(d_ai);
-            gradientTimer->connect(gradientTimer, SIGNAL(timeout()), 
-                this, SLOT(changeGradient()));
-            gradientTimer->start(100);
-
-            QTimer *angleTimer = new QTimer(d_ai);
-            angleTimer->connect(angleTimer, SIGNAL(timeout()), 
-                this, SLOT(changeAngle()));
-            angleTimer->start(100);
-
-            dial = d_ai;
-            break;
+            d_clock->setHand((QwtAnalogClock::Hand)i, hand);
         }
 
+        QTimer *timer = new QTimer(d_clock);
+        timer->connect(timer, SIGNAL(timeout()), d_clock, SLOT(setCurrentTime()));
+        timer->start(1000);
+
+        dial = d_clock;
+        break;
+    }
+    case 1: {
+        d_speedo = new SpeedoMeter(this);
+        d_speedo->setRange(0.0, 240.0);
+        d_speedo->setScale(-1, 2, 20);
+
+        QTimer *timer = new QTimer(d_speedo);
+        timer->connect(timer, SIGNAL(timeout()), this, SLOT(changeSpeed()));
+        timer->start(50);
+
+        dial = d_speedo;
+        break;
+    }
+    case 2: {
+        d_ai = new AttitudeIndicator(this);
+
+        QTimer *gradientTimer = new QTimer(d_ai);
+        gradientTimer->connect(gradientTimer, SIGNAL(timeout()), this, SLOT(changeGradient()));
+        gradientTimer->start(100);
+
+        QTimer *angleTimer = new QTimer(d_ai);
+        angleTimer->connect(angleTimer, SIGNAL(timeout()), this, SLOT(changeAngle()));
+        angleTimer->start(100);
+
+        dial = d_ai;
+        break;
+    }
     }
 
-    if ( dial )
-    {
+    if (dial) {
         dial->setReadOnly(true);
         dial->scaleDraw()->setPenWidth(3);
         dial->setLineWidth(4);
@@ -121,8 +107,7 @@ QPalette CockpitGrid::colorTheme(const QColor &base) const
     const QColor text = foreground.lighter(800);
 
     QPalette palette;
-    for ( int i = 0; i < QPalette::NColorGroups; i++ )
-    {
+    for (int i = 0; i < QPalette::NColorGroups; i++) {
         QPalette::ColorGroup cg = (QPalette::ColorGroup)i;
 
         palette.setColor(cg, Palette::Base, base);
@@ -143,22 +128,19 @@ void CockpitGrid::changeSpeed()
 
     double speed = d_speedo->value();
 
-    if ( (speed < 40.0 && offset < 0.0 ) ||  
-        (speed > 160.0 && offset > 0.0) )
-    {
+    if ((speed < 40.0 && offset < 0.0) || (speed > 160.0 && offset > 0.0)) {
         offset = -offset;
     }
 
     static int counter = 0;
-    switch(counter++ % 12 )
-    {
-        case 0:
-        case 2:
-        case 7:
-        case 8:
-            break;
-        default:
-            d_speedo->setValue(speed + offset);
+    switch (counter++ % 12) {
+    case 0:
+    case 2:
+    case 7:
+    case 8:
+        break;
+    default:
+        d_speedo->setValue(speed + offset);
     }
 }
 
@@ -167,12 +149,10 @@ void CockpitGrid::changeAngle()
     static double offset = 0.05;
 
     double angle = d_ai->angle();
-    if ( angle > 180.0 )
+    if (angle > 180.0)
         angle -= 360.0;
 
-    if ( (angle < -5.0 && offset < 0.0 ) ||
-        (angle > 5.0 && offset > 0.0) )
-    {
+    if ((angle < -5.0 && offset < 0.0) || (angle > 5.0 && offset > 0.0)) {
         offset = -offset;
     }
 
@@ -185,9 +165,7 @@ void CockpitGrid::changeGradient()
 
     double gradient = d_ai->gradient();
 
-    if ( (gradient < -0.05 && offset < 0.0 ) ||
-        (gradient > 0.05 && offset > 0.0) )
-    {
+    if ((gradient < -0.05 && offset < 0.0) || (gradient > 0.05 && offset > 0.0)) {
         offset = -offset;
     }
 

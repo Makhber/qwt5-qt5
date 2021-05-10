@@ -10,11 +10,11 @@
 #include "bode_plot.h"
 
 static void logSpace(double *array, int size, double xmin, double xmax)
-{ 
+{
     if ((xmin <= 0.0) || (xmax <= 0.0) || (size <= 0))
-       return;
+        return;
 
-    const int imax = size -1;
+    const int imax = size - 1;
 
     array[0] = xmin;
     array[imax] = xmax;
@@ -24,11 +24,10 @@ static void logSpace(double *array, int size, double xmin, double xmax)
     const double lstep = (lxmax - lxmin) / double(imax);
 
     for (int i = 1; i < imax; i++)
-       array[i] = exp(lxmin + double(i) * lstep);
+        array[i] = exp(lxmin + double(i) * lstep);
 }
 
-BodePlot::BodePlot(QWidget *parent):
-    QwtPlot(parent)
+BodePlot::BodePlot(QWidget *parent) : QwtPlot(parent)
 {
     setAutoReplot(false);
 
@@ -38,14 +37,14 @@ BodePlot::BodePlot(QWidget *parent):
 
     // legend
     QwtLegend *legend = new QwtLegend;
-    legend->setFrameStyle(QFrame::Box|QFrame::Sunken);
+    legend->setFrameStyle(QFrame::Box | QFrame::Sunken);
     insertLegend(legend, QwtPlot::BottomLegend);
 
-    // grid 
+    // grid
     QwtPlotGrid *grid = new QwtPlotGrid;
     grid->enableXMin(true);
     grid->setMajPen(QPen(Qt::white, 0, Qt::DotLine));
-    grid->setMinPen(QPen(Qt::gray, 0 , Qt::DotLine));
+    grid->setMinPen(QPen(Qt::gray, 0, Qt::DotLine));
     grid->attach(this);
 
     // axes
@@ -57,7 +56,7 @@ BodePlot::BodePlot(QWidget *parent):
     setAxisMaxMajor(QwtPlot::xBottom, 6);
     setAxisMaxMinor(QwtPlot::xBottom, 10);
     setAxisScaleEngine(QwtPlot::xBottom, new QwtLog10ScaleEngine);
-  
+
     // curves
     d_crv1 = new QwtPlotCurve("Amplitude");
     d_crv1->setRenderHint(QwtPlotItem::RenderAntialiased);
@@ -70,7 +69,7 @@ BodePlot::BodePlot(QWidget *parent):
     d_crv2->setPen(QPen(Qt::cyan));
     d_crv2->setYAxis(QwtPlot::yRight);
     d_crv2->attach(this);
-    
+
     // marker
     d_mrk1 = new QwtPlotMarker();
     d_mrk1->setValue(0.0, 0.0);
@@ -82,9 +81,9 @@ BodePlot::BodePlot(QWidget *parent):
     d_mrk2 = new QwtPlotMarker();
     d_mrk2->setLineStyle(QwtPlotMarker::HLine);
     d_mrk2->setLabelAlignment(Qt::AlignRight | Qt::AlignBottom);
-    d_mrk2->setLinePen(QPen(QColor(200,150,0), 0, Qt::DashDotLine));
-    d_mrk2->setSymbol( QwtSymbol(QwtSymbol::Diamond, 
-        QColor(Qt::yellow), QColor(Qt::green), QSize(7,7)));
+    d_mrk2->setLinePen(QPen(QColor(200, 150, 0), 0, Qt::DashDotLine));
+    d_mrk2->setSymbol(
+            QwtSymbol(QwtSymbol::Diamond, QColor(Qt::yellow), QColor(Qt::green), QSize(7, 7)));
     d_mrk2->attach(this);
 
     setDamp(0.0);
@@ -92,8 +91,7 @@ BodePlot::BodePlot(QWidget *parent):
     setAutoReplot(true);
 }
 
-void BodePlot::showData(double *frequency, double *amplitude,
-    double *phase, int count)
+void BodePlot::showData(double *frequency, double *amplitude, double *phase, int count)
 {
     d_crv1->setData(frequency, amplitude, count);
     d_crv2->setData(frequency, phase, count);
@@ -106,7 +104,7 @@ void BodePlot::showPeak(double freq, double amplitude)
 
     QwtText text(label);
     text.setFont(QFont("Helvetica", 10, QFont::Bold));
-    text.setColor(QColor(200,150,0));
+    text.setColor(QColor(200, 150, 0));
 
     d_mrk2->setValue(freq, amplitude);
     d_mrk2->setLabel(text);
@@ -145,28 +143,25 @@ void BodePlot::setDamp(double damping)
     int i3 = 1;
     double fmax = 1;
     double amax = -1000.0;
-    
-    for (int i = 0; i < ArraySize; i++)
-    {
+
+    for (int i = 0; i < ArraySize; i++) {
         double f = frequency[i];
         cplx g = cplx(1.0) / cplx(1.0 - f * f, 2.0 * damping * f);
-        amplitude[i] = 20.0 * log10(sqrt( g.real()*g.real() + g.imag()*g.imag()));
+        amplitude[i] = 20.0 * log10(sqrt(g.real() * g.real() + g.imag() * g.imag()));
         phase[i] = atan2(g.imag(), g.real()) * (180.0 / M_PI);
 
-        if ((i3 <= 1) && (amplitude[i] < -3.0)) 
-           i3 = i;
-        if (amplitude[i] > amax)
-        {
+        if ((i3 <= 1) && (amplitude[i] < -3.0))
+            i3 = i;
+        if (amplitude[i] > amax) {
             amax = amplitude[i];
             fmax = frequency[i];
         }
-        
     }
-    
-    double f3 = frequency[i3] - 
-       (frequency[i3] - frequency[i3 - 1]) 
-          / (amplitude[i3] - amplitude[i3 -1]) * (amplitude[i3] + 3);
-    
+
+    double f3 = frequency[i3]
+            - (frequency[i3] - frequency[i3 - 1]) / (amplitude[i3] - amplitude[i3 - 1])
+                    * (amplitude[i3] + 3);
+
     showPeak(fmax, amax);
     show3dB(f3);
     showData(frequency, amplitude, phase, ArraySize);

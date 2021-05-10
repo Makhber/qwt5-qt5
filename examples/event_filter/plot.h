@@ -3,7 +3,7 @@
 class ColorBar;
 class QwtWheel;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 public:

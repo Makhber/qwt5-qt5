@@ -23,10 +23,10 @@ class QwtDial;
 
 /*!
   \brief A special scale draw made for QwtDial
-  
+
   \sa QwtDial, QwtCompass
 */
-class QWT_EXPORT QwtDialScaleDraw: public QwtRoundScaleDraw
+class QWT_EXPORT QwtDialScaleDraw : public QwtRoundScaleDraw
 {
 public:
     explicit QwtDialScaleDraw(QwtDial *);
@@ -41,30 +41,30 @@ private:
 };
 
 /*!
-  \brief QwtDial class provides a rounded range control. 
+  \brief QwtDial class provides a rounded range control.
 
   QwtDial is intended as base class for dial widgets like
-  speedometers, compass widgets, clocks ... 
+  speedometers, compass widgets, clocks ...
 
   \image html dials2.png
 
   A dial contains a scale and a needle indicating the current value
-  of the dial. Depending on Mode one of them is fixed and the 
+  of the dial. Depending on Mode one of them is fixed and the
   other is rotating. If not isReadOnly() the
-  dial can be rotated by dragging the mouse or using keyboard inputs 
+  dial can be rotated by dragging the mouse or using keyboard inputs
   (see keyPressEvent()). A dial might be wrapping, what means
   a rotation below/above one limit continues on the other limit (f.e compass).
   The scale might cover any arc of the dial, its values are related to
   the origin() of the dial.
-  
+
   Qwt is missing a set of good looking needles (QwtDialNeedle).
   Contributions are very welcome.
-  
+
   \sa QwtCompass, QwtAnalogClock, QwtDialNeedle
   \note The examples/dials example shows different types of dials.
 */
 
-class QWT_EXPORT QwtDial: public QwtAbstractSlider
+class QWT_EXPORT QwtDial : public QwtAbstractSlider
 {
     Q_OBJECT
 
@@ -81,8 +81,8 @@ class QWT_EXPORT QwtDial: public QwtAbstractSlider
     Q_PROPERTY(Direction direction READ direction WRITE setDirection)
 
     friend class QwtDialScaleDraw;
-public:
 
+public:
     /*!
         \brief Frame shadow
 
@@ -91,42 +91,24 @@ public:
          The following enum is made for the designer only. It is safe
          to use QFrame::Shadow instead.
      */
-    enum Shadow
-    {
-        Plain = QFrame::Plain,
-        Raised = QFrame::Raised,
-        Sunken = QFrame::Sunken
-    };
+    enum Shadow { Plain = QFrame::Plain, Raised = QFrame::Raised, Sunken = QFrame::Sunken };
 
     //! see QwtDial::setScaleOptions
-    enum ScaleOptions
-    {
-        ScaleBackbone = 1,
-        ScaleTicks = 2,
-        ScaleLabel = 4
-    };
+    enum ScaleOptions { ScaleBackbone = 1, ScaleTicks = 2, ScaleLabel = 4 };
 
     /*!
         In case of RotateNeedle the needle is rotating, in case of
         RotateScale, the needle points to origin()
         and the scale is rotating.
     */
-    enum Mode
-    {
-        RotateNeedle,
-        RotateScale
-    };
+    enum Mode { RotateNeedle, RotateScale };
 
     /*!
       Direction of the dial
     */
-    enum Direction
-    {
-        Clockwise,
-        CounterClockwise
-    };
+    enum Direction { Clockwise, CounterClockwise };
 
-    explicit QwtDial( QWidget *parent = NULL);
+    explicit QwtDial(QWidget *parent = NULL);
 
     virtual ~QwtDial();
 
@@ -187,8 +169,8 @@ protected:
     virtual void drawContents(QPainter *) const;
     virtual void drawFocusIndicator(QPainter *) const;
 
-    virtual void drawScale(QPainter *, const QPoint &center,
-        int radius, double origin, double arcMin, double arcMax) const;
+    virtual void drawScale(QPainter *, const QPoint &center, int radius, double origin,
+                           double arcMin, double arcMax) const;
 
     /*!
       Draw the contents inside the scale
@@ -199,11 +181,10 @@ protected:
       \param center Center of the contents circle
       \param radius Radius of the contents circle
     */
-    virtual void drawScaleContents(QPainter *painter, const QPoint &center, 
-        int radius) const;
+    virtual void drawScaleContents(QPainter *painter, const QPoint &center, int radius) const;
 
-    virtual void drawNeedle(QPainter *, const QPoint &, 
-        int radius, double direction, QPalette::ColorGroup) const;
+    virtual void drawNeedle(QPainter *, const QPoint &, int radius, double direction,
+                            QPalette::ColorGroup) const;
 
     virtual QwtText scaleLabel(double) const;
     void updateScale();
@@ -212,8 +193,7 @@ protected:
     virtual void valueChange();
 
     virtual double getValue(const QPoint &);
-    virtual void getScrollMode(const QPoint &, 
-        int &scrollMode, int &direction);
+    virtual void getScrollMode(const QPoint &, int &scrollMode, int &direction);
 
 private:
     void initDial();

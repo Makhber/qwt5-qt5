@@ -15,7 +15,7 @@ public:
 private slots:
     void moved(const QPoint &);
     void selected(const QPolygon &);
-    
+
     void print();
     void exportSVG();
     void enableZoomMode(bool);

@@ -9,7 +9,7 @@
 //
 //-----------------------------------------------------------------
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
     QApplication a(argc, argv);
 
@@ -21,4 +21,3 @@ int main (int argc, char **argv)
 
     return a.exec();
 }
-

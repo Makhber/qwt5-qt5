@@ -13,33 +13,32 @@
 #include <qglobal.h>
 #include <qstring.h>
 
-#include "qwt_plot_item.h" 
+#include "qwt_plot_item.h"
 
 class QSvgRenderer;
 class QByteArray;
 
 /*!
-  \brief A plot item, which displays 
+  \brief A plot item, which displays
          data in Scalable Vector Graphics (SVG) format.
 
   SVG images are often used to display maps
 */
 
-class QWT_EXPORT QwtPlotSvgItem: public QwtPlotItem
+class QWT_EXPORT QwtPlotSvgItem : public QwtPlotItem
 {
 public:
-    explicit QwtPlotSvgItem(const QString& title = QString() );
-    explicit QwtPlotSvgItem(const QwtText& title );
+    explicit QwtPlotSvgItem(const QString &title = QString());
+    explicit QwtPlotSvgItem(const QwtText &title);
     virtual ~QwtPlotSvgItem();
 
-    bool loadFile(const QRectF&, const QString &fileName);
-    bool loadData(const QRectF&, const QByteArray &);
+    bool loadFile(const QRectF &, const QString &fileName);
+    bool loadData(const QRectF &, const QByteArray &);
 
     virtual QRectF boundingRect() const;
 
-    virtual void draw(QPainter *p,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRect &rect) const;
+    virtual void draw(QPainter *p, const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                      const QRect &rect) const;
 
     virtual int rtti() const;
 
@@ -47,8 +46,7 @@ protected:
     const QSvgRenderer &renderer() const;
     QSvgRenderer &renderer();
 
-    void render(QPainter *painter,
-        const QRectF &viewBox, const QRect &rect) const;
+    void render(QPainter *painter, const QRectF &viewBox, const QRect &rect) const;
     QRectF viewBox(const QRectF &area) const;
 
 private:

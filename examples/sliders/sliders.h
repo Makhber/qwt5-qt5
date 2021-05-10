@@ -4,7 +4,7 @@
 class QLabel;
 class QLayout;
 
-class Slider: public QWidget
+class Slider : public QWidget
 {
     Q_OBJECT
 public:

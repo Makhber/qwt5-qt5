@@ -9,14 +9,10 @@
 #include <qwt_plot_layout.h>
 #include "plot.h"
 
-class MyZoomer: public QwtPlotZoomer
+class MyZoomer : public QwtPlotZoomer
 {
 public:
-    MyZoomer(QwtPlotCanvas *canvas):
-        QwtPlotZoomer(canvas)
-    {
-        setTrackerMode(AlwaysOn);
-    }
+    MyZoomer(QwtPlotCanvas *canvas) : QwtPlotZoomer(canvas) { setTrackerMode(AlwaysOn); }
 
     virtual QwtText trackerText(const QPointF &pos) const
     {
@@ -24,42 +20,32 @@ public:
         bg.setAlpha(200);
 
         QwtText text = QwtPlotZoomer::trackerText(pos);
-        text.setBackgroundBrush( QBrush( bg ));
+        text.setBackgroundBrush(QBrush(bg));
         return text;
     }
 };
 
-class SpectrogramData: public QwtRasterData
+class SpectrogramData : public QwtRasterData
 {
 public:
-    SpectrogramData():
-        QwtRasterData(QRectF(-1.5, -1.5, 3.0, 3.0))
-    {
-    }
+    SpectrogramData() : QwtRasterData(QRectF(-1.5, -1.5, 3.0, 3.0)) { }
 
-    virtual QwtRasterData *copy() const
-    {
-        return new SpectrogramData();
-    }
+    virtual QwtRasterData *copy() const { return new SpectrogramData(); }
 
-    virtual QwtDoubleInterval range() const
-    {
-        return QwtDoubleInterval(0.0, 10.0);
-    }
+    virtual QwtDoubleInterval range() const { return QwtDoubleInterval(0.0, 10.0); }
 
     virtual double value(double x, double y) const
     {
         const double c = 0.842;
 
-        const double v1 = x * x + (y-c) * (y+c);
-        const double v2 = x * (y+c) + x * (y+c);
+        const double v1 = x * x + (y - c) * (y + c);
+        const double v2 = x * (y + c) + x * (y + c);
 
         return 1.0 / (v1 * v1 + v2 * v2);
     }
 };
 
-Plot::Plot(QWidget *parent):
-    QwtPlot(parent)
+Plot::Plot(QWidget *parent) : QwtPlot(parent)
 {
     d_spectrogram = new QwtPlotSpectrogram();
 
@@ -74,7 +60,7 @@ Plot::Plot(QWidget *parent):
     d_spectrogram->attach(this);
 
     QList<double> contourLevels;
-    for ( double level = 0.5; level < 10.0; level += 1.0 )
+    for (double level = 0.5; level < 10.0; level += 1.0)
         contourLevels += level;
     d_spectrogram->setContourLevels(contourLevels);
 
@@ -82,12 +68,10 @@ Plot::Plot(QWidget *parent):
     QwtScaleWidget *rightAxis = axisWidget(QwtPlot::yRight);
     rightAxis->setTitle("Intensity");
     rightAxis->setColorBarEnabled(true);
-    rightAxis->setColorMap(d_spectrogram->data().range(),
-        d_spectrogram->colorMap());
+    rightAxis->setColorMap(d_spectrogram->data().range(), d_spectrogram->colorMap());
 
-    setAxisScale(QwtPlot::yRight,
-        d_spectrogram->data().range().minValue(),
-        d_spectrogram->data().range().maxValue() );
+    setAxisScale(QwtPlot::yRight, d_spectrogram->data().range().minValue(),
+                 d_spectrogram->data().range().maxValue());
     enableAxis(QwtPlot::yRight);
 
     plotLayout()->setAlignCanvasToScales(true);
@@ -98,11 +82,9 @@ Plot::Plot(QWidget *parent):
     // RightButton: zoom out by 1
     // Ctrl+RighButton: zoom out to full size
 
-    QwtPlotZoomer* zoomer = new MyZoomer(canvas());
-    zoomer->setMousePattern(QwtEventPattern::MouseSelect2,
-        Qt::RightButton, Qt::ControlModifier);
-    zoomer->setMousePattern(QwtEventPattern::MouseSelect3,
-        Qt::RightButton);
+    QwtPlotZoomer *zoomer = new MyZoomer(canvas());
+    zoomer->setMousePattern(QwtEventPattern::MouseSelect2, Qt::RightButton, Qt::ControlModifier);
+    zoomer->setMousePattern(QwtEventPattern::MouseSelect3, Qt::RightButton);
 
     QwtPlotPanner *panner = new QwtPlotPanner(canvas());
     panner->setAxisEnabled(QwtPlot::yRight, false);
@@ -113,10 +95,10 @@ Plot::Plot(QWidget *parent):
 
     const QFontMetrics fm(axisWidget(QwtPlot::yLeft)->font());
     QwtScaleDraw *sd = axisScaleDraw(QwtPlot::yLeft);
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-    sd->setMinimumExtent( fm.horizontalAdvance("100.00") );
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+    sd->setMinimumExtent(fm.horizontalAdvance("100.00"));
 #else
-    sd->setMinimumExtent( fm.width("100.00") );
+    sd->setMinimumExtent(fm.width("100.00"));
 #endif
 
     const QColor c(Qt::darkBlue);
@@ -142,9 +124,7 @@ void Plot::printPlot()
     QPrinter printer;
     printer.setPageOrientation(QPageLayout::Landscape);
     QPrintDialog dialog(&printer);
-    if ( dialog.exec() )
-    {
+    if (dialog.exec()) {
         print(printer);
     }
 }
-

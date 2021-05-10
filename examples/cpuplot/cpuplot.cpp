@@ -11,44 +11,34 @@
 #include "cpupiemarker.h"
 #include "cpuplot.h"
 
-class TimeScaleDraw: public QwtScaleDraw
+class TimeScaleDraw : public QwtScaleDraw
 {
 public:
-    TimeScaleDraw(const QTime &base):
-        baseTime(base)
-    {
-    }
+    TimeScaleDraw(const QTime &base) : baseTime(base) { }
     virtual QwtText label(double v) const
     {
         QTime upTime = baseTime.addSecs((int)v);
         return upTime.toString();
     }
+
 private:
     QTime baseTime;
 };
 
-class Background: public QwtPlotItem
+class Background : public QwtPlotItem
 {
 public:
-    Background()
-    {
-        setZ(0.0);
-    }
+    Background() { setZ(0.0); }
 
-    virtual int rtti() const
-    {
-        return QwtPlotItem::Rtti_PlotUserItem;
-    }
+    virtual int rtti() const { return QwtPlotItem::Rtti_PlotUserItem; }
 
-    virtual void draw(QPainter *painter,
-        const QwtScaleMap &, const QwtScaleMap &yMap,
-        const QRect &rect) const
+    virtual void draw(QPainter *painter, const QwtScaleMap &, const QwtScaleMap &yMap,
+                      const QRect &rect) const
     {
         QColor c(Qt::white);
         QRect r = rect;
 
-        for ( int i = 100; i > 0; i -= 10 )
-        {
+        for (int i = 100; i > 0; i -= 10) {
             r.setBottom(yMap.transform(i - 10));
             r.setTop(yMap.transform(i));
             painter->fillRect(r, c);
@@ -58,11 +48,10 @@ public:
     }
 };
 
-class CpuCurve: public QwtPlotCurve
+class CpuCurve : public QwtPlotCurve
 {
 public:
-    CpuCurve(const QString &title):
-        QwtPlotCurve(title)
+    CpuCurve(const QString &title) : QwtPlotCurve(title)
     {
         setRenderHint(QwtPlotItem::RenderAntialiased);
     }
@@ -77,9 +66,7 @@ public:
     }
 };
 
-CpuPlot::CpuPlot(QWidget *parent):
-    QwtPlot(parent),
-    dataCount(0)
+CpuPlot::CpuPlot(QWidget *parent) : QwtPlot(parent), dataCount(0)
 {
     setAutoReplot(false);
 
@@ -90,8 +77,7 @@ CpuPlot::CpuPlot(QWidget *parent):
     insertLegend(legend, QwtPlot::RightLegend);
 
     setAxisTitle(QwtPlot::xBottom, " System Uptime [h:m:s]");
-    setAxisScaleDraw(QwtPlot::xBottom, 
-        new TimeScaleDraw(cpuStat.upTime()));
+    setAxisScaleDraw(QwtPlot::xBottom, new TimeScaleDraw(cpuStat.upTime()));
     setAxisScale(QwtPlot::xBottom, 0, HISTORY);
     setAxisLabelRotation(QwtPlot::xBottom, -50.0);
     setAxisLabelAlignment(QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom);
@@ -117,7 +103,7 @@ CpuPlot::CpuPlot(QWidget *parent):
 
     CpuPieMarker *pie = new CpuPieMarker();
     pie->attach(this);
-    
+
     CpuCurve *curve;
 
     curve = new CpuCurve("System");
@@ -148,45 +134,38 @@ CpuPlot::CpuPlot(QWidget *parent):
     showCurve(data[Total].curve, false);
     showCurve(data[Idle].curve, false);
 
-    for ( int i = 0; i < HISTORY; i++ )
+    for (int i = 0; i < HISTORY; i++)
         timeData[HISTORY - 1 - i] = i;
 
     (void)startTimer(1000); // 1 second
 
-    connect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)),
-        SLOT(showCurve(QwtPlotItem *, bool)));
+    connect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)), SLOT(showCurve(QwtPlotItem *, bool)));
 }
 
 void CpuPlot::timerEvent(QTimerEvent *)
 {
-    for ( int i = dataCount; i > 0; i-- )
-    {
-        for ( int c = 0; c < NCpuData; c++ )
-        {
-            if ( i < HISTORY )
-                data[c].data[i] = data[c].data[i-1];
+    for (int i = dataCount; i > 0; i--) {
+        for (int c = 0; c < NCpuData; c++) {
+            if (i < HISTORY)
+                data[c].data[i] = data[c].data[i - 1];
         }
     }
 
     cpuStat.statistic(data[User].data[0], data[System].data[0]);
 
-    data[Total].data[0] = data[User].data[0] + 
-        data[System].data[0];
+    data[Total].data[0] = data[User].data[0] + data[System].data[0];
     data[Idle].data[0] = 100.0 - data[Total].data[0];
 
-    if ( dataCount < HISTORY )
+    if (dataCount < HISTORY)
         dataCount++;
 
-    for ( int j = 0; j < HISTORY; j++ )
+    for (int j = 0; j < HISTORY; j++)
         timeData[j]++;
 
-    setAxisScale(QwtPlot::xBottom, 
-        timeData[HISTORY - 1], timeData[0]);
+    setAxisScale(QwtPlot::xBottom, timeData[HISTORY - 1], timeData[0]);
 
-    for ( int c = 0; c < NCpuData; c++ )
-    {
-        data[c].curve->setRawData(
-            timeData, data[c].data, dataCount);
+    for (int c = 0; c < NCpuData; c++) {
+        data[c].curve->setRawData(timeData, data[c].data, dataCount);
     }
 
     replot();
@@ -196,16 +175,16 @@ void CpuPlot::showCurve(QwtPlotItem *item, bool on)
 {
     item->setVisible(on);
     QWidget *w = legend()->find(item);
-    if ( w && w->inherits("QwtLegendItem") )
+    if (w && w->inherits("QwtLegendItem"))
         ((QwtLegendItem *)w)->setChecked(on);
-    
+
     replot();
 }
 
 int main(int argc, char **argv)
 {
-    QApplication a(argc, argv); 
-    
+    QApplication a(argc, argv);
+
     QWidget vBox;
     vBox.setWindowTitle("Cpu Plot");
 
@@ -221,9 +200,8 @@ int main(int argc, char **argv)
     layout->addWidget(plot);
     layout->addWidget(label);
 
-    vBox.resize(600,400);
+    vBox.resize(600, 400);
     vBox.show();
 
-    return a.exec();  
-}   
-
+    return a.exec();
+}

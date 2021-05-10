@@ -51,7 +51,6 @@ class QwtTextEngine;
 class QWT_EXPORT QwtText
 {
 public:
-
     /*!
       \brief Text format
 
@@ -82,8 +81,7 @@ public:
       \sa QwtTextEngine, setTextEngine()
     */
 
-    enum TextFormat
-    {
+    enum TextFormat {
         AutoText = 0,
 
         PlainText,
@@ -108,12 +106,7 @@ public:
       - PaintBackground\n
         The text has an individual background.
     */
-    enum PaintAttribute
-    {
-        PaintUsingTextFont = 1,
-        PaintUsingTextColor = 2,
-        PaintBackground = 4
-    };
+    enum PaintAttribute { PaintUsingTextFont = 1, PaintUsingTextColor = 2, PaintBackground = 4 };
 
     /*!
       \brief Layout Attributes
@@ -126,13 +119,9 @@ public:
         If QwtTextEngine::textMargins is not implemented for the format
         of the text, MinimumLayout has no effect.
     */
-    enum LayoutAttribute
-    {
-        MinimumLayout = 1
-    };
+    enum LayoutAttribute { MinimumLayout = 1 };
 
-    QwtText(const QString & = QString(),
-        TextFormat textFormat = AutoText);
+    QwtText(const QString & = QString(), TextFormat textFormat = AutoText);
     QwtText(const QwtText &);
     ~QwtText();
 
@@ -141,8 +130,7 @@ public:
     int operator==(const QwtText &) const;
     int operator!=(const QwtText &) const;
 
-    void setText(const QString &,
-        QwtText::TextFormat textFormat = AutoText);
+    void setText(const QString &, QwtText::TextFormat textFormat = AutoText);
     QString text() const;
 
     bool isNull() const;
@@ -178,8 +166,7 @@ public:
 
     void draw(QPainter *painter, const QRect &rect) const;
 
-    static const QwtTextEngine *textEngine(const QString &text,
-        QwtText::TextFormat = AutoText);
+    static const QwtTextEngine *textEngine(const QString &text, QwtText::TextFormat = AutoText);
 
     static const QwtTextEngine *textEngine(QwtText::TextFormat);
     static void setTextEngine(QwtText::TextFormat, QwtTextEngine *);

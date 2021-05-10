@@ -15,14 +15,12 @@
 
 using namespace QwtDesignerPlugin;
 
-PlotDialog::PlotDialog(const QString &properties, QWidget *parent): 
-    QDialog(parent)
+PlotDialog::PlotDialog(const QString &properties, QWidget *parent) : QDialog(parent)
 {
     setWindowTitle("Plot Properties");
 
     QLineEdit *lineEdit = new QLineEdit(properties);
-    connect(lineEdit, SIGNAL(textChanged(const QString &)),
-        SIGNAL(edited(const QString &)));
+    connect(lineEdit, SIGNAL(textChanged(const QString &)), SIGNAL(edited(const QString &)));
 
     QTabWidget *tabWidget = new QTabWidget(this);
     tabWidget->addTab(lineEdit, "General");
@@ -39,4 +37,3 @@ PlotDialog::PlotDialog(const QString &properties, QWidget *parent):
     mainLayout->addLayout(buttonLayout);
     setLayout(mainLayout);
 }
-

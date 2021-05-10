@@ -1,12 +1,11 @@
 #include <qwidget.h>
 
-class ColorBar: public QWidget
+class ColorBar : public QWidget
 {
     Q_OBJECT
 
 public:
-    ColorBar(Qt::Orientation = Qt::Horizontal, 
-        QWidget * = NULL);
+    ColorBar(Qt::Orientation = Qt::Horizontal, QWidget * = NULL);
 
     virtual void setOrientation(Qt::Orientation o);
     Qt::Orientation orientation() const { return d_orientation; }

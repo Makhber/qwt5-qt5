@@ -23,11 +23,10 @@
 #include "bode_plot.h"
 #include "bode.h"
 
-class Zoomer: public QwtPlotZoomer
+class Zoomer : public QwtPlotZoomer
 {
 public:
-    Zoomer(int xAxis, int yAxis, QwtPlotCanvas *canvas):
-        QwtPlotZoomer(xAxis, yAxis, canvas)
+    Zoomer(int xAxis, int yAxis, QwtPlotCanvas *canvas) : QwtPlotZoomer(xAxis, yAxis, canvas)
     {
         setSelectionFlags(QwtPicker::DragSelection | QwtPicker::CornerToCorner);
         setTrackerMode(QwtPicker::AlwaysOff);
@@ -36,10 +35,8 @@ public:
         // RightButton: zoom out by 1
         // Ctrl+RightButton: zoom out to full size
 
-        setMousePattern(QwtEventPattern::MouseSelect2,
-            Qt::RightButton, Qt::ControlModifier);
-        setMousePattern(QwtEventPattern::MouseSelect3,
-            Qt::RightButton);
+        setMousePattern(QwtEventPattern::MouseSelect2, Qt::RightButton, Qt::ControlModifier);
+        setMousePattern(QwtEventPattern::MouseSelect3, Qt::RightButton);
     }
 };
 
@@ -53,31 +50,27 @@ public:
 //
 //-----------------------------------------------------------------
 
-MainWin::MainWin(QWidget *parent): 
-    QMainWindow(parent)
+MainWin::MainWin(QWidget *parent) : QMainWindow(parent)
 {
     d_plot = new BodePlot(this);
     d_plot->setMargin(5);
 
     setContextMenuPolicy(Qt::NoContextMenu);
 
-    d_zoomer[0] = new Zoomer( QwtPlot::xBottom, QwtPlot::yLeft, 
-        d_plot->canvas());
+    d_zoomer[0] = new Zoomer(QwtPlot::xBottom, QwtPlot::yLeft, d_plot->canvas());
     d_zoomer[0]->setRubberBand(QwtPicker::RectRubberBand);
     d_zoomer[0]->setRubberBandPen(QColor(Qt::green));
     d_zoomer[0]->setTrackerMode(QwtPicker::ActiveOnly);
     d_zoomer[0]->setTrackerPen(QColor(Qt::white));
 
-    d_zoomer[1] = new Zoomer(QwtPlot::xTop, QwtPlot::yRight,
-         d_plot->canvas());
-    
+    d_zoomer[1] = new Zoomer(QwtPlot::xTop, QwtPlot::yRight, d_plot->canvas());
+
     d_panner = new QwtPlotPanner(d_plot->canvas());
     d_panner->setMouseButton(Qt::MiddleButton);
 
-    d_picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,
-        QwtPicker::PointSelection | QwtPicker::DragSelection, 
-        QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn, 
-        d_plot->canvas());
+    d_picker = new QwtPlotPicker(
+            QwtPlot::xBottom, QwtPlot::yLeft, QwtPicker::PointSelection | QwtPicker::DragSelection,
+            QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn, d_plot->canvas());
     d_picker->setRubberBandPen(QColor(Qt::green));
     d_picker->setRubberBand(QwtPicker::CrossRubberBand);
     d_picker->setTrackerPen(QColor(Qt::white));
@@ -122,7 +115,7 @@ MainWin::MainWin(QWidget *parent):
     QwtCounter *cntDamp = new QwtCounter(hBox);
     cntDamp->setRange(0.0, 5.0, 0.01);
     cntDamp->setValue(0.0);
-    
+
     layout->addWidget(cntDamp, 0);
 
     (void)toolBar->addWidget(hBox);
@@ -135,8 +128,7 @@ MainWin::MainWin(QWidget *parent):
     enableZoomMode(false);
     showInfo();
 
-    connect(cntDamp, SIGNAL(valueChanged(double)), 
-        d_plot, SLOT(setDamp(double))); 
+    connect(cntDamp, SIGNAL(valueChanged(double)), d_plot, SLOT(setDamp(double)));
 
     connect(btnPrint, SIGNAL(clicked()), SLOT(print()));
 #ifdef QT_SVG_LIB
@@ -144,10 +136,8 @@ MainWin::MainWin(QWidget *parent):
 #endif
     connect(btnZoom, SIGNAL(toggled(bool)), SLOT(enableZoomMode(bool)));
 
-    connect(d_picker, SIGNAL(moved(const QPoint &)),
-            SLOT(moved(const QPoint &)));
-    connect(d_picker, SIGNAL(selected(const QPolygon &)),
-            SLOT(selected(const QPolygon &)));
+    connect(d_picker, SIGNAL(moved(const QPoint &)), SLOT(moved(const QPoint &)));
+    connect(d_picker, SIGNAL(selected(const QPolygon &)), SLOT(selected(const QPolygon &)));
 }
 
 void MainWin::print()
@@ -155,21 +145,18 @@ void MainWin::print()
     QPrinter printer;
 
     QString docName = d_plot->title().text();
-    if ( !docName.isEmpty() )
-    {
-        docName.replace (QRegExp (QString::fromLatin1 ("\n")), tr (" -- "));
-        printer.setDocName (docName);
+    if (!docName.isEmpty()) {
+        docName.replace(QRegExp(QString::fromLatin1("\n")), tr(" -- "));
+        printer.setDocName(docName);
     }
 
     printer.setCreator("Bode example");
     printer.setPageOrientation(QPageLayout::Landscape);
 
     QPrintDialog dialog(&printer);
-    if ( dialog.exec() )
-    {
+    if (dialog.exec()) {
         QwtPlotPrintFilter filter;
-        if ( printer.colorMode() == QPrinter::GrayScale )
-        {
+        if (printer.colorMode() == QPrinter::GrayScale) {
             int options = QwtPlotPrintFilter::PrintAll;
             options &= ~QwtPlotPrintFilter::PrintBackground;
             options |= QwtPlotPrintFilter::PrintFrameWithScales;
@@ -185,12 +172,10 @@ void MainWin::exportSVG()
 
 #ifdef QT_SVG_LIB
 #ifndef QT_NO_FILEDIALOG
-    fileName = QFileDialog::getSaveFileName(
-        this, "Export File Name", QString(),
-        "SVG Documents (*.svg)");
+    fileName = QFileDialog::getSaveFileName(this, "Export File Name", QString(),
+                                            "SVG Documents (*.svg)");
 #endif
-    if ( !fileName.isEmpty() )
-    {
+    if (!fileName.isEmpty()) {
         QSvgGenerator generator;
         generator.setFileName(fileName);
         generator.setSize(QSize(800, 600));
@@ -217,9 +202,8 @@ void MainWin::enableZoomMode(bool on)
 
 void MainWin::showInfo(QString text)
 {
-    if ( text == QString() )
-    {
-        if ( d_picker->rubberBand() )
+    if (text == QString()) {
+        if (d_picker->rubberBand())
             text = "Cursor Pos: Press left mouse button in plot region";
         else
             text = "Zoom: Press mouse button and drag";
@@ -233,12 +217,9 @@ void MainWin::showInfo(QString text)
 void MainWin::moved(const QPoint &pos)
 {
     QString info;
-    info = "Freq="
-        + QString::number(d_plot->invTransform(QwtPlot::xBottom, pos.x()), 'g')
-        + ", Ampl="
-        + QString::number(d_plot->invTransform(QwtPlot::yLeft, pos.y()), 'g')
-        + ", Phase="
-        + QString::number(d_plot->invTransform(QwtPlot::yRight, pos.y()), 'g');
+    info = "Freq=" + QString::number(d_plot->invTransform(QwtPlot::xBottom, pos.x()), 'g')
+            + ", Ampl=" + QString::number(d_plot->invTransform(QwtPlot::yLeft, pos.y()), 'g')
+            + ", Phase=" + QString::number(d_plot->invTransform(QwtPlot::yRight, pos.y()), 'g');
     showInfo(info);
 }
 
@@ -247,12 +228,12 @@ void MainWin::selected(const QPolygon &)
     showInfo();
 }
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
     QApplication a(argc, argv);
 
     MainWin w;
-    w.resize(540,400);
+    w.resize(540, 400);
     w.show();
 
     int rv = a.exec();

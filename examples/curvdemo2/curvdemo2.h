@@ -2,7 +2,7 @@
 #include <qwt_plot_curve.h>
 #include <qwt_scale_map.h>
 
-class MainWin : public QFrame 
+class MainWin : public QFrame
 {
 public:
     enum { curveCount = 4 };
@@ -13,7 +13,7 @@ public:
 
 public:
     MainWin();
-    
+
 protected:
     virtual void timerEvent(QTimerEvent *t);
     virtual void paintEvent(QPaintEvent *);

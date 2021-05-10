@@ -6,7 +6,7 @@ class QwtAnalogClock;
 class SpeedoMeter;
 class AttitudeIndicator;
 
-class CockpitGrid: public QFrame
+class CockpitGrid : public QFrame
 {
     Q_OBJECT
 

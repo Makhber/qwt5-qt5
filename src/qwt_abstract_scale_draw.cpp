@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -22,10 +22,7 @@
 class QwtAbstractScaleDraw::PrivateData
 {
 public:
-    PrivateData():
-        components(Backbone | Ticks | Labels),
-        spacing(4),
-        minExtent(0)
+    PrivateData() : components(Backbone | Ticks | Labels), spacing(4), minExtent(0)
     {
         tickLength[QwtScaleDiv::MinorTick] = 4;
         tickLength[QwtScaleDiv::MediumTick] = 6;
@@ -33,10 +30,10 @@ public:
     }
 
     int components;
-    
+
     QwtScaleMap map;
     QwtScaleDiv scldiv;
-        
+
     int spacing;
     int tickLength[QwtScaleDiv::NTickTypes];
 
@@ -75,7 +72,7 @@ QwtAbstractScaleDraw &QwtAbstractScaleDraw::operator=(const QwtAbstractScaleDraw
     return *this;
 }
 
-/*!  
+/*!
   En/Disable a component of the scale
 
   \param component Scale component
@@ -83,17 +80,16 @@ QwtAbstractScaleDraw &QwtAbstractScaleDraw::operator=(const QwtAbstractScaleDraw
 
   \sa hasComponent()
 */
-void QwtAbstractScaleDraw::enableComponent(
-    ScaleComponent component, bool enable)
+void QwtAbstractScaleDraw::enableComponent(ScaleComponent component, bool enable)
 {
-    if ( enable )
+    if (enable)
         d_data->components |= component;
     else
         d_data->components &= ~component;
 }
 
-/*! 
-  Check if a component is enabled 
+/*!
+  Check if a component is enabled
   \sa enableComponent()
 */
 bool QwtAbstractScaleDraw::hasComponent(ScaleComponent component) const
@@ -116,8 +112,7 @@ void QwtAbstractScaleDraw::setScaleDiv(const QwtScaleDiv &sd)
   Change the transformation of the scale
   \param transformation New scale transformation
 */
-void QwtAbstractScaleDraw::setTransformation(
-    QwtScaleTransformation *transformation)
+void QwtAbstractScaleDraw::setTransformation(QwtScaleTransformation *transformation)
 {
     d_data->map.setTransformation(transformation);
 }
@@ -129,15 +124,15 @@ const QwtScaleMap &QwtAbstractScaleDraw::map() const
 }
 
 //! \return Map how to translate between scale and pixel values
-QwtScaleMap &QwtAbstractScaleDraw::scaleMap() 
+QwtScaleMap &QwtAbstractScaleDraw::scaleMap()
 {
     return d_data->map;
 }
 
-//! \return scale division 
-const QwtScaleDiv& QwtAbstractScaleDraw::scaleDiv() const 
-{ 
-    return d_data->scldiv; 
+//! \return scale division
+const QwtScaleDiv &QwtAbstractScaleDraw::scaleDiv() const
+{
+    return d_data->scldiv;
 }
 
 /*!
@@ -145,47 +140,40 @@ const QwtScaleDiv& QwtAbstractScaleDraw::scaleDiv() const
 
   \param painter    The painter
 
-  \param palette    Palette, text color is used for the labels, 
+  \param palette    Palette, text color is used for the labels,
                     foreground color for ticks and backbone
 */
-void QwtAbstractScaleDraw::draw(QPainter *painter, 
-    const QPalette& palette) const
+void QwtAbstractScaleDraw::draw(QPainter *painter, const QPalette &palette) const
 {
-    if ( hasComponent(QwtAbstractScaleDraw::Labels) )
-    {
+    if (hasComponent(QwtAbstractScaleDraw::Labels)) {
         painter->save();
 
         painter->setPen(palette.color(QPalette::Text)); // ignore pen style
 
-        const QList<double> &majorTicks = 
-            d_data->scldiv.ticks(QwtScaleDiv::MajorTick);
+        const QList<double> &majorTicks = d_data->scldiv.ticks(QwtScaleDiv::MajorTick);
 
-        for (int i = 0; i < (int)majorTicks.count(); i++)
-        {
+        for (int i = 0; i < (int)majorTicks.count(); i++) {
             const double v = majorTicks[i];
-            if ( d_data->scldiv.contains(v) )
+            if (d_data->scldiv.contains(v))
                 drawLabel(painter, majorTicks[i]);
         }
 
         painter->restore();
     }
 
-    if ( hasComponent(QwtAbstractScaleDraw::Ticks) )
-    {
+    if (hasComponent(QwtAbstractScaleDraw::Ticks)) {
         painter->save();
 
         QPen pen = painter->pen();
         pen.setColor(palette.color(QPalette::WindowText));
         painter->setPen(pen);
 
-        for ( int tickType = QwtScaleDiv::MinorTick; 
-            tickType < QwtScaleDiv::NTickTypes; tickType++ )
-        {
+        for (int tickType = QwtScaleDiv::MinorTick; tickType < QwtScaleDiv::NTickTypes;
+             tickType++) {
             const QList<double> &ticks = d_data->scldiv.ticks(tickType);
-            for (int i = 0; i < (int)ticks.count(); i++)
-            {
+            for (int i = 0; i < (int)ticks.count(); i++) {
                 const double v = ticks[i];
-                if ( d_data->scldiv.contains(v) )
+                if (d_data->scldiv.contains(v))
                     drawTick(painter, v, d_data->tickLength[tickType]);
             }
         }
@@ -193,8 +181,7 @@ void QwtAbstractScaleDraw::draw(QPainter *painter,
         painter->restore();
     }
 
-    if ( hasComponent(QwtAbstractScaleDraw::Backbone) )
-    {
+    if (hasComponent(QwtAbstractScaleDraw::Backbone)) {
         painter->save();
 
         QPen pen = painter->pen();
@@ -219,7 +206,7 @@ void QwtAbstractScaleDraw::draw(QPainter *painter,
 */
 void QwtAbstractScaleDraw::setSpacing(int spacing)
 {
-    if ( spacing < 0 )
+    if (spacing < 0)
         spacing = 0;
 
     d_data->spacing = spacing;
@@ -253,7 +240,7 @@ int QwtAbstractScaleDraw::spacing() const
 */
 void QwtAbstractScaleDraw::setMinimumExtent(int minExtent)
 {
-    if ( minExtent < 0 )
+    if (minExtent < 0)
         minExtent = 0;
 
     d_data->minExtent = minExtent;
@@ -270,26 +257,23 @@ int QwtAbstractScaleDraw::minimumExtent() const
 
 /*!
   Set the length of the ticks
-   
+
   \param tickType Tick type
   \param length New length
 
   \warning the length is limited to [0..1000]
 */
-void QwtAbstractScaleDraw::setTickLength(
-    QwtScaleDiv::TickType tickType, int length)
+void QwtAbstractScaleDraw::setTickLength(QwtScaleDiv::TickType tickType, int length)
 {
-    if ( tickType < QwtScaleDiv::MinorTick || 
-        tickType > QwtScaleDiv::MajorTick )
-    {
+    if (tickType < QwtScaleDiv::MinorTick || tickType > QwtScaleDiv::MajorTick) {
         return;
     }
 
-    if ( length < 0 )
+    if (length < 0)
         length = 0;
 
     const int maxTickLen = 1000;
-    if ( length > maxTickLen )
+    if (length > maxTickLen)
         length = 1000;
 
     d_data->tickLength[tickType] = length;
@@ -302,9 +286,7 @@ void QwtAbstractScaleDraw::setTickLength(
 */
 int QwtAbstractScaleDraw::tickLength(QwtScaleDiv::TickType tickType) const
 {
-    if ( tickType < QwtScaleDiv::MinorTick || 
-        tickType > QwtScaleDiv::MajorTick )
-    {
+    if (tickType < QwtScaleDiv::MinorTick || tickType > QwtScaleDiv::MajorTick) {
         return 0;
     }
 
@@ -320,9 +302,9 @@ int QwtAbstractScaleDraw::majTickLength() const
 }
 
 /*!
-  \brief Convert a value into its representing label 
+  \brief Convert a value into its representing label
 
-  The value is converted to a plain text using 
+  The value is converted to a plain text using
   QLocale::system().toString(value).
   This method is often overloaded by applications to have individual
   labels.
@@ -341,19 +323,17 @@ QwtText QwtAbstractScaleDraw::label(double value) const
    The conversion between value and label is called very often
    in the layout and painting code. Unfortunately the
    calculation of the label sizes might be slow (really slow
-   for rich text in Qt4), so it's necessary to cache the labels. 
+   for rich text in Qt4), so it's necessary to cache the labels.
 
    \param font Font
    \param value Value
 
    \return Tick label
 */
-const QwtText &QwtAbstractScaleDraw::tickLabel(
-    const QFont &font, double value) const
+const QwtText &QwtAbstractScaleDraw::tickLabel(const QFont &font, double value) const
 {
     QMap<double, QwtText>::const_iterator it = d_data->labelCache.find(value);
-    if ( it == d_data->labelCache.end() )
-    {
+    if (it == d_data->labelCache.end()) {
         QwtText lbl = label(value);
         lbl.setRenderFlags(0);
         lbl.setLayoutAttribute(QwtText::MinimumLayout);

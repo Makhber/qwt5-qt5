@@ -21,11 +21,9 @@
 #include <QDesignerTaskMenuExtension>
 #include <QExtensionFactory>
 
-namespace QwtDesignerPlugin
-{
+namespace QwtDesignerPlugin {
 
-class CustomWidgetInterface: public QObject, 
-    public QDesignerCustomWidgetInterface
+class CustomWidgetInterface : public QObject, public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -46,11 +44,11 @@ public:
     virtual void initialize(QDesignerFormEditorInterface *);
 
 protected:
-    QString d_name; 
-    QString d_include; 
-    QString d_toolTip; 
-    QString d_whatsThis; 
-    QString d_domXml; 
+    QString d_name;
+    QString d_include;
+    QString d_toolTip;
+    QString d_whatsThis;
+    QString d_domXml;
     QString d_codeTemplate;
     QIcon d_icon;
 
@@ -58,26 +56,26 @@ private:
     bool d_isInitialized;
 };
 
-class CustomWidgetCollectionInterface: public QObject,
-    public QDesignerCustomWidgetCollectionInterface
+class CustomWidgetCollectionInterface : public QObject,
+                                        public QDesignerCustomWidgetCollectionInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetCollectionInterface)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface" )
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface")
 #endif
 
 public:
     CustomWidgetCollectionInterface(QObject *parent = NULL);
 
-    virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const;
+    virtual QList<QDesignerCustomWidgetInterface *> customWidgets() const;
 
 private:
-    QList<QDesignerCustomWidgetInterface*> d_plugins;
+    QList<QDesignerCustomWidgetInterface *> d_plugins;
 };
 
 #ifndef NO_QWT_PLOT
-class PlotInterface: public CustomWidgetInterface 
+class PlotInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -89,7 +87,7 @@ public:
 #endif
 
 #ifndef NO_QWT_WIDGETS
-class AnalogClockInterface: public CustomWidgetInterface 
+class AnalogClockInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -101,7 +99,7 @@ public:
 #endif
 
 #ifndef NO_QWT_WIDGETS
-class CompassInterface: public CustomWidgetInterface 
+class CompassInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -113,7 +111,7 @@ public:
 #endif
 
 #ifndef NO_QWT_WIDGETS
-class CounterInterface: public CustomWidgetInterface 
+class CounterInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -125,7 +123,7 @@ public:
 #endif
 
 #ifndef NO_QWT_WIDGETS
-class DialInterface: public CustomWidgetInterface 
+class DialInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -137,7 +135,7 @@ public:
 #endif
 
 #ifndef NO_QWT_WIDGETS
-class KnobInterface: public CustomWidgetInterface 
+class KnobInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -149,7 +147,7 @@ public:
 #endif
 
 #ifndef NO_QWT_PLOT
-class ScaleWidgetInterface: public CustomWidgetInterface 
+class ScaleWidgetInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -161,7 +159,7 @@ public:
 #endif
 
 #ifndef NO_QWT_WIDGETS
-class SliderInterface: public CustomWidgetInterface 
+class SliderInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -172,7 +170,7 @@ public:
 };
 #endif
 
-class TextLabelInterface: public CustomWidgetInterface 
+class TextLabelInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -183,7 +181,7 @@ public:
 };
 
 #ifndef NO_QWT_WIDGETS
-class ThermoInterface: public CustomWidgetInterface 
+class ThermoInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -195,7 +193,7 @@ public:
 #endif
 
 #ifndef NO_QWT_WIDGETS
-class WheelInterface: public CustomWidgetInterface 
+class WheelInterface : public CustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -206,7 +204,7 @@ public:
 };
 #endif
 
-class TaskMenuFactory: public QExtensionFactory
+class TaskMenuFactory : public QExtensionFactory
 {
     Q_OBJECT
 
@@ -214,12 +212,10 @@ public:
     TaskMenuFactory(QExtensionManager *parent = 0);
 
 protected:
-    QObject *createExtension(QObject *object, 
-        const QString &iid, QObject *parent) const;
+    QObject *createExtension(QObject *object, const QString &iid, QObject *parent) const;
 };
 
-class TaskMenuExtension: public QObject,
-            public QDesignerTaskMenuExtension
+class TaskMenuExtension : public QObject, public QDesignerTaskMenuExtension
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerTaskMenuExtension)

@@ -25,14 +25,10 @@ class QWT_EXPORT QwtLegendItemManager
 {
 public:
     //! Constructor
-    QwtLegendItemManager() 
-    {
-    }
+    QwtLegendItemManager() { }
 
     //! Destructor
-    virtual ~QwtLegendItemManager() 
-    {
-    }
+    virtual ~QwtLegendItemManager() { }
 
     /*!
       Update the widget that represents the item on the legend
@@ -51,4 +47,3 @@ public:
 };
 
 #endif
-

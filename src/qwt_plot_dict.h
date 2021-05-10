@@ -40,10 +40,9 @@ public:
     void setAutoDelete(bool);
     bool autoDelete() const;
 
-    const QwtPlotItemList& itemList() const;
+    const QwtPlotItemList &itemList() const;
 
-    void detachItems(int rtti = QwtPlotItem::Rtti_PlotItem,
-        bool autoDelete = true);
+    void detachItems(int rtti = QwtPlotItem::Rtti_PlotItem, bool autoDelete = true);
 
 private:
     friend class QwtPlotItem;

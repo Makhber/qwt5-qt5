@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     grid->enableXMin(true);
     grid->enableYMin(true);
     grid->setMajPen(QPen(Qt::black, 0, Qt::DotLine));
-    grid->setMinPen(QPen(Qt::gray, 0 , Qt::DotLine));
+    grid->setMinPen(QPen(Qt::gray, 0, Qt::DotLine));
     grid->attach(&plot);
 
     HistogramItem *histogram = new HistogramItem();
@@ -31,13 +31,12 @@ int main(int argc, char **argv)
     QVector<double> values(numValues);
 
     double pos = 0.0;
-    for ( int i = 0; i < (int)intervals.size(); i++ )
-    {
+    for (int i = 0; i < (int)intervals.size(); i++) {
         const int width = 5 + rand() % 15;
         const int value = rand() % 100;
 
         intervals[i] = QwtDoubleInterval(pos, pos + double(width));
-        values[i] = value; 
+        values[i] = value;
 
         pos += width;
     }
@@ -49,8 +48,8 @@ int main(int argc, char **argv)
     plot.setAxisScale(QwtPlot::xBottom, 0.0, pos);
     plot.replot();
 
-    plot.resize(600,400);
+    plot.resize(600, 400);
     plot.show();
 
-    return a.exec(); 
+    return a.exec();
 }

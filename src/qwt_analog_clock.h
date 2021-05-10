@@ -42,18 +42,17 @@
   \note The examples/dials example shows how to use QwtAnalogClock.
 */
 
-class QWT_EXPORT QwtAnalogClock: public QwtDial
+class QWT_EXPORT QwtAnalogClock : public QwtDial
 {
     Q_OBJECT
 
 public:
-    /*! 
+    /*!
         Hand type
         \sa setHand(), hand()
     */
 
-    enum Hand
-    {
+    enum Hand {
         SecondHand,
         MinuteHand,
         HourHand,
@@ -61,7 +60,7 @@ public:
         NHands
     };
 
-    explicit QwtAnalogClock(QWidget* parent = NULL);
+    explicit QwtAnalogClock(QWidget *parent = NULL);
     virtual ~QwtAnalogClock();
 
     virtual void setHand(Hand, QwtDialNeedle *);
@@ -75,11 +74,11 @@ public slots:
 protected:
     virtual QwtText scaleLabel(double) const;
 
-    virtual void drawNeedle(QPainter *, const QPoint &,
-        int radius, double direction, QPalette::ColorGroup) const;
+    virtual void drawNeedle(QPainter *, const QPoint &, int radius, double direction,
+                            QPalette::ColorGroup) const;
 
-    virtual void drawHand(QPainter *, Hand, const QPoint &,
-        int radius, double direction, QPalette::ColorGroup) const;
+    virtual void drawHand(QPainter *, Hand, const QPoint &, int radius, double direction,
+                          QPalette::ColorGroup) const;
 
 private:
     virtual void setNeedle(QwtDialNeedle *);

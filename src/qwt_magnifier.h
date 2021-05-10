@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -24,7 +24,7 @@ class QKeyEvent;
   Using QwtMagnifier a plot can be zoomed in/out in steps using
   keys, the mouse wheel or moving a mouse button in vertical direction.
 */
-class QWT_EXPORT QwtMagnifier: public QObject
+class QWT_EXPORT QwtMagnifier : public QObject
 {
     Q_OBJECT
 

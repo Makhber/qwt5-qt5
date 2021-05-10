@@ -14,44 +14,29 @@
 //      A simple example which shows how to use QwtPlot and QwtData
 //-----------------------------------------------------------------
 
-class SimpleData: public QwtData
+class SimpleData : public QwtData
 {
     // The x values depend on its index and the y values
-    // can be calculated from the corresponding x value. 
+    // can be calculated from the corresponding x value.
     // So we don´t need to store the values.
-    // Such an implementation is slower because every point 
+    // Such an implementation is slower because every point
     // has to be recalculated for every replot, but it demonstrates how
     // QwtData can be used.
 
 public:
-    SimpleData(double(*y)(double), size_t size):
-        d_size(size),
-        d_y(y)
-    {
-    }
+    SimpleData(double (*y)(double), size_t size) : d_size(size), d_y(y) { }
 
-    virtual QwtData *copy() const
-    {
-        return new SimpleData(d_y, d_size);
-    }
+    virtual QwtData *copy() const { return new SimpleData(d_y, d_size); }
 
-    virtual size_t size() const
-    {
-        return d_size;
-    }
+    virtual size_t size() const { return d_size; }
 
-    virtual double x(size_t i) const
-    {
-        return 0.1 * i;
-    }
+    virtual double x(size_t i) const { return 0.1 * i; }
 
-    virtual double y(size_t i) const
-    {
-        return d_y(x(i));
-    }
+    virtual double y(size_t i) const { return d_y(x(i)); }
+
 private:
     size_t d_size;
-    double(*d_y)(double);
+    double (*d_y)(double);
 };
 
 class Plot : public QwtPlot
@@ -59,7 +44,6 @@ class Plot : public QwtPlot
 public:
     Plot();
 };
-
 
 Plot::Plot()
 {
@@ -69,7 +53,7 @@ Plot::Plot()
     // Set axis titles
     setAxisTitle(xBottom, "x -->");
     setAxisTitle(yLeft, "y -->");
-    
+
     // Insert new curves
     QwtPlotCurve *cSin = new QwtPlotCurve("y = sin(x)");
     cSin->setRenderHint(QwtPlotItem::RenderAntialiased);
@@ -87,11 +71,11 @@ Plot::Plot()
     cCos->setData(SimpleData(::cos, nPoints));
 
     // Insert markers
-    
+
     //  ...a horizontal line at y = 0...
     QwtPlotMarker *mY = new QwtPlotMarker();
     mY->setLabel(QString::fromLatin1("y = 0"));
-    mY->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
+    mY->setLabelAlignment(Qt::AlignRight | Qt::AlignTop);
     mY->setLineStyle(QwtPlotMarker::HLine);
     mY->setYValue(0.0);
     mY->attach(this);
@@ -112,7 +96,7 @@ int main(int argc, char **argv)
     QApplication a(argc, argv);
 
     Plot plot;
-    plot.resize(600,400);
+    plot.resize(600, 400);
     plot.show();
-    return a.exec(); 
+    return a.exec();
 }

@@ -5,7 +5,7 @@ class QCustomEvent;
 class QwtPlot;
 class QwtPlotCurve;
 
-class CanvasPicker: public QObject
+class CanvasPicker : public QObject
 {
     Q_OBJECT
 public:

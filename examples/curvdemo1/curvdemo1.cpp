@@ -14,7 +14,6 @@
 //  display styles of the QwtPlotCurve class
 //------------------------------------------------------------
 
-
 //
 //   Array Sizes
 //
@@ -26,10 +25,10 @@ const int CurvCnt = 6;
 //
 double xval[Size];
 double yval[Size];
-QwtScaleMap xMap; 
+QwtScaleMap xMap;
 QwtScaleMap yMap;
 
-class MainWin : public QFrame 
+class MainWin : public QFrame
 {
 public:
     MainWin();
@@ -44,7 +43,7 @@ private:
     QwtPlotCurve crv[CurvCnt];
 };
 
-MainWin::MainWin() 
+MainWin::MainWin()
 {
     int i;
 
@@ -53,16 +52,16 @@ MainWin::MainWin()
 
     //
     //  Frame style
-    //  
-    setFrameStyle(QFrame::Box|QFrame::Raised);
+    //
+    setFrameStyle(QFrame::Box | QFrame::Raised);
     setLineWidth(2);
     setMidLineWidth(3);
 
     //
     // Calculate values
     //
-    for(i=0; i<Size;i++)
-    {   xval[i] = double(i) * 10.0 / double(Size - 1);
+    for (i = 0; i < Size; i++) {
+        xval[i] = double(i) * 10.0 / double(Size - 1);
         yval[i] = sin(xval[i]) * cos(2.0 * xval[i]);
     }
 
@@ -109,17 +108,16 @@ MainWin::MainWin()
     crv[i].setStyle(QwtPlotCurve::NoCurve);
     i++;
 
-
     //
     // attach data
     //
-    for(i=0;i<CurvCnt;i++)
-        crv[i].setRawData(xval,yval,Size);
+    for (i = 0; i < CurvCnt; i++)
+        crv[i].setRawData(xval, yval, Size);
 }
 
 void MainWin::shiftDown(QRect &rect, int offset) const
 {
-        rect.translate(0, offset);
+    rect.translate(0, offset);
 }
 
 void MainWin::paintEvent(QPaintEvent *event)
@@ -131,13 +129,12 @@ void MainWin::paintEvent(QPaintEvent *event)
     drawContents(&painter);
 }
 
-
 //
 //  REDRAW CONTENTS
 //
 void MainWin::drawContents(QPainter *painter)
 {
-    int deltay,i;
+    int deltay, i;
 
     QRect r = contentsRect();
 
@@ -148,13 +145,12 @@ void MainWin::drawContents(QPainter *painter)
     //
     //  draw curves
     //
-    for (i=0;i<CurvCnt;i++)
-    {
+    for (i = 0; i < CurvCnt; i++) {
         xMap.setPaintInterval(r.left(), r.right());
         yMap.setPaintInterval(r.top(), r.bottom());
 
         painter->setRenderHint(QPainter::Antialiasing,
-            crv[i].testRenderHint(QwtPlotItem::RenderAntialiased) );
+                               crv[i].testRenderHint(QwtPlotItem::RenderAntialiased));
         crv[i].draw(painter, xMap, yMap, r);
 
         shiftDown(r, deltay);
@@ -163,44 +159,44 @@ void MainWin::drawContents(QPainter *painter)
     //
     // draw titles
     //
-    r = contentsRect();     // reset r
+    r = contentsRect(); // reset r
     painter->setFont(QFont("Helvetica", 8));
 
-    const int alignment = Qt::AlignTop|Qt::AlignHCenter;
+    const int alignment = Qt::AlignTop | Qt::AlignHCenter;
 
     painter->setPen(Qt::black);
 
-    painter->drawText(0,r.top(),r.width(), painter->fontMetrics().height(),
-        alignment, "Style: Line/Fitted, Symbol: Cross");
+    painter->drawText(0, r.top(), r.width(), painter->fontMetrics().height(), alignment,
+                      "Style: Line/Fitted, Symbol: Cross");
     shiftDown(r, deltay);
 
-    painter->drawText(0,r.top(),r.width(), painter->fontMetrics().height(),
-        alignment, "Style: Sticks, Symbol: Ellipse");
+    painter->drawText(0, r.top(), r.width(), painter->fontMetrics().height(), alignment,
+                      "Style: Sticks, Symbol: Ellipse");
     shiftDown(r, deltay);
 
-    painter->drawText(0 ,r.top(),r.width(), painter->fontMetrics().height(),
-        alignment, "Style: Lines, Symbol: None");
+    painter->drawText(0, r.top(), r.width(), painter->fontMetrics().height(), alignment,
+                      "Style: Lines, Symbol: None");
     shiftDown(r, deltay);
 
-    painter->drawText(0 ,r.top(),r.width(), painter->fontMetrics().height(),
-        alignment, "Style: Lines, Symbol: None, Antialiased");
+    painter->drawText(0, r.top(), r.width(), painter->fontMetrics().height(), alignment,
+                      "Style: Lines, Symbol: None, Antialiased");
     shiftDown(r, deltay);
 
-    painter->drawText(0, r.top(),r.width(), painter->fontMetrics().height(),
-        alignment, "Style: Steps, Symbol: None");
+    painter->drawText(0, r.top(), r.width(), painter->fontMetrics().height(), alignment,
+                      "Style: Steps, Symbol: None");
     shiftDown(r, deltay);
 
-    painter->drawText(0,r.top(),r.width(), painter->fontMetrics().height(),
-        alignment, "Style: NoCurve, Symbol: XCross");
+    painter->drawText(0, r.top(), r.width(), painter->fontMetrics().height(), alignment,
+                      "Style: NoCurve, Symbol: XCross");
 }
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
     QApplication a(argc, argv);
 
     MainWin w;
 
-    w.resize(300,600);
+    w.resize(300, 600);
     w.show();
 
     return a.exec();

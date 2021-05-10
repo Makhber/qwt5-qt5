@@ -9,7 +9,6 @@ class CurveData
 {
     // A container class for growing data
 public:
-
     CurveData();
 
     void append(double *x, double *y, int count);

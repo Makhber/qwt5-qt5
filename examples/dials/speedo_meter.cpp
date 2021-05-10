@@ -2,9 +2,7 @@
 #include <qwt_dial_needle.h>
 #include "speedo_meter.h"
 
-SpeedoMeter::SpeedoMeter(QWidget *parent):
-    QwtDial(parent),
-    d_label("km/h")
+SpeedoMeter::SpeedoMeter(QWidget *parent) : QwtDial(parent), d_label("km/h")
 {
     setWrapping(false);
     setReadOnly(true);
@@ -13,9 +11,8 @@ SpeedoMeter::SpeedoMeter(QWidget *parent):
     setScaleArc(0.0, 270.0);
     scaleDraw()->setSpacing(8);
 
-    QwtDialSimpleNeedle *needle = new QwtDialSimpleNeedle(
-            QwtDialSimpleNeedle::Arrow, true, Qt::red, 
-            QColor(Qt::gray).lighter(130));
+    QwtDialSimpleNeedle *needle = new QwtDialSimpleNeedle(QwtDialSimpleNeedle::Arrow, true, Qt::red,
+                                                          QColor(Qt::gray).lighter(130));
     setNeedle(needle);
 
     setScaleOptions(ScaleTicks | ScaleLabel);
@@ -33,14 +30,12 @@ QString SpeedoMeter::label() const
     return d_label;
 }
 
-void SpeedoMeter::drawScaleContents(QPainter *painter,
-    const QPoint &center, int radius) const
+void SpeedoMeter::drawScaleContents(QPainter *painter, const QPoint &center, int radius) const
 {
     QRect rect(0, 0, 2 * radius, 2 * radius - 10);
     rect.moveCenter(center);
 
-    const QColor color =
-        palette().color(QPalette::Text);
+    const QColor color = palette().color(QPalette::Text);
     painter->setPen(color);
 
     const int flags = Qt::AlignBottom | Qt::AlignHCenter;

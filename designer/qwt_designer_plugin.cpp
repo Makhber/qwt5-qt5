@@ -8,7 +8,7 @@
  *****************************************************************************/
 
 #if defined(_MSC_VER) /* MSVC Compiler */
-#pragma warning ( disable : 4786 )
+#pragma warning(disable : 4786)
 #endif
 
 #include <qglobal.h>
@@ -42,9 +42,8 @@
 
 using namespace QwtDesignerPlugin;
 
-CustomWidgetInterface::CustomWidgetInterface(QObject *parent): 
-    QObject(parent),
-    d_isInitialized(false)
+CustomWidgetInterface::CustomWidgetInterface(QObject *parent)
+    : QObject(parent), d_isInitialized(false)
 {
 }
 
@@ -98,17 +97,15 @@ QString CustomWidgetInterface::whatsThis() const
     return d_whatsThis;
 }
 
-void CustomWidgetInterface::initialize(
-    QDesignerFormEditorInterface *formEditor)
+void CustomWidgetInterface::initialize(QDesignerFormEditorInterface *formEditor)
 {
-    if ( d_isInitialized )
+    if (d_isInitialized)
         return;
 
     QExtensionManager *manager = formEditor->extensionManager();
-    if ( manager )
-    {
+    if (manager) {
         manager->registerExtensions(new TaskMenuFactory(manager),
-            Q_TYPEID(QDesignerTaskMenuExtension));
+                                    Q_TYPEID(QDesignerTaskMenuExtension));
     }
 
     d_isInitialized = true;
@@ -116,23 +113,21 @@ void CustomWidgetInterface::initialize(
 
 #ifndef NO_QWT_PLOT
 
-PlotInterface::PlotInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+PlotInterface::PlotInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtPlot";
     d_include = "qwt_plot.h";
     d_icon = QPixmap(":/pixmaps/qwtplot.png");
-    d_domXml = 
-        "<widget class=\"QwtPlot\" name=\"qwtPlot\">\n"
-        " <property name=\"geometry\">\n"
-        "  <rect>\n"
-        "   <x>0</x>\n"
-        "   <y>0</y>\n"
-        "   <width>400</width>\n"
-        "   <height>200</height>\n"
-        "  </rect>\n"
-        " </property>\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtPlot\" name=\"qwtPlot\">\n"
+               " <property name=\"geometry\">\n"
+               "  <rect>\n"
+               "   <x>0</x>\n"
+               "   <y>0</y>\n"
+               "   <width>400</width>\n"
+               "   <height>200</height>\n"
+               "  </rect>\n"
+               " </property>\n"
+               "</widget>\n";
 }
 
 QWidget *PlotInterface::createWidget(QWidget *parent)
@@ -144,26 +139,24 @@ QWidget *PlotInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_WIDGETS
 
-AnalogClockInterface::AnalogClockInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+AnalogClockInterface::AnalogClockInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtAnalogClock";
     d_include = "qwt_analog_clock.h";
     d_icon = QPixmap(":/pixmaps/qwtanalogclock.png");
-    d_domXml = 
-        "<widget class=\"QwtAnalogClock\" name=\"AnalogClock\">\n"
-        " <property name=\"geometry\">\n"
-        "  <rect>\n"
-        "   <x>0</x>\n"
-        "   <y>0</y>\n"
-        "   <width>200</width>\n"
-        "   <height>200</height>\n"
-        "  </rect>\n"
-        " </property>\n"
-        " <property name=\"lineWidth\">\n"
-        "  <number>4</number>\n"
-        " </property>\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtAnalogClock\" name=\"AnalogClock\">\n"
+               " <property name=\"geometry\">\n"
+               "  <rect>\n"
+               "   <x>0</x>\n"
+               "   <y>0</y>\n"
+               "   <width>200</width>\n"
+               "   <height>200</height>\n"
+               "  </rect>\n"
+               " </property>\n"
+               " <property name=\"lineWidth\">\n"
+               "  <number>4</number>\n"
+               " </property>\n"
+               "</widget>\n";
 }
 
 QWidget *AnalogClockInterface::createWidget(QWidget *parent)
@@ -175,26 +168,24 @@ QWidget *AnalogClockInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_WIDGETS
 
-CompassInterface::CompassInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+CompassInterface::CompassInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtCompass";
     d_include = "qwt_compass.h";
     d_icon = QPixmap(":/pixmaps/qwtcompass.png");
-    d_domXml = 
-        "<widget class=\"QwtCompass\" name=\"Compass\">\n"
-        " <property name=\"geometry\">\n"
-        "  <rect>\n"
-        "   <x>0</x>\n"
-        "   <y>0</y>\n"
-        "   <width>200</width>\n"
-        "   <height>200</height>\n"
-        "  </rect>\n"
-        " </property>\n"
-        " <property name=\"lineWidth\">\n"
-        "  <number>4</number>\n"
-        " </property>\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtCompass\" name=\"Compass\">\n"
+               " <property name=\"geometry\">\n"
+               "  <rect>\n"
+               "   <x>0</x>\n"
+               "   <y>0</y>\n"
+               "   <width>200</width>\n"
+               "   <height>200</height>\n"
+               "  </rect>\n"
+               " </property>\n"
+               " <property name=\"lineWidth\">\n"
+               "  <number>4</number>\n"
+               " </property>\n"
+               "</widget>\n";
 }
 
 QWidget *CompassInterface::createWidget(QWidget *parent)
@@ -206,15 +197,13 @@ QWidget *CompassInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_WIDGETS
 
-CounterInterface::CounterInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+CounterInterface::CounterInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtCounter";
     d_include = "qwt_counter.h";
     d_icon = QPixmap(":/pixmaps/qwtcounter.png");
-    d_domXml = 
-        "<widget class=\"QwtCounter\" name=\"Counter\">\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtCounter\" name=\"Counter\">\n"
+               "</widget>\n";
 }
 
 QWidget *CounterInterface::createWidget(QWidget *parent)
@@ -226,26 +215,24 @@ QWidget *CounterInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_WIDGETS
 
-DialInterface::DialInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+DialInterface::DialInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtDial";
     d_include = "qwt_dial.h";
     d_icon = QPixmap(":/pixmaps/qwtdial.png");
-    d_domXml = 
-        "<widget class=\"QwtDial\" name=\"Dial\">\n"
-        " <property name=\"geometry\">\n"
-        "  <rect>\n"
-        "   <x>0</x>\n"
-        "   <y>0</y>\n"
-        "   <width>200</width>\n"
-        "   <height>200</height>\n"
-        "  </rect>\n"
-        " </property>\n"
-        " <property name=\"lineWidth\">\n"
-        "  <number>4</number>\n"
-        " </property>\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtDial\" name=\"Dial\">\n"
+               " <property name=\"geometry\">\n"
+               "  <rect>\n"
+               "   <x>0</x>\n"
+               "   <y>0</y>\n"
+               "   <width>200</width>\n"
+               "   <height>200</height>\n"
+               "  </rect>\n"
+               " </property>\n"
+               " <property name=\"lineWidth\">\n"
+               "  <number>4</number>\n"
+               " </property>\n"
+               "</widget>\n";
 }
 
 QWidget *DialInterface::createWidget(QWidget *parent)
@@ -257,23 +244,21 @@ QWidget *DialInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_WIDGETS
 
-KnobInterface::KnobInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+KnobInterface::KnobInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtKnob";
     d_include = "qwt_knob.h";
     d_icon = QPixmap(":/pixmaps/qwtknob.png");
-    d_domXml = 
-        "<widget class=\"QwtKnob\" name=\"Knob\">\n"
-        " <property name=\"geometry\">\n"
-        "  <rect>\n"
-        "   <x>0</x>\n"
-        "   <y>0</y>\n"
-        "   <width>100</width>\n"
-        "   <height>100</height>\n"
-        "  </rect>\n"
-        " </property>\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtKnob\" name=\"Knob\">\n"
+               " <property name=\"geometry\">\n"
+               "  <rect>\n"
+               "   <x>0</x>\n"
+               "   <y>0</y>\n"
+               "   <width>100</width>\n"
+               "   <height>100</height>\n"
+               "  </rect>\n"
+               " </property>\n"
+               "</widget>\n";
 }
 
 QWidget *KnobInterface::createWidget(QWidget *parent)
@@ -285,15 +270,13 @@ QWidget *KnobInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_PLOT
 
-ScaleWidgetInterface::ScaleWidgetInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+ScaleWidgetInterface::ScaleWidgetInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtScaleWidget";
     d_include = "qwt_scale_widget.h";
     d_icon = QPixmap(":/pixmaps/qwtscale.png");
-    d_domXml = 
-        "<widget class=\"QwtScaleWidget\" name=\"ScaleWidget\">\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtScaleWidget\" name=\"ScaleWidget\">\n"
+               "</widget>\n";
 }
 
 QWidget *ScaleWidgetInterface::createWidget(QWidget *parent)
@@ -305,23 +288,21 @@ QWidget *ScaleWidgetInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_WIDGETS
 
-SliderInterface::SliderInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+SliderInterface::SliderInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtSlider";
     d_include = "qwt_slider.h";
     d_icon = QPixmap(":/pixmaps/qwtslider.png");
-    d_domXml = 
-        "<widget class=\"QwtSlider\" name=\"Slider\">\n"
-        " <property name=\"geometry\">\n"
-        "  <rect>\n"
-        "   <x>0</x>\n"
-        "   <y>0</y>\n"
-        "   <width>200</width>\n"
-        "   <height>60</height>\n"
-        "  </rect>\n"
-        " </property>\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtSlider\" name=\"Slider\">\n"
+               " <property name=\"geometry\">\n"
+               "  <rect>\n"
+               "   <x>0</x>\n"
+               "   <y>0</y>\n"
+               "   <width>200</width>\n"
+               "   <height>60</height>\n"
+               "  </rect>\n"
+               " </property>\n"
+               "</widget>\n";
 }
 
 QWidget *SliderInterface::createWidget(QWidget *parent)
@@ -337,24 +318,22 @@ QWidget *SliderInterface::createWidget(QWidget *parent)
 
 #endif
 
-TextLabelInterface::TextLabelInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+TextLabelInterface::TextLabelInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtTextLabel";
     d_include = "qwt_text_label.h";
 
     d_icon = QPixmap(":/pixmaps/qwtwidget.png");
-    d_domXml = 
-        "<widget class=\"QwtTextLabel\" name=\"TextLabel\">\n"
-        " <property name=\"geometry\">\n"
-        "  <rect>\n"
-        "   <x>0</x>\n"
-        "   <y>0</y>\n"
-        "   <width>100</width>\n"
-        "   <height>20</height>\n"
-        "  </rect>\n"
-        " </property>\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtTextLabel\" name=\"TextLabel\">\n"
+               " <property name=\"geometry\">\n"
+               "  <rect>\n"
+               "   <x>0</x>\n"
+               "   <y>0</y>\n"
+               "   <width>100</width>\n"
+               "   <height>20</height>\n"
+               "  </rect>\n"
+               " </property>\n"
+               "</widget>\n";
 }
 
 QWidget *TextLabelInterface::createWidget(QWidget *parent)
@@ -364,15 +343,13 @@ QWidget *TextLabelInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_WIDGETS
 
-ThermoInterface::ThermoInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+ThermoInterface::ThermoInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtThermo";
     d_include = "qwt_thermo.h";
     d_icon = QPixmap(":/pixmaps/qwtthermo.png");
-    d_domXml = 
-        "<widget class=\"QwtThermo\" name=\"Thermo\">\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtThermo\" name=\"Thermo\">\n"
+               "</widget>\n";
 }
 
 QWidget *ThermoInterface::createWidget(QWidget *parent)
@@ -384,15 +361,13 @@ QWidget *ThermoInterface::createWidget(QWidget *parent)
 
 #ifndef NO_QWT_WIDGETS
 
-WheelInterface::WheelInterface(QObject *parent): 
-    CustomWidgetInterface(parent)
+WheelInterface::WheelInterface(QObject *parent) : CustomWidgetInterface(parent)
 {
     d_name = "QwtWheel";
     d_include = "qwt_wheel.h";
     d_icon = QPixmap(":/pixmaps/qwtwheel.png");
-    d_domXml = 
-        "<widget class=\"QwtWheel\" name=\"Wheel\">\n"
-        "</widget>\n";
+    d_domXml = "<widget class=\"QwtWheel\" name=\"Wheel\">\n"
+               "</widget>\n";
 }
 
 QWidget *WheelInterface::createWidget(QWidget *parent)
@@ -402,9 +377,7 @@ QWidget *WheelInterface::createWidget(QWidget *parent)
 
 #endif
 
-CustomWidgetCollectionInterface::CustomWidgetCollectionInterface(   
-        QObject *parent): 
-    QObject(parent)
+CustomWidgetCollectionInterface::CustomWidgetCollectionInterface(QObject *parent) : QObject(parent)
 {
 #ifndef NO_QWT_PLOT
     d_plugins.append(new PlotInterface(this));
@@ -425,28 +398,23 @@ CustomWidgetCollectionInterface::CustomWidgetCollectionInterface(
     d_plugins.append(new TextLabelInterface(this));
 }
 
-QList<QDesignerCustomWidgetInterface*> 
-    CustomWidgetCollectionInterface::customWidgets(void) const
+QList<QDesignerCustomWidgetInterface *> CustomWidgetCollectionInterface::customWidgets(void) const
 {
     return d_plugins;
 }
 
-TaskMenuFactory::TaskMenuFactory(QExtensionManager *parent): 
-    QExtensionFactory(parent)
-{
-}
+TaskMenuFactory::TaskMenuFactory(QExtensionManager *parent) : QExtensionFactory(parent) { }
 
-QObject *TaskMenuFactory::createExtension(
-    QObject *object, const QString &iid, QObject *parent) const
+QObject *TaskMenuFactory::createExtension(QObject *object, const QString &iid,
+                                          QObject *parent) const
 {
-    if (iid == Q_TYPEID(QDesignerTaskMenuExtension))
-    {
+    if (iid == Q_TYPEID(QDesignerTaskMenuExtension)) {
 #ifndef NO_QWT_PLOT
-        if (QwtPlot *plot = qobject_cast<QwtPlot*>(object))
+        if (QwtPlot *plot = qobject_cast<QwtPlot *>(object))
             return new TaskMenuExtension(plot, parent);
 #endif
 #ifndef NO_QWT_WIDGETS
-        if (QwtDial *dial = qobject_cast<QwtDial*>(object))
+        if (QwtDial *dial = qobject_cast<QwtDial *>(object))
             return new TaskMenuExtension(dial, parent);
 #endif
     }
@@ -454,14 +422,11 @@ QObject *TaskMenuFactory::createExtension(
     return QExtensionFactory::createExtension(object, iid, parent);
 }
 
-
-TaskMenuExtension::TaskMenuExtension(QWidget *widget, QObject *parent):
-    QObject(parent),    
-    d_widget(widget)
+TaskMenuExtension::TaskMenuExtension(QWidget *widget, QObject *parent)
+    : QObject(parent), d_widget(widget)
 {
     d_editAction = new QAction(tr("Edit Qwt Attributes ..."), this);
-    connect(d_editAction, SIGNAL(triggered()), 
-        this, SLOT(editProperties()));
+    connect(d_editAction, SIGNAL(triggered()), this, SLOT(editProperties()));
 }
 
 QList<QAction *> TaskMenuExtension::taskActions() const
@@ -479,33 +444,31 @@ QAction *TaskMenuExtension::preferredEditAction() const
 void TaskMenuExtension::editProperties()
 {
     const QVariant v = d_widget->property("propertiesDocument");
-    if ( v.type() != QVariant::String )
+    if (v.type() != QVariant::String)
         return;
 
 #ifndef NO_QWT_PLOT
     QString properties = v.toString();
 
-    if ( qobject_cast<QwtPlot*>(d_widget) )
-    {
+    if (qobject_cast<QwtPlot *>(d_widget)) {
         PlotDialog dialog(properties);
-        connect(&dialog, SIGNAL(edited(const QString&)), 
-            SLOT(applyProperties(const QString &)));
+        connect(&dialog, SIGNAL(edited(const QString &)), SLOT(applyProperties(const QString &)));
         (void)dialog.exec();
         return;
     }
 #endif
 
     static QErrorMessage *errorMessage = NULL;
-    if ( errorMessage == NULL )
+    if (errorMessage == NULL)
         errorMessage = new QErrorMessage();
     errorMessage->showMessage("Not implemented yet.");
 }
 
 void TaskMenuExtension::applyProperties(const QString &properties)
 {
-    QDesignerFormWindowInterface *formWindow
-        = QDesignerFormWindowInterface::findFormWindow(d_widget);
-    if ( formWindow && formWindow->cursor() )
+    QDesignerFormWindowInterface *formWindow =
+            QDesignerFormWindowInterface::findFormWindow(d_widget);
+    if (formWindow && formWindow->cursor())
         formWindow->cursor()->setProperty("propertiesDocument", properties);
 }
 

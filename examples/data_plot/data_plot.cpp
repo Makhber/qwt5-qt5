@@ -12,10 +12,7 @@
 //
 //  Initialize main window
 //
-DataPlot::DataPlot(QWidget *parent):
-    QwtPlot(parent),
-    d_interval(0),
-    d_timerId(-1)
+DataPlot::DataPlot(QWidget *parent) : QwtPlot(parent), d_interval(0), d_timerId(-1)
 {
     // Disable polygon clipping
     QwtPainter::setDeviceClipping(false);
@@ -33,11 +30,10 @@ DataPlot::DataPlot(QWidget *parent):
 #endif
 
     alignScales();
-    
+
     //  Initialize data
-    for (int i = 0; i< PLOT_SIZE; i++)
-    {
-        d_x[i] = 0.5 * i;     // time axis
+    for (int i = 0; i < PLOT_SIZE; i++) {
+        d_x[i] = 0.5 * i; // time axis
         d_y[i] = 0;
         d_z[i] = 0;
     }
@@ -70,14 +66,14 @@ DataPlot::DataPlot(QWidget *parent):
     mY->attach(this);
 #endif
 
-    // Axis 
+    // Axis
     setAxisTitle(QwtPlot::xBottom, "Time/seconds");
     setAxisScale(QwtPlot::xBottom, 0, 100);
 
     setAxisTitle(QwtPlot::yLeft, "Values");
     setAxisScale(QwtPlot::yLeft, -1.5, 1.5);
-    
-    setTimerInterval(0.0); 
+
+    setTimerInterval(0.0);
 }
 
 //
@@ -89,17 +85,16 @@ void DataPlot::alignScales()
     // the canvas frame, but is also a good example demonstrating
     // why the spreaded API needs polishing.
 
-    canvas()->setFrameStyle(QFrame::Box | QFrame::Plain );
+    canvas()->setFrameStyle(QFrame::Box | QFrame::Plain);
     canvas()->setLineWidth(1);
 
-    for ( int i = 0; i < QwtPlot::axisCnt; i++ )
-    {
+    for (int i = 0; i < QwtPlot::axisCnt; i++) {
         QwtScaleWidget *scaleWidget = (QwtScaleWidget *)axisWidget(i);
-        if ( scaleWidget )
+        if (scaleWidget)
             scaleWidget->setMargin(0);
 
         QwtScaleDraw *scaleDraw = (QwtScaleDraw *)axisScaleDraw(i);
-        if ( scaleDraw )
+        if (scaleDraw)
             scaleDraw->enableComponent(QwtAbstractScaleDraw::Backbone, false);
     }
 }
@@ -108,35 +103,33 @@ void DataPlot::setTimerInterval(double ms)
 {
     d_interval = qRound(ms);
 
-    if ( d_timerId >= 0 )
-    {
+    if (d_timerId >= 0) {
         killTimer(d_timerId);
         d_timerId = -1;
     }
-    if (d_interval >= 0 )
+    if (d_interval >= 0)
         d_timerId = startTimer(d_interval);
 }
 
-//  Generate new values 
+//  Generate new values
 void DataPlot::timerEvent(QTimerEvent *)
 {
     static double phase = 0.0;
 
-    if (phase > (M_PI - 0.0001)) 
+    if (phase > (M_PI - 0.0001))
         phase = 0.0;
 
     // y moves from left to right:
     // Shift y array right and assign new value to y[0].
 
-    for ( int i = PLOT_SIZE - 1; i > 0; i-- )
-        d_y[i] = d_y[i-1];
+    for (int i = PLOT_SIZE - 1; i > 0; i--)
+        d_y[i] = d_y[i - 1];
     d_y[0] = sin(phase) * (-1.0 + 2.0 * double(rand()) / double(RAND_MAX));
 
-    for ( int j = 0; j < PLOT_SIZE - 1; j++ )
-        d_z[j] = d_z[j+1];
+    for (int j = 0; j < PLOT_SIZE - 1; j++)
+        d_z[j] = d_z[j + 1];
 
-    d_z[PLOT_SIZE - 1] = 0.8 - (2.0 * phase/M_PI) + 0.4 * 
-        double(rand()) / double(RAND_MAX);
+    d_z[PLOT_SIZE - 1] = 0.8 - (2.0 * phase / M_PI) + 0.4 * double(rand()) / double(RAND_MAX);
 
     // update the display
     replot();

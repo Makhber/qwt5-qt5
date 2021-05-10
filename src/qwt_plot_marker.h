@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -42,22 +42,15 @@ class QwtSymbol;
   left above the center point if the alignment was set to AlignLeft|AlignTop.
 */
 
-class QWT_EXPORT QwtPlotMarker: public QwtPlotItem
+class QWT_EXPORT QwtPlotMarker : public QwtPlotItem
 {
 public:
-
     /*!
         Line styles.
         \sa setLineStyle(), lineStyle()
     */
-    enum LineStyle 
-    {
-        NoLine, 
-        HLine, 
-        VLine, 
-        Cross
-    };
-   
+    enum LineStyle { NoLine, HLine, VLine, Cross };
+
     explicit QwtPlotMarker();
     virtual ~QwtPlotMarker();
 
@@ -81,7 +74,7 @@ public:
     void setSymbol(const QwtSymbol &s);
     const QwtSymbol &symbol() const;
 
-    void setLabel(const QwtText&);
+    void setLabel(const QwtText &);
     QwtText label() const;
 
     void setLabelAlignment(Qt::Alignment);
@@ -93,14 +86,13 @@ public:
     void setSpacing(int);
     int spacing() const;
 
-    virtual void draw(QPainter *p, 
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRect &) const;
-    
+    virtual void draw(QPainter *p, const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+                      const QRect &) const;
+
     virtual QRectF boundingRect() const;
 
 protected:
-    void drawAt(QPainter *,const QRect &, const QPoint &) const;
+    void drawAt(QPainter *, const QRect &, const QPoint &) const;
 
 private:
     void drawLabel(QPainter *, const QRect &, const QPoint &) const;

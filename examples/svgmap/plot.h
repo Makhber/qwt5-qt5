@@ -2,7 +2,7 @@
 
 class QwtPlotSvgItem;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 

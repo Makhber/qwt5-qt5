@@ -27,16 +27,15 @@ class QwtSymbol;
   QwtLegendItem represents a curve on a legend.
   It displays an curve identifier with an explaining text.
   The identifier might be a combination of curve symbol and line.
-  In readonly mode it behaves like a label, otherwise like 
+  In readonly mode it behaves like a label, otherwise like
   an unstylish push button.
 
   \sa QwtLegend, QwtPlotCurve
 */
-class QWT_EXPORT QwtLegendItem: public QwtTextLabel
+class QWT_EXPORT QwtLegendItem : public QwtTextLabel
 {
     Q_OBJECT
 public:
-    
     /*!
        \brief Identifier mode
 
@@ -44,17 +43,10 @@ public:
        \sa identifierMode(), setIdentifierMode()
      */
 
-    enum IdentifierMode
-    {
-        NoIdentifier = 0,
-        ShowLine = 1,
-        ShowSymbol = 2,
-        ShowText = 4
-    };
+    enum IdentifierMode { NoIdentifier = 0, ShowLine = 1, ShowSymbol = 2, ShowText = 4 };
 
     explicit QwtLegendItem(QWidget *parent = 0);
-    explicit QwtLegendItem(const QwtSymbol &, const QPen &,
-        const QwtText &, QWidget *parent = 0);
+    explicit QwtLegendItem(const QwtSymbol &, const QPen &, const QwtText &, QWidget *parent = 0);
     virtual ~QwtLegendItem();
 
     virtual void setText(const QwtText &);
@@ -72,13 +64,13 @@ public:
     int spacing() const;
 
     void setSymbol(const QwtSymbol &);
-    const QwtSymbol& symbol() const;
+    const QwtSymbol &symbol() const;
 
     void setCurvePen(const QPen &);
-    const QPen& curvePen() const;
+    const QPen &curvePen() const;
 
     virtual void drawIdentifier(QPainter *, const QRect &) const;
-    virtual void drawItem(QPainter *p, const QRect &) const; 
+    virtual void drawItem(QPainter *p, const QRect &) const;
 
     virtual QSize sizeHint() const;
 

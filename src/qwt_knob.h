@@ -33,12 +33,12 @@ class QwtRoundScaleDraw;
 
 class QWT_EXPORT QwtKnob : public QwtAbstractSlider, public QwtAbstractScale
 {
-    Q_OBJECT 
-    Q_ENUMS (Symbol)
-    Q_PROPERTY( int knobWidth READ knobWidth WRITE setKnobWidth )
-    Q_PROPERTY( int borderWidth READ borderWidth WRITE setBorderWidth )
-    Q_PROPERTY( double totalAngle READ totalAngle WRITE setTotalAngle )
-    Q_PROPERTY( Symbol symbol READ symbol WRITE setSymbol )
+    Q_OBJECT
+    Q_ENUMS(Symbol)
+    Q_PROPERTY(int knobWidth READ knobWidth WRITE setKnobWidth)
+    Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
+    Q_PROPERTY(double totalAngle READ totalAngle WRITE setTotalAngle)
+    Q_PROPERTY(Symbol symbol READ symbol WRITE setSymbol)
 
 public:
     /*!
@@ -48,13 +48,13 @@ public:
 
     enum Symbol { Line, Dot };
 
-    explicit QwtKnob(QWidget* parent = NULL);
+    explicit QwtKnob(QWidget *parent = NULL);
     virtual ~QwtKnob();
 
     void setKnobWidth(int w);
     int knobWidth() const;
 
-    void setTotalAngle (double angle);
+    void setTotalAngle(double angle);
     double totalAngle() const;
 
     void setBorderWidth(int bw);
@@ -65,7 +65,7 @@ public:
 
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
-    
+
     void setScaleDraw(QwtRoundScaleDraw *);
     const QwtRoundScaleDraw *scaleDraw() const;
     QwtRoundScaleDraw *scaleDraw();
@@ -74,17 +74,17 @@ protected:
     virtual void paintEvent(QPaintEvent *e);
     virtual void resizeEvent(QResizeEvent *e);
 
-    void draw(QPainter *p, const QRect& ur);
+    void draw(QPainter *p, const QRect &ur);
     void drawKnob(QPainter *p, const QRect &r);
     void drawMarker(QPainter *p, double arc, const QColor &c);
 
 private:
     void initKnob();
-    void layoutKnob( bool update = true );
+    void layoutKnob(bool update = true);
     double getValue(const QPoint &p);
-    void getScrollMode( const QPoint &p, int &scrollMode, int &direction );
+    void getScrollMode(const QPoint &p, int &scrollMode, int &direction);
     void recalcAngle();
-    
+
     virtual void valueChange();
     virtual void rangeChange();
     virtual void scaleChange();

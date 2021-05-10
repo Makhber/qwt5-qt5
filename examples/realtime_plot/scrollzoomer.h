@@ -7,15 +7,11 @@
 class ScrollData;
 class ScrollBar;
 
-class ScrollZoomer: public QwtPlotZoomer
+class ScrollZoomer : public QwtPlotZoomer
 {
     Q_OBJECT
 public:
-    enum ScrollBarPosition
-    {
-        AttachedToScale,
-        OppositeToScale
-    };
+    enum ScrollBarPosition { AttachedToScale, OppositeToScale };
 
     ScrollZoomer(QwtPlotCanvas *);
     virtual ~ScrollZoomer();
@@ -26,8 +22,8 @@ public:
     void setHScrollBarMode(Qt::ScrollBarPolicy);
     void setVScrollBarMode(Qt::ScrollBarPolicy);
 
-    Qt::ScrollBarPolicy vScrollBarMode () const;
-    Qt::ScrollBarPolicy hScrollBarMode () const;
+    Qt::ScrollBarPolicy vScrollBarMode() const;
+    Qt::ScrollBarPolicy hScrollBarMode() const;
 
     void setHScrollBarPosition(ScrollBarPosition);
     void setVScrollBarPosition(ScrollBarPosition);
@@ -35,9 +31,9 @@ public:
     ScrollBarPosition hScrollBarPosition() const;
     ScrollBarPosition vScrollBarPosition() const;
 
-    QWidget* cornerWidget() const;
-    virtual void setCornerWidget(QWidget *); 
-    
+    QWidget *cornerWidget() const;
+    virtual void setCornerWidget(QWidget *);
+
     virtual bool eventFilter(QObject *, QEvent *);
 
     virtual void rescale();
@@ -62,5 +58,5 @@ private:
     bool d_inZoom;
     bool d_alignCanvasToScales;
 };
-            
+
 #endif

@@ -32,20 +32,18 @@ template class QWT_EXPORT QVector<double>;
   \brief Series of samples of a value and an interval
 
   QwtIntervalData is a series of samples of a value and an interval.
-  F.e. error bars are built from samples [x, y1-y2], while a 
+  F.e. error bars are built from samples [x, y1-y2], while a
   histogram might consist of [x1-x2, y] samples.
 */
 class QWT_EXPORT QwtIntervalData
 {
 public:
     QwtIntervalData();
-    QwtIntervalData(const QVector<QwtDoubleInterval> &, 
-        const QVector<double> &);
+    QwtIntervalData(const QVector<QwtDoubleInterval> &, const QVector<double> &);
 
     ~QwtIntervalData();
-    
-    void setData(const QVector<QwtDoubleInterval> &, 
-        const QVector<double> &);
+
+    void setData(const QVector<QwtDoubleInterval> &, const QVector<double> &);
 
     size_t size() const;
     const QwtDoubleInterval &interval(size_t i) const;
@@ -64,7 +62,7 @@ inline size_t QwtIntervalData::size() const
     return qwtMin(d_intervals.size(), d_values.size());
 }
 
-/*! 
+/*!
   Interval of a sample
 
   \param i Sample index
@@ -76,7 +74,7 @@ inline const QwtDoubleInterval &QwtIntervalData::interval(size_t i) const
     return d_intervals[int(i)];
 }
 
-/*! 
+/*!
   Value of a sample
 
   \param i Sample index
@@ -88,4 +86,4 @@ inline double QwtIntervalData::value(size_t i) const
     return d_values[int(i)];
 }
 
-#endif 
+#endif

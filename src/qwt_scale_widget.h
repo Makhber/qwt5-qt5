@@ -33,7 +33,7 @@ class QwtColorMap;
 
 class QWT_EXPORT QwtScaleWidget : public QWidget
 {
-    Q_OBJECT 
+    Q_OBJECT
 
 public:
     explicit QwtScaleWidget(QWidget *parent = NULL);
@@ -94,13 +94,12 @@ public:
     int dimForLength(int length, const QFont &scaleFont) const;
 
     void drawColorBar(QPainter *painter, const QRect &rect) const;
-    void drawTitle(QPainter *painter, QwtScaleDraw::Alignment,
-        const QRect &rect) const;
-        
+    void drawTitle(QPainter *painter, QwtScaleDraw::Alignment, const QRect &rect) const;
+
     void setAlignment(QwtScaleDraw::Alignment);
     QwtScaleDraw::Alignment alignment() const;
 
-    QRect colorBarRect(const QRect&) const;
+    QRect colorBarRect(const QRect &) const;
 
 protected:
     virtual void paintEvent(QPaintEvent *e);
@@ -109,7 +108,7 @@ protected:
     void draw(QPainter *p) const;
 
     void scaleChange();
-    void layoutScale( bool update = true );
+    void layoutScale(bool update = true);
 
 private:
     void initScale(QwtScaleDraw::Alignment);
