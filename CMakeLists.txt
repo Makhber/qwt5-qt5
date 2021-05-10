@@ -61,6 +61,11 @@ if( QWT_DESIGNER )
   find_package( Qt5 COMPONENTS Designer REQUIRED )
 endif()
 
+if( BUILD_SHARED_LIBS )
+  set( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" )
+  set( CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" )
+endif()
+
 add_subdirectory( src )
 
 if( QWT_DESIGNER  )
