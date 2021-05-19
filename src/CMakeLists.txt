@@ -24,7 +24,7 @@ set( HEADERS
   "qwt_text_engine.h"
   "qwt_text_label.h"
   "qwt_text.h"
-  )
+)
 
 set( SRCS
   "qwt_abstract_scale_draw.cpp"
@@ -50,7 +50,7 @@ set( SRCS
   "qwt_picker_machine.cpp"
   "qwt_scale_engine.cpp"
   "qwt_symbol.cpp"
-  )
+)
 
 if( QWT_PLOT )
   list( APPEND HEADERS
@@ -80,7 +80,7 @@ if( QWT_PLOT )
     "qwt_plot_magnifier.h"
     "qwt_raster_data.h"
     "qwt_scale_widget.h"
-    )
+  )
   list( APPEND SRCS
     "qwt_curve_fitter.cpp"
     "qwt_data.cpp"
@@ -109,7 +109,7 @@ if( QWT_PLOT )
     "qwt_plot_magnifier.cpp"
     "qwt_raster_data.cpp"
     "qwt_scale_widget.cpp"
-    )
+  )
 endif()
 
 if( QWT_SVG_ITEM )
@@ -133,7 +133,7 @@ if( QWT_WIDGETS )
     "qwt_slider.h"
     "qwt_thermo.h"
     "qwt_wheel.h"
-    )
+  )
   list( APPEND SRCS
     "qwt_abstract_slider.cpp"
     "qwt_abstract_scale.cpp"
@@ -149,7 +149,7 @@ if( QWT_WIDGETS )
     "qwt_slider.cpp"
     "qwt_thermo.cpp"
     "qwt_wheel.cpp"
-    )
+  )
 endif()
 
 add_library( qwt5-qt5 ${SRCS} ${HEADERS} )
@@ -162,21 +162,29 @@ if( QWT_SVG_ITEM )
   target_link_libraries( qwt5-qt5 Qt5::Svg )
 endif()
 
-if( WIN32 AND BUILD_SHARED_LIBS )
-  target_compile_definitions( qwt5-qt5 PRIVATE QWT_DLL QWT_MAKEDLL )
+if( BUILD_SHARED_LIBS )
+  # DLL export/import
+  if( WIN32 )
+    target_compile_definitions( qwt5-qt5 PRIVATE QWT_DLL QWT_MAKEDLL )
+  endif()
+  # Install
+  install( TARGETS qwt5-qt5
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
 endif()
 
 # Don't install qwt5-qt5 static library and headers if it is built as a subproject
 if( "${CMAKE_SOURCE_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}" )
+  if( BUILD_SHARED_LIBS )
+    # Library version
+    set_target_properties( qwt5-qt5 PROPERTIES
+      VERSION ${PROJECT_VERSION}
+      SOVERSION ${PROJECT_VERSION_MAJOR}
+    )
+  endif()
   install( TARGETS qwt5-qt5
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qwt5-qt5
-    )
-elseif( BUILD_SHARED_LIBS )
-  install( TARGETS qwt5-qt5
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
+  )
 endif()
