@@ -12,7 +12,7 @@ class MainWin : public QMainWindow
 public:
     MainWin(QWidget *parent = 0);
 
-private slots:
+private Q_SLOTS:
     void moved(const QPoint &);
     void selected(const QPolygon &);
 

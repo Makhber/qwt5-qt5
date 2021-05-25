@@ -23,7 +23,7 @@ class PlotDialog : public QDialog
 public:
     PlotDialog(const QString &properties, QWidget *parent = NULL);
 
-signals:
+Q_SIGNALS:
     void edited(const QString &);
 };
 

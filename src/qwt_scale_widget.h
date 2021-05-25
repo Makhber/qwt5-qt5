@@ -40,7 +40,7 @@ public:
     explicit QwtScaleWidget(QwtScaleDraw::Alignment, QWidget *parent = NULL);
     virtual ~QwtScaleWidget();
 
-signals:
+Q_SIGNALS:
     //! Signal emitted, whenever the scale divison changes
     void scaleDivChanged();
 

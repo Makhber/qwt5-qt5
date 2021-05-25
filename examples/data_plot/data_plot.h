@@ -12,7 +12,7 @@ class DataPlot : public QwtPlot
 public:
     DataPlot(QWidget * = NULL);
 
-public slots:
+public Q_SLOTS:
     void setTimerInterval(double interval);
 
 protected:

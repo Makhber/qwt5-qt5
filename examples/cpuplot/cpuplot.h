@@ -24,7 +24,7 @@ public:
 protected:
     void timerEvent(QTimerEvent *e);
 
-private slots:
+private Q_SLOTS:
     void showCurve(QwtPlotItem *, bool on);
 
 private:

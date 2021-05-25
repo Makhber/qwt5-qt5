@@ -265,7 +265,7 @@ public:
     QPoint trackerPosition() const;
     QRect trackerRect(const QFont &) const;
 
-signals:
+Q_SIGNALS:
     /*!
       A signal emitting the selected points,
       at the end of a selection.

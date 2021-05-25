@@ -284,7 +284,7 @@ void QwtPlotZoomer::zoom(const QRectF &rect)
 
         rescale();
 
-        emit zoomed(zoomRect);
+        Q_EMIT zoomed(zoomRect);
     }
 }
 
@@ -313,7 +313,7 @@ void QwtPlotZoomer::zoom(int offset)
 
     rescale();
 
-    emit zoomed(zoomRect());
+    Q_EMIT zoomed(zoomRect());
 }
 
 /*!
@@ -349,7 +349,7 @@ void QwtPlotZoomer::setZoomStack(const QwtZoomStack &zoomStack, int zoomRectInde
 
     if (doRescale) {
         rescale();
-        emit zoomed(zoomRect());
+        Q_EMIT zoomed(zoomRect());
     }
 }
 

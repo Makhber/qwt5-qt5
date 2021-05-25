@@ -145,7 +145,7 @@ public:
     void setScaleDraw(QwtScaleDraw *);
     const QwtScaleDraw *scaleDraw() const;
 
-public slots:
+public Q_SLOTS:
     void setValue(double val);
 
 protected:
