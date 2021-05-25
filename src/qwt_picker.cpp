@@ -1056,7 +1056,7 @@ bool QwtPicker::end(bool ok)
             ok = accept(d_data->selection);
 
         if (ok)
-            emit selected(d_data->selection);
+            Q_EMIT selected(d_data->selection);
         else
             d_data->selection.resize(0);
 
@@ -1096,7 +1096,7 @@ void QwtPicker::append(const QPoint &pos)
 
         updateDisplay();
 
-        emit appended(pos);
+        Q_EMIT appended(pos);
     }
 }
 
@@ -1118,7 +1118,7 @@ void QwtPicker::move(const QPoint &pos)
 
                 updateDisplay();
 
-                emit moved(pos);
+                Q_EMIT moved(pos);
             }
         }
     }
@@ -1169,7 +1169,7 @@ void QwtPicker::stretchSelection(const QSize &oldSize, const QSize &newSize)
         p.setX(qRound(p.x() * xRatio));
         p.setY(qRound(p.y() * yRatio));
 
-        emit changed(d_data->selection);
+        Q_EMIT changed(d_data->selection);
     }
 }
 

@@ -58,7 +58,7 @@ public:
 
     virtual bool eventFilter(QObject *, QEvent *);
 
-signals:
+Q_SIGNALS:
     /*!
       Signal emitted, when panning is done
 

@@ -378,7 +378,7 @@ void QwtPanner::widgetMouseMoveEvent(QMouseEvent *me)
         d_data->pos = pos;
         update();
 
-        emit moved(d_data->pos.x() - d_data->initialPos.x(),
+        Q_EMIT moved(d_data->pos.x() - d_data->initialPos.x(),
                    d_data->pos.y() - d_data->initialPos.y());
     }
 }
@@ -408,7 +408,7 @@ void QwtPanner::widgetMouseReleaseEvent(QMouseEvent *me)
         d_data->pos = pos;
 
         if (d_data->pos != d_data->initialPos) {
-            emit panned(d_data->pos.x() - d_data->initialPos.x(),
+            Q_EMIT panned(d_data->pos.x() - d_data->initialPos.x(),
                         d_data->pos.y() - d_data->initialPos.y());
         }
     }

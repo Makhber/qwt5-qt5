@@ -9,7 +9,7 @@ class BodePlot : public QwtPlot
 public:
     BodePlot(QWidget *parent);
 
-public slots:
+public Q_SLOTS:
     void setDamp(double damping);
 
 private:
