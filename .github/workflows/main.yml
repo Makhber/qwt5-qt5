@@ -29,7 +29,7 @@ jobs:
       - name: Configuring
         run: |
           mkdir build && cd build
-          cmake ..
+          cmake .. -DBUILD_SHARED_LIBS=ON
 
       - name: Building
         run: |
@@ -61,11 +61,11 @@ jobs:
       - name: Configuring
         run: |
           mkdir build; cd build
-          cmake ..
+          cmake .. -DBUILD_SHARED_LIBS=ON
 
       - name: Building
         run: |
-          cmake --build build --config Debug -- -maxCpuCount
+          cmake --build build --config RelWithDebInfo -- -maxCpuCount
 
   MinGW-w64:
 
@@ -86,19 +86,21 @@ jobs:
         with:
           update: true
           install: >-
-            make
             mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
             mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-qt5
+            mingw-w64-x86_64-qt5-base
+            mingw-w64-x86_64-qt5-svg
+            mingw-w64-x86_64-qt5-tools
 
       - name: Configuring
         run: |
           mkdir build && cd build
-          cmake .. -G"MSYS Makefiles"
+          cmake ..  -DBUILD_SHARED_LIBS=ON
 
       - name: Building
         run: |
-          make -C build -j$(nproc)
+          cmake --build build
 
   macos:
 
