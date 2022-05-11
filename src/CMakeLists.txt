@@ -165,7 +165,10 @@ endif()
 if( BUILD_SHARED_LIBS )
   # DLL export/import
   if( WIN32 )
-    target_compile_definitions( qwt5-qt5 PRIVATE QWT_DLL QWT_MAKEDLL )
+    target_compile_definitions( qwt5-qt5
+      PUBLIC QWT_DLL
+      PRIVATE QWT_MAKEDLL
+    )
   endif()
   # Install
   install( TARGETS qwt5-qt5
