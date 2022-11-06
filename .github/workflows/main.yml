@@ -4,19 +4,16 @@ on: [pull_request,push]
 
 jobs:
   Ubuntu:
-
     runs-on: ubuntu-${{ matrix.os_ver }}
-
     name: Ubuntu-${{ matrix.os_ver }}
-
     strategy:
       fail-fast: false
       matrix:
-        os_ver: [18.04, 20.04]
+        os_ver: [22.04, 24.04]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install prerequisties
         run: |
@@ -36,27 +33,25 @@ jobs:
           make -j$(nproc) -C build
 
   MSVC:
-
     runs-on: windows-latest
-
     name: MSVC
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
-          path: ../Qt
-          key: ${{ runner.os }}-QtCache
+          path: ${{ github.workspace }}/Qt
+          key: ${{ runner.os }}-Qt-Cache
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
           version: 5.15.2
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          cache: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Configuring
         run: |
@@ -68,30 +63,32 @@ jobs:
           cmake --build build --config RelWithDebInfo -- -maxCpuCount
 
   MinGW-w64:
-
     runs-on: windows-latest
-
     name: MinGW-w64
-
+    strategy:
+      fail-fast: false
+      matrix:
+        msystem: [UCRT64, CLANG64]
     defaults:
       run:
         shell: msys2 {0}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install MinGW-w64 packages
         uses: msys2/setup-msys2@v2
         with:
           update: true
-          install: >-
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-ninja
-            mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-qt5-base
-            mingw-w64-x86_64-qt5-svg
-            mingw-w64-x86_64-qt5-tools
+          msystem: ${{ matrix.msystem }}
+          pacboy: >-
+            cmake:p
+            ninja:p
+            cc:p
+            qt5-base:p
+            qt5-svg:p
+            qt5-tools:p
 
       - name: Configuring
         run: |
@@ -103,26 +100,24 @@ jobs:
           cmake --build build
 
   macos:
-
     runs-on: macos-latest
-
     name: macos
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
-          path: ../Qt
-          key: ${{ runner.os }}-QtCache
+          path: ${{ github.workspace }}/Qt
+          key: ${{ runner.os }}-Qt-Cache
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          cache: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Configuring
         run: |
