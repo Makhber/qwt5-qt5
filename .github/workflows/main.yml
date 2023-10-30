@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install prerequisties
         run: |
@@ -38,14 +38,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache Qt
         id: cache-qt
         uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/Qt
-          key: ${{ runner.os }}-Qt-${{ env.QT_VER }}-Cache
+          key: ${{ runner.os }}-Qt-Cache
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -75,7 +75,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install MinGW-w64 packages
         uses: msys2/setup-msys2@v2
@@ -105,14 +105,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache Qt
         id: cache-qt
         uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/Qt
-          key: ${{ runner.os }}-Qt-${{ env.QT_VER }}-Cache
+          key: ${{ runner.os }}-Qt-Cache
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
