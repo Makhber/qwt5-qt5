@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.16.3 )
+cmake_minimum_required( VERSION 3.22 )
 
 project( qwt5-qt5
   VERSION 5.2.3
