@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os_ver: [20.04, 22.04]
+        os_ver: [22.04, 24.04]
 
     steps:
       - name: Checkout
@@ -42,13 +42,13 @@ jobs:
 
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/Qt
           key: ${{ runner.os }}-Qt-Cache
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: 5.15.2
           cache: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -109,13 +109,13 @@ jobs:
 
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/Qt
           key: ${{ runner.os }}-Qt-Cache
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           cache: ${{ steps.cache-qt.outputs.cache-hit }}
 
